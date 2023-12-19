@@ -11,7 +11,7 @@ describe('FuncionarioListPageComponent', () => {
       imports: [FuncionarioListPageComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(FuncionarioListPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

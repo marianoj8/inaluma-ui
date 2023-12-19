@@ -1,2 +1,12 @@
-<p>funcionario-list-page works!</p>
+<ng-container>
+  <ng-container>Lista de Funcionarios</ng-container>
+  <div></div>
 
+  <button mat-raised-button mat-elevation="6" (click)="navegateToAdd()">Cadastrar novo funcionario</button>
+</ng-container>
+
+<div></div>
+
+<ng-container *ngFor="let item of dataSource.data">
+  {{item.id}}  {{item.nome}}  {{item.genero}}  {{item.contacto}}
+</ng-container>
