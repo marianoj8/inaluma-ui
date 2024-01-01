@@ -1,0 +1,42 @@
+@use '/src/scss/variables' as vars;
+$offset: 30px;
+$size: 56px;
+
+:host {
+  width: $size;
+  height: $size;
+  z-index: vars.$z-scroll-top;
+
+  &.bottom-left {
+    bottom: $offset;
+    left: $offset;
+  }
+
+  &.bottom-right {
+    bottom: $offset;
+    right: $offset;
+  }
+
+  &.top-left {
+    top: $offset;
+    left: $offset;
+  }
+
+  &.top-right {
+    top: $offset;
+    right: $offset;
+  }
+
+  .container {
+    transition: all .4s ease;
+
+    @at-root div#container.container.hide {
+      opacity: 0!important;
+      pointer-events: none;
+    }
+
+    &:hover {
+      opacity: 1!important;
+    }
+  }
+}
