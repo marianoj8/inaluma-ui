@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FuncionarioListPageComponent } from '../funcionario-list-page/funcionario-list-page.component';
 
 @Component({
   selector: 'app-funcionario',

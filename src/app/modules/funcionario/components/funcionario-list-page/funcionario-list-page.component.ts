@@ -1,17 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { FuncionarioService } from '../service/funcionario.service';
+import { FuncionarioService } from '../../service/funcionario.service';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { MaterialModule } from '../../../shared/material.module';
-import { Funcionario } from '../../../shared/model/funcionario';
+import { MaterialModule } from '../../../../shared/material.module';
+import { Funcionario } from '../../../../shared/model/funcionario';
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-funcionario-list-page',
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     MaterialModule
   ],
@@ -21,16 +24,28 @@ import { Router } from '@angular/router';
 })
 export class FuncionarioListPageComponent implements OnInit {
 
+
+  formGroup: FormGroup;
   displayedColumns: string[] = ['#', 'Nome', 'Contato'];
   public dataSource = new MatTableDataSource<Funcionario>();
 
   constructor(
     private route: Router,
+    private formBuilder: FormBuilder,
     private funcionarioService: FuncionarioService
   ) { }
 
+
+
   public ngOnInit(): void {
+    this.init();
     this.fetchFuncionario();
+  }
+
+  private init(): void {
+    this.formGroup = this.formBuilder.group({
+      search: new FormControl()
+    });
   }
 
   public getFuncionarioById(id: number): void {
@@ -42,7 +57,7 @@ export class FuncionarioListPageComponent implements OnInit {
   }
 
   public navegateToAdd(): void {
-    this.route.navigate(['/funcionarios/add']).then();
+    this.route.navigate(['/app/funcionarios/add']).then();
   }
 
   public navegateToEdit(id: number): void {

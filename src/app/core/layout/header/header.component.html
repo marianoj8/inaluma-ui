@@ -1,0 +1,66 @@
+<header class="main-header">
+  <mat-toolbar color="primary" class="chrome">
+    <mat-toolbar-row color="primary" class="first-row">
+      <div class="left-content">
+        <button mat-flat-button class="btn-toggle-menu"><mat-icon>menu</mat-icon></button>
+        <nav class="main-options-nav">
+          <!-- <a routerLink="{{paths.dashboard}}" class="link home-link">Dashboard</a> -->
+          <!-- <a routerLink="{{paths.PROCESSO}}" class="link home-link">Processos</a> -->
+          <!-- <a routerLink="{{paths.PERFIL}}" class="link profile-link">Perfil</a> -->
+          <!-- <a routerLink="{{paths.GLOBAL_CONFIG}}" class="link settings-link">Configurações</a> -->
+        </nav>
+      </div>
+      <div class="right-content">
+        <!-- <button mat-mini-fab class="theme-toggle" [color]="color" class="mat-elevation-z0" (click)="toggleDarkMode()"> -->
+          <mat-icon class="theme-icon">
+            <!-- <ng-container *ngIf="isDarkThemeMode">light_mode</ng-container> -->
+            <!-- <ng-container *ngIf="!isDarkThemeMode">dark_mode</ng-container> -->
+          </mat-icon>
+        <!-- </button> -->
+        <!-- <app-notifications [themeColor]="color"></app-notifications>
+        <app-email [themeColor]="color" [emails]="emails"></app-email> -->
+        <div id="user-profile" class="user-profile">
+          <!-- Menu trigger -->
+          <!-- <button class="trigger" mat-icon-button disableRipple="true" [matMenuTriggerFor]="userDropdown"> -->
+            <!-- <img [attr.src]="profilePicture" alt="user profile picture" /> -->
+          <!-- </button> -->
+          <!-- Menu -->
+          <mat-menu #userDropdown xPosition="before" class="user-dropdown">
+            <ng-template matMenuContent>
+              <mat-list>
+                <mat-list-item class="header">Conta</mat-list-item>
+                <mat-list-item>
+                  <mat-icon matListIcon>mail</mat-icon>
+                  <span>Emails</span>
+                </mat-list-item>
+                <mat-list-item>
+                  <mat-icon matListIcon>toc</mat-icon>
+                  <span>Tarefas</span>
+                </mat-list-item>
+                <mat-list-item class="header">Configurações</mat-list-item>
+                <mat-list-item>
+                  <mat-icon matListIcon>person</mat-icon>
+                  <span>Perfil</span>
+                </mat-list-item>
+                <mat-list-item>
+                  <mat-icon matListIcon>settings</mat-icon>
+                  <span>Preferências</span>
+                </mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item>
+                  <mat-icon>lock</mat-icon>
+                  <span>Bloquear</span>
+                </mat-list-item>
+                <mat-list-item>
+                  <mat-icon matPrefix>logout</mat-icon>
+                  <!-- <button mat-flat-button (click)="logOut()">Terminar Sessão</button> -->
+                </mat-list-item>
+              </mat-list>
+            </ng-template>
+          </mat-menu>
+        </div>
+      </div>
+    </mat-toolbar-row>
+
+  </mat-toolbar>
+</header>
