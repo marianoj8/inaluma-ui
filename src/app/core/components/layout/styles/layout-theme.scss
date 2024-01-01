@@ -1,0 +1,7 @@
+@use './ux';
+@use '../header/header-theme' as header;
+
+@mixin theme($theme) {
+  @include ux.theme($theme);
+  @include header.theme($theme);
+}

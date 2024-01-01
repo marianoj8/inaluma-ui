@@ -1,6 +1,6 @@
-
+@use '/src/app/core/components/layout/styles/layout-theme' as layout;
 
 // applies theme configurations to all custom components
 @mixin themefy($theme) {
-
+  @include layout.theme($theme);
 }
