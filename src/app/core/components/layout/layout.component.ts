@@ -3,7 +3,7 @@ import { MatSidenavContainer } from "@angular/material/sidenav";
 import { ConfigOptions } from "src/app/shared/components/scroll-top/scroll-top.component";
 import { LAYOUT_FLAGS, CSS_HIDE } from "../../config/consts";
 import { HeaderComponent } from "./header/header.component";
-import { LayoutService, SideMenuState } from "./layout.service";
+import { LayoutService } from "./layout.service";
 import { SCRTOP_POSITION, SCRTOP_COLOR } from "src/app/shared/config/consts/types";
 
 @Component({
