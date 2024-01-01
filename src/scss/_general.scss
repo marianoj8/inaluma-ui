@@ -13,7 +13,7 @@ body, html {
   box-sizing: border-box;
 }
 
-app-root {
+/* app-root {
   display: block;
   height: 100vh;
 }
@@ -289,11 +289,11 @@ img, .img {
   right: 0;
   float: right;
 }
-
+ */
 @mixin _typography-density($theme) {
   $typography: mat.get-typography-config($theme);
 
-  .search-container .mat-form-field,
+/*   .search-container .mat-form-field,
   .mat-form-field.filter {
     @include util.reset-form-field($theme);
   }
@@ -368,7 +368,7 @@ img, .img {
 
   .cdk-overlay-pane .mat-select-panel-wrap .mat-select-panel {
     font-size: 14px!important; // this is meant to bypass the size set on the element by material
-  }
+  } */
 
   // .controls-container {
   //   .row {
@@ -383,7 +383,7 @@ img, .img {
   //   }
   // }
 
-  .main-content-section {
+  /* .main-content-section {
     .section-header {
       margin-top: 0;
       padding: 10px 20px;
@@ -620,7 +620,7 @@ img, .img {
         display: none;
       }
     }
-  }
+  } */
 }
 
 @mixin _color($config) {

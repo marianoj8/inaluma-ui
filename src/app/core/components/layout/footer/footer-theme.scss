@@ -1,0 +1,57 @@
+@use '/src/scss/utility/utilities' as utils;
+
+@mixin _layout($theme) {
+  .mat-toolbar {
+    padding: 0;
+  }
+
+  .footer-content {
+    width: 100%;
+    padding: 100px 10% 20px;
+
+    .container * {
+      color: #888888;
+
+      h4 {
+        color: #fff;
+        font-weight: 400;
+        font-size: 20px;
+        margin-bottom: 29px;
+      }
+    }
+
+    .top-content {
+      @include utils.make-flex($direction: 'row', $justContent: 'space-evenly', $gap: '20px');
+      flex: 1 1;
+
+      .section {
+        width: 300px;
+        @include utils.make-flex($direction: 'column', $gap: '12px');
+        flex: 1 1;
+        text-wrap: wrap;
+        font-size: 16px;
+        line-height: 1.8;
+        color: #868c98;
+      }
+    }
+
+    .bottom-content {
+      @include utils.make-flex($justContent: 'space-between', $alignItems: 'center');
+      padding-top: 10px;
+
+      font-weight: 300;
+      font-size: 16px;
+      line-height: 2;
+
+      .right-content > *:not(:first-child) {
+        margin-left: 10px;
+      }
+    }
+  }
+}
+
+@mixin theme($theme) {
+  .footer-component {
+    @include _layout($theme);
+  }
+}
