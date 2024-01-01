@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  db:
+    # Use the line below to run mysql version on amd64/x64 or amd64/x86 platform (Linux and Windows Intel Chip)
+    #image: mysql:8.1.0
+    # Use the line below to run mysql version on arm64/v8 platform (Apple Silicon M1 Chip)
+    image: mysql:8.1.0-oracle
+    container_name: inaluma-db
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=inaluma_db
+      - MYSQL_USER=inaluma
+      - MYSQL_PASSWORD=password
+    volumes:
+      - inaluma_db:/var/lib/mysql
+    networks:
+      - backendNetwork
+
+  spring:
+    image: marianojs8/inaluma-api:arm64-v8-1.0-beta
+    container_name: inaluma-api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    volumes:
+      - inaluma_api:/inaluma_api.jar
+    networks:
+      - backendNetwork
+
+volumes:
+  inaluma_db:
+  inaluma_api:
+
+networks:
+  backendNetwork:
