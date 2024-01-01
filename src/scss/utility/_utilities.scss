@@ -1,0 +1,80 @@
+@use '@angular/material' as mat;
+@use '../variables' as vars;
+@use 'sass:string';
+
+%layout-transition {
+  will-change: margin, width;
+  transition: .4s ease;
+  transition-property: margin, width;
+}
+
+@mixin make-flex(
+  $display: 'flex',
+  $direction: 'row',
+  $justContent: 'flex-start',
+  $alignItems: 'stretch',
+  $alignContent: 'stretch',
+  $wrap: 'nowrap',
+  $gap: '0'
+  ) {
+  display: string.unquote($display);
+  flex-flow: string.unquote($direction) string.unquote($wrap);
+  justify-content: string.unquote($justContent);
+  align-items: string.unquote($alignItems);
+  align-content: string.unquote($alignContent); // only applies if flex-wrap is set to something other than nowrap
+  gap: string.unquote($gap);
+}
+
+@mixin make-square($length) {
+  width: $length;
+  height: $length;
+}
+
+@mixin reset-form-field($theme) {
+  $typography: mat.get-typography-config($theme);
+
+  & {
+    min-width: 180px;
+  }
+
+  &,
+  .mat-form-field-wrapper,
+  .mat-form-field-flex {
+    height: vars.$switcher-form-fields-height;
+    padding: 0;
+  }
+
+  .mat-form-field-flex {
+    border-top-right-radius: 0;
+    align-items: center;
+    margin-top: -.36em;
+  }
+
+  .mat-form-field-infix {
+    min-width: 110px;
+    width: fit-content;
+    padding: 0 10px;
+    border-top: 5.83px solid transparent;
+
+    mat-select {
+      .mat-select-trigger {
+        padding: 0 8px;
+      }
+
+      .mat-select-value {
+        .mat-select-value-text {
+          @include mat.typography-level($typography, body-1);
+        }
+      }
+      .mat-select-arrow-wrapper {
+        height: auto;
+        margin-top: 4px;
+        margin-left: 4px;
+      }
+    }
+  }
+
+  .mat-form-field-wrapper {
+    .mat-form-field-underline { bottom: 0 }
+  }
+}

@@ -1,0 +1,84 @@
+// this code was extracted from: https://sparagino.it/2020/06/09/sass-only-material-angular-palette-generator/
+@use 'sass:math';
+@use 'sass:map';
+
+$_values: (50, 100, 200, 300, 400, 500, 600, 700, 800, 900, A100, A200, A400, A700);
+$_white: #ffffff !default;
+$_black: #000000 !default;
+
+/// Creates a color palette compatible with angular material.
+/// @param {color} $color The base color for the palette; this corresponds to 500
+/// @returns {map} An angular material color palette
+@function create-palette($color) {
+  $baseDark: multiply($color, $color);
+  $palette: (
+    50 : mix($color, $_white, 12%),
+    100 : mix($color, $_white, 30%),
+    200 : mix($color, $_white, 50%),
+    300 : mix($color, $_white, 70%),
+    400 : mix($color, $_white, 85%),
+    500 : mix($color, $_white, 100%),
+    600 : mix($color, $baseDark, 87%),
+    700 : mix($color, $baseDark, 70%),
+    800 : mix($color, $baseDark, 54%),
+    900 : mix($color, $baseDark, 25%),
+    A100 : lighten(saturate(mix($_black, $baseDark, 15%), 80%), 65%),
+    A200 : lighten(saturate(mix($_black, $baseDark, 15%), 80%), 55%),
+    A400 : lighten(saturate(mix($_black, $baseDark, 15%), 100%), 45%),
+    A700 : lighten(saturate(mix($_black, $baseDark, 15%), 100%), 40%)
+  );
+
+  $contrast: ();
+  @each $v in $_values {
+    $contrast: map.merge($contrast, ($v: get-contrast(map.get($palette, $v))))
+  }
+  $palette: map.merge($palette, (contrast: $contrast));
+
+  @return $palette;
+}
+
+/// Multiplies two RGB colors
+/// @param {color} $rgb1 The first color
+/// @param {color} $rgb2 The second color
+/// @returns {color} The result of the operation in RGB
+@function multiply($rgb1, $rgb2) {
+  $r: math.floor(math.div(red($rgb1) * red($rgb2), 255));
+  $g: math.floor(math.div(green($rgb1) * green($rgb2), 255));
+  $b: math.floor(math.div(blue($rgb1) * blue($rgb2), 255));
+  @return rgb($r, $g, $b);
+}
+
+/// Takes a hexadecimal color and returns the amount of red green and blue;
+/// The map keys are named after the components
+/// @param {color} $color the color to operate on
+/// @returns {map} A map containing the rgb components of the color
+@function get-color-rgba-components($color) {
+  @return (
+    red: red($color),
+    green: green($color),
+    blue: blue($color),
+    alpha: alpha($color)
+  );
+}
+
+/// Gets the brightness level of a given color; you may pass a solid color
+/// @param {color} $color The color to operate on
+/// @returns {number} The calculated brightness
+@function get-brightness($color) {
+  @return (red($color) * 299 + green($color) * 587 + blue($color) * 114) * 0.001;
+}
+
+/// Checks whether a given color is light; you may pass a solid color
+/// @param {color} $color The color to operate on
+/// @returns {bool} True or False
+@function is-light($color) {
+  @return get-brightness($color) >= 128;
+}
+
+/// Gets a contrast for a color; If $color is a light color, then this function returns
+/// fff, else it returns 000
+/// @param {color} $color The color to operate on
+/// @returns {color} black or white
+@function get-contrast($color) {
+  @return if(is-light($color), $_black, $_white);
+}

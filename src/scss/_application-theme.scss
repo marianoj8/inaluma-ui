@@ -1,0 +1,13 @@
+@use '@angular/material' as mat;
+@use 'material-icons/iconfont/material-icons.scss';
+@use 'material-symbols';
+@use './general' as gen;
+@use './all-theme' as theming;
+
+@include mat.core(); // emit all angular material core styles
+
+@mixin theme($theme) {
+  @include mat.all-component-colors($theme);
+  @include gen.theme($theme);
+  @include theming.themefy($theme);
+}
