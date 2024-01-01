@@ -26,5 +26,7 @@
 }
 
 @mixin theme($theme) {
-  @include _layout($theme);
+  .header-component {
+    @include _layout($theme);
+  }
 }
