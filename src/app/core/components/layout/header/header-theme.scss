@@ -1,0 +1,30 @@
+@use '/src/scss/utility/_utilities' as utils;
+
+@mixin _layout($theme) {
+  .main-toolbar {
+    @include utils.make-flex($justContent: 'space-between', $alignItems: 'center', $wrap: 'wrap');
+    height: 60px;
+
+    .left-content {
+      @include utils.make-flex($alignItems: 'center', $gap: '18px');
+      a {
+        text-decoration: none;
+        color: #fff;
+      }
+
+      p {
+        margin: 0;
+        font-size: 16px;
+
+      }
+
+      & > *:hover {
+        border-bottom: #fff 2px solid;
+      }
+    }
+  }
+}
+
+@mixin theme($theme) {
+  @include _layout($theme);
+}
