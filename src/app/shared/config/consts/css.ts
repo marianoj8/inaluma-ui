@@ -1,3 +1,7 @@
+export const enum THEME_MODE {
+  light = 'light-theme-mode',
+  dark = 'dark-theme-mode'
+}
 export const CSS_SELECTED = 'active';
 export const SECTION_GROUP = 'content-section-wrapper'
 export const CSS_STICKY = 'sticky';

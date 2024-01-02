@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { APP_ROUTES } from 'src/app/core/config/routes';
+import { APP_ROUTES } from 'src/app/shared/config';
 
 @Component({
   selector: 'app-header',
