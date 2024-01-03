@@ -6,7 +6,7 @@
   }
 
   .footer-content {
-    width: 100%;
+    width: 100vw;
     padding: 100px 10% 20px;
 
     .container * {
@@ -21,14 +21,14 @@
     }
 
     .top-content {
-      @include utils.make-flex($direction: 'row', $justContent: 'space-evenly', $gap: '20px');
-      flex: 1 1;
+      @include utils.make-flex($direction: 'row', $justContent: 'space-evenly', $gap: '20px', $wrap: 'wrap');
 
       .section {
         width: 300px;
         @include utils.make-flex($direction: 'column', $gap: '12px');
         flex: 1 1;
-        text-wrap: wrap;
+        white-space: normal;
+        text-wrap: wrap; // experimental property
         font-size: 16px;
         line-height: 1.8;
         color: #868c98;
@@ -36,7 +36,7 @@
     }
 
     .bottom-content {
-      @include utils.make-flex($justContent: 'space-between', $alignItems: 'center');
+      @include utils.make-flex($justContent: 'space-between', $alignItems: 'center', $wrap: 'wrap', $gap: '20px');
       padding-top: 10px;
 
       font-weight: 300;
