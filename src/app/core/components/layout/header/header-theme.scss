@@ -2,11 +2,12 @@
 
 @mixin _layout($theme) {
   .main-toolbar {
-    @include utils.make-flex($justContent: 'space-between', $alignItems: 'center', $wrap: 'wrap');
-    height: 60px;
+    @include utils.make-flex($justContent: 'space-between', $alignItems: 'center', $wrap: 'wrap', $gap: '20px');
+    min-height: 60px;
+    padding: 10px;
 
     .left-content {
-      @include utils.make-flex($alignItems: 'center', $gap: '18px');
+      @include utils.make-flex($alignItems: 'center', $gap: '18px', $wrap: 'wrap');
       a {
         text-decoration: none;
         color: #fff;
