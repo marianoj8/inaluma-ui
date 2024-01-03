@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef, Renderer2, inject } from "@angular/core";
 import { MatSidenavContainer } from "@angular/material/sidenav";
 import { ConfigOptions } from "src/app/shared/components/scroll-top/scroll-top.component";
-import { LAYOUT_FLAGS, CSS_HIDE } from "../../config/consts";
 import { HeaderComponent } from "./header/header.component";
 import { LayoutService } from "./layout.service";
 import { SCRTOP_POSITION, SCRTOP_COLOR } from "src/app/shared/config/consts/types";
+import { ThemeService } from "../../services/theme.service";
+import { ScrollDispatcher } from "@angular/cdk/scrolling";
 
 @Component({
   selector: 'app-layout',
@@ -12,6 +13,10 @@ import { SCRTOP_POSITION, SCRTOP_COLOR } from "src/app/shared/config/consts/type
   providers: [LayoutComponent],
 })
 export class LayoutComponent implements OnInit {
+  /* DEPENDENCIES */
+  private readonly _themeService = inject(ThemeService);
+
+  /* MEMBERS */
   public isAdminLoggedIn: boolean;
   public showSidebar = false;
   public showProgressBar = true;
@@ -19,40 +24,9 @@ export class LayoutComponent implements OnInit {
   public config!: ConfigOptions;
   public position = SCRTOP_POSITION.bottomRight;
   public color = SCRTOP_COLOR.accent;
-  @ViewChild(MatSidenavContainer, { static: true })
-  sidenavContainer: MatSidenavContainer;
-  @ViewChild(HeaderComponent, { read: ElementRef })
-  theHeader: ElementRef<HTMLElement>;
 
-  constructor(
-    private _layoutService: LayoutService,
-    private _renderer: Renderer2
-  ) {
-    let prevValue = 0;
-
-    this._layoutService.onBodyScrolled$.subscribe(
-      (source: MatSidenavContainer | HTMLElement) => {
-        let offset = (
-          source as MatSidenavContainer
-        )._content.measureScrollOffset('top');
-        const headHeight = Number.parseInt(LAYOUT_FLAGS.headerHeight);
-
-        if (offset > prevValue) {
-          offset < headHeight
-            ? (this.theHeader.nativeElement.style.cssText = `margin-top: -${offset}px`)
-            : this.theHeader.nativeElement.classList.add(CSS_HIDE);
-          _layoutService.topHeaderHidden(offset);
-        } else {
-          this.theHeader.nativeElement.classList.remove(CSS_HIDE);
-          this._renderer.removeStyle(
-            this.theHeader.nativeElement,
-            'margin-top'
-          );
-        }
-        prevValue = offset;
-      }
-    );
-  }
+  @ViewChild(MatSidenavContainer, { static: true }) sidenavContainer: MatSidenavContainer;
+  @ViewChild(HeaderComponent, { read: ElementRef }) theHeader: ElementRef<HTMLElement>;
 
   ngOnInit(): void {
     // options for the scrolltop button
@@ -61,9 +35,11 @@ export class LayoutComponent implements OnInit {
       opacity: 0.36,
       scrollHeight: 100,
       icon: 'north',
-      color: SCRTOP_COLOR.primary,
+      color: SCRTOP_COLOR.secondary,
       positioning: 'fixed',
       scrollComponent: this.sidenavContainer,
     };
+
+    this._themeService.init();
   }
 }
