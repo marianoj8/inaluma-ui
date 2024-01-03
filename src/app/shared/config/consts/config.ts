@@ -17,6 +17,6 @@ export enum MEDIA_BREAKPOINTS {
 }
 
 export enum LAYOUT_FLAGS {
-  headerHeight = '128px',
+  headerHeight = '60px',
   footerHeight = '130px'
 }
