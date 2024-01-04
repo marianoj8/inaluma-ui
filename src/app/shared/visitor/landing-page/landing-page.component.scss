@@ -1,0 +1,73 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '/src/scss/utility/utilities' as utils;
+
+@mixin _layout($theme) {
+  padding: 0  0 10px;
+  section.capa img{
+    width: 100%;
+    height:100vh;
+  }
+
+  .section {
+    &:not(:first-child) {
+      padding: 8px 10% 0;
+    }
+
+    .items-container {
+      @include utils.make-flex($justContent: 'space-evenly', $alignItems: 'center', $gap: '8px');
+    }
+
+    .items-container + button {
+      display: block;
+      margin: 0 auto;
+      margin-top: 14px;
+      padding: 14px;
+      user-select: none;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 1px;
+      border-radius: 5px;
+      border: 1px solid #6b6b6b;
+      cursor: pointer;
+    }
+
+    & h2 {
+      // color: #28395a;
+      max-width: 60vw;
+      margin: 0 auto;
+      text-align: center;
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 95px;
+      white-space: normal;
+      text-wrap: wrap;
+
+      &:first-of-type {
+        margin-top: 60px;
+      }
+    }
+  }
+}
+
+@mixin _color($color) {
+  $background_map: map.get($color, background);
+
+  .section .items-container + button {
+    background-color: map.get($background_map, selected-button);
+
+    &:hover {
+      background-color: #6b6b6b;
+    }
+  }
+
+}
+
+@mixin theme($theme) {
+  $color: mat.get-color-config($theme);
+  .landing-page {
+    @include _color($color);
+    @include _layout($theme);
+  }
+}
