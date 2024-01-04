@@ -1,3 +1,6 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '/src/scss/variables' as vars;
 @use '/src/scss/utility/_utilities' as utils;
 
 @mixin _layout($theme) {
@@ -10,26 +13,51 @@
       @include utils.make-flex($alignItems: 'center', $gap: '18px', $wrap: 'wrap');
       a {
         text-decoration: none;
-        color: #fff;
         font-weight: normal;
       }
 
       p {
         margin: 0;
         font-size: 16px;
+      }
 
+      & > * {
+        cursor: pointer;
       }
 
       & > *:hover {
-        border-bottom: #fff 2px solid;
+        border-bottom: 2px solid;
         font-weight: bold;
+      }
+    }
+
+    .right-content {
+      @include utils.make-flex($justContent: 'end', $alignItems: 'center', $gap: '8px');
+    }
+  }
+}
+
+@mixin _color($color) {
+  $is-dark: map.get($color, is-dark);
+  position: relative;
+
+  box-shadow: map.get($color, background, background) 0 1px;
+  z-index: 999;
+
+  .main-toolbar {
+    .left-content {
+      a {
+        color: map.get($color, foreground, text);
       }
     }
   }
 }
 
 @mixin theme($theme) {
+  $color: mat.get-color-config($theme);
+
   .header-component {
     @include _layout($theme);
+    @include _color($theme);
   }
 }

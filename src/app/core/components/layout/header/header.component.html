@@ -6,7 +6,13 @@
       <p><a routerLink="{{routes.servicos}}">PRODUTOS</a></p>
     </nav>
     <div class="right-content">
-      <button mat-mini-fab [matMenuTriggerFor]="usrOpt"><mat-icon>account_circle</mat-icon></button>
+      <button color="secondary" mat-mini-fab class="mat-elevation-z0" (click)="toggleDarkMode()">
+        <mat-icon class="theme-icon">
+          <ng-container *ngIf="isDarkThemeMode else light">light_mode</ng-container>
+          <ng-template #light>dark_mode</ng-template>
+        </mat-icon>
+      </button>
+      <button color="secondary" mat-mini-fab [matMenuTriggerFor]="usrOpt" class="mat-elevation-z0"><mat-icon>account_circle</mat-icon></button>
       <mat-menu #usrOpt="matMenu">
         <ng-template matMenuContent>
           <button mat-menu-item>Iniciar Sessão</button>

@@ -1,3 +1,6 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '/src/scss/variables' as vars;
 @use '/src/scss/utility/utilities' as utils;
 
 @mixin _layout($theme) {
@@ -10,28 +13,37 @@
     padding: 100px 10% 20px;
 
     .container * {
-      color: #888888;
-
       h4 {
-        color: #fff;
         font-weight: 400;
         font-size: 20px;
-        margin-bottom: 29px;
+        margin-bottom: 15px;
       }
     }
 
     .top-content {
-      @include utils.make-flex($direction: 'row', $justContent: 'space-evenly', $gap: '20px', $wrap: 'wrap');
+      @include utils.make-flex($direction: 'row', $justContent: 'space-evenly', $gap: '40px', $wrap: 'wrap');
 
       .section {
-        width: 300px;
-        @include utils.make-flex($direction: 'column', $gap: '12px');
         flex: 1 1;
+        width: 300px;
+        min-width: vars.$media-sm;
         white-space: normal;
         text-wrap: wrap; // experimental property
         font-size: 16px;
-        line-height: 1.8;
-        color: #868c98;
+        line-height: 1.2;
+        @include utils.make-flex($direction: 'column');
+
+        .spread {
+          @include utils.make-flex($justContent: 'space-between', $alignItems: 'center');
+        }
+
+        a {
+          text-decoration: none;
+
+          &:hover {
+            border-bottom: 1px solid;
+          }
+        }
       }
     }
 
@@ -50,8 +62,27 @@
   }
 }
 
+@mixin _color($color) {
+  $is-dark: map.get($color, is-dark);
+
+  border-top: 1px solid map.get($color, background, tooltip);
+
+  .footer-content {
+    .container * {
+      color: if($is-dark, map.get($color, background, tooltip), #888);
+
+      h4 {
+        color: if($is-dark, #888, map.get($color, background, tooltip));
+      }
+    }
+  }
+}
+
 @mixin theme($theme) {
+  $color: mat.get-color-config($theme);
+
   .footer-component {
     @include _layout($theme);
+    @include _color($color);
   }
 }
