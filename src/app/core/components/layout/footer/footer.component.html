@@ -1,0 +1,34 @@
+<footer class="footer-component">
+  <mat-toolbar class="main-footer">
+    <div class="footer-content">
+      <div class="container top-content">
+        <section class="section">
+          <h4>SOBRE NÓS</h4>
+          <p>Uma história cativante e comovonte sobre a Inaluma MakeUp</p>
+        </section>
+        <section class="section">
+          <h4>CONTACTE-NOS</h4>
+          <p>Endereço</p>
+          <p><span>Contacto</span> <span>+244924355884</span></p>
+          <p><span>Contacto</span> <span>+244914826862</span></p>
+        </section>
+        <section class="section">
+          <h4>LINKS ÚTEIS</h4>
+          <p><a routerLink="{{routes.servicos}}">Serviços</a></p>
+          <p><a routerLink="{{routes.servicos}}">Produtos</a></p>
+        </section>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="container bottom-content">
+        <div class="left-content">
+          Copyright @{{ano}} Todos os direitos reservados
+        </div>
+        <div class="right-content">
+          <button mat-mini-fab color="secondary" class="mat-elevation-z0"><a [href]="facebook"><i class="fa-brands fa-facebook-f"></i></a></button>
+          <button mat-mini-fab color="secondary" class="mat-elevation-z0"><a [href]="twitter"><i class="fa-brands fa-facebook-f"></i></a></button>
+          <button mat-mini-fab color="secondary" class="mat-elevation-z0"><a [href]="instagram"><i class="fa-brands fa-facebook-f"></i></a></button>
+        </div>
+      </div>
+    </div>
+  </mat-toolbar>
+</footer>

@@ -1,0 +1,18 @@
+<div class="header-component">
+  <mat-toolbar class="main-toolbar">
+    <nav class="left-content">
+      <h3><a routerLink="{{routes.home}}">INALUMA MAKEUP</a></h3>
+      <p><a routerLink="{{routes.servicos}}">SERVIÇOS</a></p>
+      <p><a routerLink="{{routes.servicos}}">PRODUTOS</a></p>
+    </nav>
+    <div class="right-content">
+      <button mat-mini-fab [matMenuTriggerFor]="usrOpt"><mat-icon>account_circle</mat-icon></button>
+      <mat-menu #usrOpt="matMenu">
+        <ng-template matMenuContent>
+          <button mat-menu-item>Iniciar Sessão</button>
+          <button mat-menu-item>Cadastrar-se</button>
+        </ng-template>
+      </mat-menu>
+    </div>
+  </mat-toolbar>
+</div>

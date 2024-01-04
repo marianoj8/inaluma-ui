@@ -1,0 +1,118 @@
+@use 'sass:map';
+@use 'sass:list';
+@use 'sass:meta';
+@use '@angular/material' as mat;
+
+/// Changes the color configuration for foreground and background
+/// given an angular material theme object and a configuration object
+/// @param {Map} $theme: A valid angular material theme object
+/// @param {Map} $conf: the new configuration for the theme; this is a map that contains
+/// new values for either foreground or background or both
+/// @returns {map} $theme reassigned with $conf if $conf and $theme are valid; otherwise $theme
+@function reconf-theme ($theme, $conf: null) {
+  @if(not (_is-valid-conf($conf) and mat.private-is-theme-object($theme))) {
+    @return $theme;
+  }
+
+  $result: ();
+  @each $key, $value in $conf {
+    $prop: if($key == 'foreground', 'foreground', 'background');
+
+    // assigns the new background and/or foreground configurations
+    $result: _reassign-map(map.get($theme, 'color'), $value, $prop);
+    $result: _reassign-map($theme, $result, 'color');
+    $result: _reassign-map($result, $value, $prop);
+  }
+
+  @return $result;
+}
+
+/// @description Assigns the values from $new to $original that map to $key
+/// @param {Map} $original: The map with the old values
+/// @param {any} $new: The map with the new values
+/// @param {String} $prop: The key to reassign to in the map
+/// @returns {map} $original reassigned with $new
+@function _reassign-map($original, $new, $key) {
+  @return map.merge($original, ($key: $new));
+}
+
+/// @description Checks whether the given object is a valid background object
+/// @param {Map} $foreground: The object to check
+/// @returns {bool} True or False
+@function _is-background-object($background) {
+  $keys-ok:
+    map.has-key($background, status-bar) and
+    map.has-key($background, app-bar) and
+    map.has-key($background, background) and
+    map.has-key($background, hover) and
+    map.has-key($background, card) and
+    map.has-key($background, dialog) and
+    map.has-key($background, disabled-button) and
+    map.has-key($background, raised-button) and
+    map.has-key($background, focused-button) and
+    map.has-key($background, selected-button) and
+    map.has-key($background, selected-disabled-button) and
+    map.has-key($background, disabled-button-toggle) and
+    map.has-key($background, unselected-chip) and
+    map.has-key($background, disabled-list-option) and
+    map.has-key($background, tooltip);
+  $is-colors-map: _is-colors-map($background);
+
+  @return $keys-ok and $is-colors-map;
+}
+
+/// @description Checks whether the given object is a valid foreground object
+/// @param {Map} $foreground: The object to check
+/// @returns {bool} True or False
+@function _is-foreground-object($foreground) {
+  $keys-ok:
+    map.has-key($foreground, base) and
+    map.has-key($foreground, divider) and
+    map.has-key($foreground, dividers) and
+    map.has-key($foreground, disabled) and
+    map.has-key($foreground, disabled-button) and
+    map.has-key($foreground, disabled-text) and
+    map.has-key($foreground, elevation) and
+    map.has-key($foreground, hint-text) and
+    map.has-key($foreground, secondary-text) and
+    map.has-key($foreground, icon) and
+    map.has-key($foreground, icons) and
+    map.has-key($foreground, text) and
+    map.has-key($foreground, slider-min) and
+    map.has-key($foreground, slider-off) and
+    map.has-key($foreground, slider-off-active);
+  $is-colors-map: _is-colors-map($foreground);
+
+  @return $keys-ok and $is-colors-map;
+}
+
+/// @description Checks if $map is a collection of colors; this method does not support nested collections
+/// @param {Map} $map: the collection to check
+/// @returns {bool} True or False
+@function _is-colors-map($map) {
+  @for $key from 0 through list.length($foreground) {
+    @if(meta.type-of($key) != color) {
+      @return false;
+    }
+  }
+
+  @return true;
+}
+
+/// @description Validates the configuration object
+/// @param {Map} the configuration object
+/// @returns {bool} True or False
+@function _is-valid-conf($conf) {
+  $is-valid: ($conf != null) and (list.length($conf) > 0) and (list.length($conf) <= 2);
+  $is-valid: $is-valid and (map.has-key($conf, foreground) or map.has-key($conf, background));
+
+  @if(map.has-key($conf, foreground)) {
+    $is-valid: $is-valid and _is-foreground-object(map.get($conf, foreground));
+  }
+
+  @if(map.has-key($conf, background)) {
+    $is-valid: $is-valid and _is-background-object(map.get($conf, background));
+  }
+
+  @return $is-valid;
+}

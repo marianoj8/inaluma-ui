@@ -1,0 +1,9 @@
+@use '/src/scss/utility/utilities' as utils;
+
+@mixin _layout($theme) {
+  
+}
+
+@mixin theme($theme) {
+  @include _layout($theme);
+}
