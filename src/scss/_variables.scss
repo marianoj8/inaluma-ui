@@ -4,35 +4,11 @@ $min-width: 350px;
 
 /* ------ Media breakpoints ------ */
 $media-sm: 250px;
-$media-md: 768px;
-$media-n: 1024px;
-$media-l: 1366px;
 
 /* ------ layout variables ------ */
-// Toolbar
-$header-height: 128px;
-$header-rows: 2;
-$main-section-header-height: 64px;
-$switcher-form-fields-height: 40px;
-$header-row-height: math.div($header-height, $header-rows);
-$footer-height: 130px;// main footer
-$body-height: calc(100% - ($header-height + $footer-height));
+$header-height: 60px;
 
-// left sidebar side menu
-$side-menu-l: 256px;
-$side-menu-sm: 64px;
-$side-menu-none: 100%;
-
-// right sidebar details menu
-$sidebar-right-width: 320px;
-$user-menu-width: 185px;
-$user-menu-height: 510px;
-$header-mnu-opt-w: 400px;
-
-// depth
-$z-table-notifications: 110;
-$z-app-bar: 120;
-$z-sidebar: 130;
+// others
 $z-scroll-top: 800; // overlays are placed 1000
 
 // colors
