@@ -1,8 +1,8 @@
-@use '/src/app/core/components/layout/styles/layout-theme' as layout;
-@use '/src/app/shared/visitor/visitor-theme' as visitor;
+@use '/src/app/core/core-theme' as core;
+@use '/src/app/shared/shared-theme' as shared;
 
 // applies theme configurations to all custom components
 @mixin themefy($theme) {
-  @include layout.theme($theme);
-  @include visitor.theme($theme);
+  @include core.theme($theme);
+  @include shared.theme($theme);
 }

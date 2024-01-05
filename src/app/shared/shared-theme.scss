@@ -1,0 +1,7 @@
+@use './visitor/visitor-theme' as visitors;
+@use './components/components-theme' as components;
+
+@mixin theme($theme) {
+  @include visitors.theme($theme);
+  @include components.theme($theme);
+}

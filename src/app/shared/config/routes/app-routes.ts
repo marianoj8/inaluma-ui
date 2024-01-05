@@ -46,6 +46,7 @@ export enum APP_ROUTES {
   produtos_add = '/funcionarios/add',
   produtos_edit = '/funcionarios/edit',
   produtos_del = '/funcionarios/del',
+  produtos_comprar = '/produtos/comprar/',
 
   servicos = '/funcionarios',
   servicos_add = '/funcionarios/add',

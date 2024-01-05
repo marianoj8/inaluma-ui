@@ -1,0 +1,5 @@
+@use './components/layout/layout-theme' as layout;
+
+@mixin theme($theme) {
+  @include layout.theme($theme);
+}

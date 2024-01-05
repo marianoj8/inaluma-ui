@@ -1,0 +1,7 @@
+@use './header/header-theme' as header;
+@use './footer/footer-theme' as footer;
+
+@mixin theme($theme) {
+  @include header.theme($theme);
+  @include footer.theme($theme);
+}
