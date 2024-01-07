@@ -14,20 +14,14 @@
       a {
         text-decoration: none;
         font-weight: normal;
-      }
-
-      p {
         margin: 0;
         font-size: 16px;
-      }
-
-      & > * {
         cursor: pointer;
-      }
 
-      & > *:hover {
-        border-bottom: 2px solid;
-        font-weight: bold;
+        &:hover {
+          border-bottom: 2px solid;
+          font-weight: bold;
+        }
       }
     }
 
