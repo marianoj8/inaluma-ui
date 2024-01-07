@@ -1,4 +1,11 @@
 
 export class ImageFile {
-  constructor(public file: string) { }
+  id: number;
+  fileName: string;
+  contentType: string;
+  fixedSize: string;
+  fileType: string;
+  size: number;
+
+  constructor(public file: File) { }
 }
