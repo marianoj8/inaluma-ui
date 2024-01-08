@@ -1,0 +1,19 @@
+@use '@angular/material' as mat;
+@use '/src/scss/utility/utilities' as utils;
+
+@mixin _layout($theme) {
+  $typography: mat.get-typography-config($theme);
+
+  @include utils.make-flex($direction: 'column', $justContent: 'start', $alignItems: 'center', $gap: '10px');
+}
+
+@mixin _color($color) {}
+
+@mixin theme($theme) {
+  $color: mat.get-color-config($theme);
+
+  .item-preview-component {
+    @include _layout($theme);
+    @include _color($color);
+  }
+}

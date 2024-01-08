@@ -1,0 +1,7 @@
+<section class="item-preview-component">
+  <div class="img-container"><img [src]="item.data"/></div>
+  <h3 class="title">{{item.nome}}</h3>
+  <p class="description">{{item.descricao}}</p>
+  <p class="price"><span>{{item.preco | currency:'AOA':'symbol':'4.2-2'}}</span></p>
+  <button mat-flat-button (click)="openDetails()">Comprar</button>
+</section>
