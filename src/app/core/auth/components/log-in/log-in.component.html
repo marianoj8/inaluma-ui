@@ -5,18 +5,22 @@
       <h3>Iniciar Sessão</h3>
       <form [formGroup]="loginForm">
         <div class="fields-container">
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" color="accent">
             <mat-icon matPrefix>account_box</mat-icon>
-            <input type="text" matInput formControlName="username" />
+            <mat-label>Nome do Utilizador</mat-label>
+            <input type="text" matInput formControlName="username"/>
           </mat-form-field>
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" color="accent">
             <mat-icon matPrefix>lock</mat-icon>
-            <input type="text" matInput formControlName="password" />
+            <mat-label>Senha</mat-label>
+            <input type="text" matInput formControlName="password"/>
           </mat-form-field>
         </div>
         <div class="controls-container">
-          <button mat-raised-button color="secondary" (click)="cancelar()">Cancelar</button>
-          <button mat-raised-button color="primary" (click)="login()">Entrar</button>
+          <div class="controls">
+            <button mat-raised-button color="warn" (click)="cancelar()">Cancelar</button>
+            <button mat-raised-button color="accent" (click)="login()">Entrar</button>
+          </div>
         </div>
       </form>
     </div>

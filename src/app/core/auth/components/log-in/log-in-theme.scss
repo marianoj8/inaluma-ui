@@ -1,26 +1,23 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
 @use '/src/scss/utility/utilities' as utils;
 
 @mixin _layout($theme) {
-  width: 100%;
-  height: 100%;
+  min-width: 450px;
+  width: 100vw;
+  height: 100vh;
+  @include utils.make-flex($justContent: 'center', $alignItems: 'center');
 
-  &,
   .content-wrapper {
     @include utils.make-flex($justContent: 'center', $alignItems: 'center', $wrap: 'wrap');
-  }
-
-  .content-wrapper {
-    max-width: 60vw;
-    // height: 80%;
+    max-width: 60%;
+    height: 65%;
     padding: 0;
 
     .side {
+      min-width: 250px;
+      height: 100%;
       flex: 1 0;
-      // height: 100%;
-
-      &.left-side {
-        // max-width: 60%;
-      }
 
       &.right-side,
       .fields-container {
@@ -28,29 +25,19 @@
       }
 
       &.right-side {
+        justify-content: center;
         padding: 20px 0;
+        height: calc(100% - calc(20px * 2));
         gap: 20px;
 
-        .title-wrapper {
-          width: 100%;
+        h3 {
+          $typography: mat.get-typography-config($theme);
+          $conf: map.get($typography, display-1);
 
-          @include utils.make-flex($alignItems: 'center');
-
-          .title {
-            width: 80%;
-            height: 40px;
-            padding: 10px 0;
-
-            border-top-right-radius: 20px;
-            border-bottom-right-radius: 20px;
-
-            border: 1px solid;
-          }
-
-          .title h3 {
-            margin: 0;
-            vertical-align: middle;
-          }
+          font-size: map.get($conf, font-size);
+          line-height: map.get($conf, line-height);
+          font-weight: map.get($conf, font-weight);
+          font-variant: small-caps;
         }
       }
 
@@ -61,22 +48,35 @@
         width: calc(100% - 40px);
 
         .mat-form-field {
-          width: 100%;
+          width: 80%;
         }
       }
 
-      .controls-container button {
-        display: inline-block;
-        text-align: center;
+      .controls-container .controls {
+        margin: 0 auto;
+        width: fit-content;
+
+        button {
+          display: inline-block;
+        }
+
+        button:first-child {
+          margin-right: 10px;
+        }
       }
     }
   }
+}
 
-  flex-wrap: nowrap!important;
+@mixin _color($color) {
+  background-color: map.get($color, background, background);
 }
 
 @mixin theme($theme) {
+  $color: mat.get-color-config($theme);
+
   .log-in {
     @include _layout($theme);
+    @include _color($color);
   }
 }
