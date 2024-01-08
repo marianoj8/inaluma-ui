@@ -1,0 +1,24 @@
+<section class="log-in">
+  <mat-card class="content-wrapper">
+    <div class="side left-side"><img [src]="capa" /></div>
+    <div class="side right-side">
+      <h3>Iniciar Sessão</h3>
+      <form [formGroup]="loginForm">
+        <div class="fields-container">
+          <mat-form-field appearance="outline">
+            <mat-icon matPrefix>account_box</mat-icon>
+            <input type="text" matInput formControlName="username" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-icon matPrefix>lock</mat-icon>
+            <input type="text" matInput formControlName="password" />
+          </mat-form-field>
+        </div>
+        <div class="controls-container">
+          <button mat-raised-button color="secondary" (click)="cancelar()">Cancelar</button>
+          <button mat-raised-button color="primary" (click)="login()">Entrar</button>
+        </div>
+      </form>
+    </div>
+  </mat-card>
+</section>

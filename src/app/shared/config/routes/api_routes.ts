@@ -20,3 +20,8 @@ export const enum API_FILES_ROUTES {
   postProdutos = 'files/product/img',
   postServicos = 'files/service/img'
 }
+
+export const enum API_AUTH_ROUTES {
+  logIn,
+  logOut
+}

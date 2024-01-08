@@ -15,8 +15,8 @@
       <button color="secondary" mat-mini-fab [matMenuTriggerFor]="usrOpt" class="mat-elevation-z0"><mat-icon>account_circle</mat-icon></button>
       <mat-menu #usrOpt="matMenu">
         <ng-template matMenuContent>
-          <button mat-menu-item>Iniciar Sessão</button>
-          <button mat-menu-item>Cadastrar-se</button>
+          <button mat-menu-item (click)="login()">Iniciar Sessão</button>
+          <button mat-menu-item (click)="signup()">Cadastrar-se</button>
         </ng-template>
       </mat-menu>
     </div>

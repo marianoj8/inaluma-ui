@@ -1,0 +1,7 @@
+@use './components/log-in/log-in-theme' as login;
+@use './components/sign-up/sign-up-theme' as signup;
+
+@mixin theme($theme) {
+  @include login.theme($theme);
+  @include signup.theme($theme);
+}

@@ -1,5 +1,7 @@
 @use './components/layout/layout-theme' as layout;
+@use './auth/auth-theme' as auth;
 
 @mixin theme($theme) {
   @include layout.theme($theme);
+  @include auth.theme($theme);
 }

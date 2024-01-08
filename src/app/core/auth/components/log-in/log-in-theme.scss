@@ -1,0 +1,82 @@
+@use '/src/scss/utility/utilities' as utils;
+
+@mixin _layout($theme) {
+  width: 100%;
+  height: 100%;
+
+  &,
+  .content-wrapper {
+    @include utils.make-flex($justContent: 'center', $alignItems: 'center', $wrap: 'wrap');
+  }
+
+  .content-wrapper {
+    max-width: 60vw;
+    // height: 80%;
+    padding: 0;
+
+    .side {
+      flex: 1 0;
+      // height: 100%;
+
+      &.left-side {
+        // max-width: 60%;
+      }
+
+      &.right-side,
+      .fields-container {
+        @include utils.make-flex($direction: 'column', $alignItems: 'center', $gap: '20px')
+      }
+
+      &.right-side {
+        padding: 20px 0;
+        gap: 20px;
+
+        .title-wrapper {
+          width: 100%;
+
+          @include utils.make-flex($alignItems: 'center');
+
+          .title {
+            width: 80%;
+            height: 40px;
+            padding: 10px 0;
+
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+
+            border: 1px solid;
+          }
+
+          .title h3 {
+            margin: 0;
+            vertical-align: middle;
+          }
+        }
+      }
+
+      form {
+        padding: 0 20px;
+        padding-top: 0;
+
+        width: calc(100% - 40px);
+
+        .mat-form-field {
+          width: 100%;
+        }
+      }
+
+      .controls-container button {
+        display: inline-block;
+        text-align: center;
+      }
+    }
+  }
+
+  flex-wrap: nowrap!important;
+}
+
+@mixin theme($theme) {
+  .log-in {
+    @include _layout($theme);
+  }
+}

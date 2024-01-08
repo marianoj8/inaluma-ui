@@ -4,8 +4,24 @@ import { LayoutComponent } from './core/components/layout/layout.component';
 import { LandingPageComponent } from './shared/visitor/landing-page/landing-page.component';
 import { ItemFormComponent } from './shared/components/item-form/item-form.component';
 import { ItemListComponent } from './shared/components/item-list/item-list.component';
+import { LogoutGuard } from './core/auth/guards/log-out.guard';
+import { LogInComponent } from './core/auth/components/log-in/log-in.component';
+import { SignUpComponent } from './core/auth/components/sign-up/sign-up.component';
 
 const _routes: Routes = [
+  {
+    path: 'auth',
+    children: [
+      {
+        path: 'log-in',
+        component: LogInComponent
+      },
+      {
+        path: 'sig-up',
+        component: SignUpComponent
+      }
+    ]
+  },
   {
     path: '',
     component: LayoutComponent,
