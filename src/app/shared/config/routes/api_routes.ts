@@ -17,8 +17,8 @@ export const enum API_SERVICES_ROUTES {
 
 export const enum API_FILES_ROUTES {
   key = 'file',
-  postProdutos = 'files/product/img',
-  postServicos = 'files/service/img'
+  postProdutos = 'files/product/img?productId=',
+  postServicos = 'files/service/img?serviceId='
 }
 
 export const enum API_AUTH_ROUTES {

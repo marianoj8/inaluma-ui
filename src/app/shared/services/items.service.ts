@@ -16,7 +16,7 @@ export class ItemsService {
   public deleteItemByID(idItem: number, isProduto: boolean) { return this._deleteItemByID(idItem, this._getPath(isProduto)); }
 
   // Métodos internos
-  private _fetchItem(path: ItemPath) { return this._http.get<ItemDTO[]>(path); }
+  private _fetchItem(path: ItemPath) { return this._http.get<ItemDTO[]>(environment.API+path); }
   private _getItemByID(itemID: number, path: ItemPath) { return this._http.get<ItemDTO>(environment.API+path+itemID); }
   private _saveItem(item: ItemDTO, path: ItemPath) { return this._http.post<ItemDTO>(environment.API+path, item); }
   private _updateItem(item: ItemDTO, path: ItemPath) { return this._http.put<ItemDTO>(environment.API+path, item); }

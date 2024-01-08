@@ -5,7 +5,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Item, ItemDTO } from "src/app/core/model/dto/ItemDTO";
 import { ItemsService } from "../../services/items.service";
 import { FilesService } from "../../services/files.service";
-import { tap } from "rxjs";
+import { map, of, switchMap, tap } from "rxjs";
 import { ImageFile } from "src/app/core/model/dto/ImageFile";
 
 @Component({
@@ -61,20 +61,15 @@ export class ItemFormComponent {
     });
   }
 
-  public get enctype(): string {
-    return this.hasFile ? 'multipart/form-data' : 'text/plain';
-  }
-
   public onFileSelected(event): void {
     this._selectedFile = event.target.files[0] as File;
-    console.log(this._selectedFile);
 
     if (typeof FileReader !== 'undefined') {
       const previewReader = new FileReader();
       const uploadReader = new FileReader();
 
       previewReader.onloadend = (evt: any) => { this.imagePath = evt.currentTarget.result ?? this._chooseImageIcon };
-      uploadReader.onload = (evt: any) => { this._imgSrc = evt.target.result; console.log(this._imgSrc) }
+      uploadReader.onload = (evt: any) => { this._imgSrc = evt.target.result; }
 
       if ((this.hasFile = !!this._selectedFile)) {
         uploadReader.readAsArrayBuffer(this._selectedFile);
@@ -94,10 +89,12 @@ export class ItemFormComponent {
     this.showProgressBar = true;
 
     Object.assign(this._item.item, this.itemForm.value);
-    console.log(this._item);
 
     this._itemsService.registerItem(this._item.item, this._item.isProduto).pipe(
-      tap(item => this._filesService.uploadImage(new ImageFile(this._selectedFile), item.id, this._item.isProduto))
+      switchMap(item => {
+        if(this.hasFile) return this._filesService.uploadImage(new ImageFile(this._selectedFile), item.id, this._item.isProduto)
+        else return of(null);
+      })
     ).subscribe(() => {
       this.showProgressBar = false;
       this.itemForm.reset({emitEvent: false});

@@ -1,6 +1,6 @@
 <section class="item-form">
   <mat-progress-bar color="secondary" *ngIf="showProgressBar"></mat-progress-bar>
-  <form [enctype]="enctype" [formGroup]="itemForm" class="column">
+  <form enctype="multipart/form-data" [formGroup]="itemForm" class="column">
     <section class="content-row first row">
       <div class="upload-container column">
         <div class="preview"><img [src]="imagePath" /></div>
