@@ -5,23 +5,29 @@
       <p>Esteja por dentro das novidades</p>
       <p>Temos os melhores produtos de maquilhagem para si</p></h2>
     <div class="items-container produtos">
-      <div class="item">Colocar aqui o componente do produto</div>
-      <div class="item">Colocar aqui o componente do produto</div>
-      <div class="item">Colocar aqui o componente do produto</div>
-      <div class="item">Colocar aqui o componente do produto</div>
+      <ng-container *ngIf="items?.length else noProds"><app-item-preview class="item" *ngFor="let item of items" [item]="item"></app-item-preview></ng-container>
+      <ng-template #noProds>
+        <div class="sem-item">
+          <h3>Sem produtos a apresentar, por favor cadastre alguns produtos</h3>
+          <p><a mat-button [routerLink]="routes.produtos_add">Cadastrar Produtos</a></p>
+        </div>
+      </ng-template>
     </div>
-    <button mat-flat-button color="primary">Ver todos os produtos</button>
+    <button mat-flat-button *ngIf="items?.length">Ver todos os produtos</button>
   </section>
   <section class="section clientes-section">
     <h2 class="rotulo">
       <p>Na Inaluma MakeUp, a satisfação dos nossos clientes é a prioridade</p>
     </h2>
     <div class="items-container servicos">
-      <div class="item">Colocar aqui o componente do serviço</div>
-      <div class="item">Colocar aqui o componente do serviço</div>
-      <div class="item">Colocar aqui o componente do serviço</div>
-      <div class="item">Colocar aqui o componente do serviço</div>
+      <ng-container *ngIf="items?.length else noServ"><app-item-preview class="item" *ngFor="let item of items" [item]="item"></app-item-preview></ng-container>
+      <ng-template #noServ>
+        <div class="sem-item">
+          <h3>Sem serviços a apresentar, por favor cadastre alguns serviços</h3>
+          <p><a mat-button [routerLink]="routes.servicos_add">Cadastrar Serviços</a></p>
+        </div>
+      </ng-template>
     </div>
-    <button mat-flat-button>Ver todos os serviços</button>
+    <button mat-flat-button *ngIf="items?.length">Ver todos os serviços</button>
   </section>
 </section>

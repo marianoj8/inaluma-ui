@@ -1,0 +1,59 @@
+@use 'sass:string';
+@use '@angular/material' as mat;
+@use '/src/scss/utility/utilities' as utils;
+
+@mixin _layout($theme) {
+  $gapVal: '20px';
+
+  padding: string.unquote($gapVal) 0;
+
+  form.column {
+    justify-content: center;
+
+    .upload-container .preview {
+      width: 250px;
+      height: 250px;
+    }
+
+    .content-row.first,
+    .rows-container.column .row:not(.full-space) {
+      flex-wrap: wrap;
+
+      .row :not(:first-child) {
+        flex: 1 0;
+      }
+    }
+
+    .content-row.second .mat-form-field {
+      width: 53vw;
+      min-width: 400px;
+    }
+  }
+
+  .column {
+    @include utils.make-flex($direction: 'column', $alignItems: 'center', $gap: $gapVal);
+  }
+
+  .row {
+    @include utils.make-flex($alignItems: 'center', $gap: $gapVal);
+  }
+
+  .full-space {
+    width: 100%;
+
+    & > *:not(:first-child) {
+      flex: 1 0;
+    }
+  }
+}
+
+@mixin _color($theme) {}
+
+@mixin theme($theme) {
+  $color: mat.get-color-config($theme);
+
+  .item-form {
+    @include _layout($theme);
+    @include _color($color);
+  }
+}

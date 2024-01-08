@@ -1,0 +1,15 @@
+<section class="list-item-preview">
+  <div class="left-content"><img [src]="item.data"></div>
+  <div class="middle-content">
+    <h3 class="title">{{item.nome}}</h3>
+    <div class="bottom-content-wrapper">
+      <span class="detail">{{item.estado}}</span>
+      <span class="detail">{{item.stock}}</span>
+      <span class="detail">{{item.code}}</span>
+      <span class="detail">{{item.preco}}</span>
+    </div>
+  </div>
+  <div class="controls-container">
+    <button mat-flat-button><mat-icon>trash</mat-icon></button>
+  </div>
+</section>

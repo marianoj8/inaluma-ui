@@ -1,0 +1,9 @@
+@use '/src/scss/variables' as vars;
+@use './list-item-preview/list-item-preview-theme' as item-list-preview;
+
+@mixin _layout($theme) {}
+
+@mixin theme($theme) {
+  @include _layout($theme);
+  @include item-list-preview.theme($theme);
+}

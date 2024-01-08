@@ -1,0 +1,61 @@
+<section class="item-form">
+  <mat-progress-bar color="secondary" *ngIf="showProgressBar"></mat-progress-bar>
+  <form [enctype]="enctype" [formGroup]="itemForm" class="column">
+    <section class="content-row first row">
+      <div class="upload-container column">
+        <div class="preview"><img [src]="imagePath" /></div>
+        <input type="file" accept="image/x-png,image/jpeg" hidden (change)="onFileSelected($event)" #file formControlName="imagem">
+        <button mat-flat-button (click)="file.click()"><span>Selecionar Imagem</span><mat-icon>attach_file</mat-icon></button>
+      </div>
+      <div class="rows-container column">
+        <div class="row full-space">
+          <span class="title">Nome</span>
+          <mat-form-field appearance="outline"><input type="text" matInput formControlName="nome"/></mat-form-field>
+        </div>
+        <p class="row full-space">
+          <span class="title">Preço</span>
+          <mat-form-field appearance="outline"><input type="number" matInput formControlName="preco"/></mat-form-field>
+        </p>
+        <div class="row" *ngIf="isProduto else servico">
+          <div class="row">
+            <span class="title">Tipo</span>
+            <mat-form-field appearance="outline"><input type="text" matInput formControlName="tipo"/></mat-form-field>
+          </div>
+          <p class="row">
+            <span class="title">Stock</span>
+            <mat-form-field appearance="outline"><input type="number" matInput formControlName="stock"/></mat-form-field>
+          </p>
+          <p class="row">
+            <span class="title">Código do Produto</span>
+            <mat-form-field appearance="outline"><input type="number" matInput formControlName="code"/></mat-form-field>
+          </p>
+        </div>
+        <ng-template #servico>
+          <div class="row">
+            <div class="row">
+              <input type="text" hidden matInput formControlName="units" #unidade/>
+              <span class="title">Unidade</span>
+              <mat-radio-group [value]="unidade.value" (change)="unidadeChanged($event)">
+                <mat-radio-button value="H">Hora</mat-radio-button>
+                <mat-radio-button value="M">Minuto</mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div class="row">
+              <span class="title">Duração</span>
+              <mat-form-field appearance="outline"><input type="text" matInput formControlName="duracao"/></mat-form-field>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </section>
+    <section class="content-row second row">
+      <mat-form-field appearance="outline">
+        <textarea matInput minlength="20" rows="10" cols="80" placeholder="Escreva uma descrição de produto" formControlName="descricao"></textarea>
+      </mat-form-field>
+    </section>
+    <section class="controls-row row">
+      <button mat-flat-button color="warn">Cancelar</button>
+      <button mat-flat-button color="accent" [disabled]="!canSave()" (click)="saveItem()">Salvar</button>
+    </section>
+  </form>
+</section>
