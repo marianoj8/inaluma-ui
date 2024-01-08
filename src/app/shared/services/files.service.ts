@@ -29,6 +29,12 @@ export class FilesService {
     return this._uploadFile(itemId, img, path);
   }
 
+  public getImage(itemID: number, isProduto: boolean) {
+    const path = isProduto ? API_FILES_ROUTES.getProdutos : API_FILES_ROUTES.getServicos;
+    console.log(path);
+    return this._http.get<File>(environment.API+path+itemID);
+  }
+
   private _appendFormData(file: File): FormData {
     const formData = new FormData();
     formData.append(API_FILES_ROUTES.key, file);

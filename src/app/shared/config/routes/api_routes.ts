@@ -18,10 +18,26 @@ export const enum API_SERVICES_ROUTES {
 export const enum API_FILES_ROUTES {
   key = 'file',
   postProdutos = 'files/product/img?productId=',
-  postServicos = 'files/service/img?serviceId='
+  postServicos = 'files/service/img?serviceId=',
+  getProdutos = 'files/product/',
+  getServicos = 'files/service/'
 }
 
 export const enum API_AUTH_ROUTES {
   logIn,
   logOut
+}
+
+
+export const enum API_USERS_ROUTES {
+  fetchFuncionarios = 'funcionarios',
+  updateFuncionario = 'funcionarios',
+  postFuncionario = 'funcionarios/',
+  getFuncionarioByID = 'funcionarios/',
+  deleteFuncionarioByID = 'funcionarios/',
+  fetchClientes = 'clientes',
+  updateCliente = 'clientes',
+  postCliente = 'clientes/',
+  getClienteByID = 'clientes/',
+  deleteClienteByID = 'clientes/',
 }

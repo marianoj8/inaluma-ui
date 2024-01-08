@@ -1,0 +1,39 @@
+<section class="user-component">
+  <section class="list-section" [class.disable-events]="isPreviewing">
+    
+    <ng-container *ngFor="let user of users">
+      <button (click)="previewUser(user)">
+        <p><span>{{user?.sobrenome}} {{user.nome}}</span></p>
+        <p><span>{{(user?.funcionario) ? 'Funcionário' : 'Cliente'}}</span></p>
+      </button>
+    </ng-container>
+  </section>
+  <section class="preview-section" [class.previewing]="isPreviewing">
+    <div class="content-wrapper">
+      <p class="line">
+        <span>Nome</span>
+        <span>{{userToPreview?.nome}}</span>
+      </p>
+      <p class="line">
+        <span>Sobrenome</span>
+        <span>{{userToPreview?.sobrenome}}</span>
+      </p>
+      <p class="line">
+        <span>Nome de Utilizador</span>
+        <span>{{userToPreview?.username}}</span>
+      </p>
+      <p class="line">
+        <span>Contacto</span>
+        <span>{{userToPreview?.contacto}}</span>
+      </p>
+      <p class="line">
+        <span>Gênero</span>
+        <span>{{userToPreview?.genero}}</span>
+      </p>
+      <p class="line">
+        <span>Estado</span>
+        <span>{{userToPreview?.estado}}</span>
+      </p>
+    </div>
+  </section>
+</section>

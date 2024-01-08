@@ -7,6 +7,7 @@ import { ItemListComponent } from './shared/components/item-list/item-list.compo
 import { LogoutGuard } from './core/auth/guards/log-out.guard';
 import { LogInComponent } from './core/auth/components/log-in/log-in.component';
 import { SignUpComponent } from './core/auth/components/sign-up/sign-up.component';
+import { UserComponent } from './core/components/user/user.component';
 
 const _routes: Routes = [
   {
@@ -69,6 +70,19 @@ const _routes: Routes = [
             redirectTo: ''
           }
         ],
+      },
+      {
+        path: 'user',
+        children: [
+          {
+            path: 'funcionario',
+            component: UserComponent
+          },
+          {
+            path: 'cliente',
+            component: UserComponent
+          }
+        ]
       }
     ]
   },

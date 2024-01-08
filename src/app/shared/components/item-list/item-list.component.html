@@ -1,6 +1,6 @@
 <section class="item list">
   <div class="top-content">
-    <p><span class="title">{{itemName}}s cadastrados:</span> <span class="value">{{itens ?? 0}}</span></p>
+    <p><span class="title">{{itemName}}s cadastrados:</span> <span class="value">{{itens?.length ?? 0}}</span></p>
     <div class="controls-container">
       <a mat-flat-button [routerLink]="route">
         <span>Novo {{itemName}}</span>
@@ -8,9 +8,7 @@
       </a>
 
       <div class="search-container">
-        <mat-form-field appearance="outline">
-          <input type="text" matInput/>
-        </mat-form-field>
+        <mat-form-field appearance="outline"><input type="text" matInput/></mat-form-field>
         <button color="secondary" mat-mini-fab class="trigger" (click)="toggleSearch()" class="mat-elevation-z0">
           <mat-icon>
             <ng-container *ngIf="canSearch else notCanSearch">close</ng-container>
@@ -20,6 +18,6 @@
       </div>
     </div>
   </div>
-  <ng-container *ngIf="itens else nothingToSee"><app-list-item-preview *ngFor="let item of itens" [item]="item"></app-list-item-preview></ng-container>
+  <ng-container *ngIf="itens?.length else nothingToSee"><app-list-item-preview *ngFor="let item of itens" [item]="item"></app-list-item-preview></ng-container>
   <ng-template #nothingToSee><div [class.grow]="!itens"><h2>Lamentamos mas a nossa base de dados encontra-se actualmente vazia!</h2></div></ng-template>
 </section>
