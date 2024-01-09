@@ -1,15 +1,23 @@
-<section class="list-item-preview">
-  <div class="left-content"><!-- <img [src]="item.data"> --></div>
+<mat-card class="list-item-preview">
+  <div class="left-content"><img [src]="item.imgSrc"></div>
   <div class="middle-content">
-    <h3 class="title">{{item.nome}}</h3>
+    <h3 class="title">{{item.item.nome}}</h3>
     <div class="bottom-content-wrapper">
-      <span class="detail">{{item.estado}}</span>
-      <span class="detail">{{item.stock}}</span>
-      <span class="detail">{{item.code}}</span>
-      <span class="detail">{{item.preco}}</span>
+      <span class="detail"><span>Estado</span><span>{{item.item.estado ? 'Disponível' : 'Esgotado'}}</span></span>
+      <span class="detail"><span>Stock</span>{{item.item?.stock}}</span>
+      <span class="detail"><span>Código</span>{{item.item?.code}}</span>
+      <span class="detail"><span>Duração</span>{{duracao}}</span>
+      <span class="detail"><span>Preço</span>{{item.item?.preco}}</span>
     </div>
   </div>
   <div class="controls-container">
-    <button mat-flat-button><mat-icon>trash</mat-icon></button>
+    <ng-container>
+      <button mat-mini-fab color="warn" class="mat-elevation-z0"><mat-icon>delete_forever</mat-icon></button>
+      <button mat-mini-fab color="primary" class="mat-elevation-z0"><mat-icon>edit</mat-icon></button>
+    </ng-container>
+    <ng-template>
+      <button mat-mini-fab class="mat-elevation-z0"><mat-icon>add_shopping_cart</mat-icon></button>
+    </ng-template>
+    <button mat-mini-fab class="mat-elevation-z0"><mat-icon>info</mat-icon></button>
   </div>
-</section>
+</mat-card>

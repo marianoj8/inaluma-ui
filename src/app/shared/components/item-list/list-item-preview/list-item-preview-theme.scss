@@ -1,2 +1,53 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '/src/scss/utility/utilities' as utils;
 
-@mixin theme($theme) {}
+@mixin _layout($theme)  {
+  @include utils.make-flex($alignItems: 'center', $gap: '40px');
+  cursor: pointer;
+
+
+  .left-content {
+    pointer-events: all;
+    max-width: 150px;
+    max-height: 150px;
+
+    will-change: transform;
+    transition: transform 1s ease;
+
+
+    &:hover {
+      transform: scale(2);
+    }
+  }
+
+  .middle-content,
+  .controls-container {
+    @include utils.make-flex($direction: 'column', $gap: '10px');
+  }
+
+  .middle-content {
+    height: 100%;
+    flex: 1 0;
+
+    .bottom-content-wrapper {
+      @include utils.make-flex($gap: '20px')
+    }
+  }
+
+  .controls-container {
+  }
+}
+
+@mixin _color($color) {
+
+}
+
+@mixin theme($theme) {
+  $color: mat.get-color-config($theme);
+
+  .list-item-preview {
+    @include _layout($theme);
+    @include _color($color);
+  }
+}

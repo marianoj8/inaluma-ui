@@ -22,15 +22,17 @@ export class Item {
   constructor (
     public readonly item: ItemDTO,
     public readonly isProduto: boolean,
-    public readonly img?: string
+    public imgSrc?: string
   ) {}
 
   static createArray(dtos: ItemDTO[]) {
     const items = new Array<Item>();
 
     dtos.forEach(i => {
-      items.push(new Item(i, !i?.funcionario, Item._convertDataToBase(i.data)))
+      items.push(new Item(i, !i?.units))
     })
+
+    return items;
   }
 
   private static _convertDataToBase(data: any): string {
