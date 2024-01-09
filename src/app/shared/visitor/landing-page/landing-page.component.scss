@@ -15,10 +15,19 @@
     }
 
     .items-container {
-      @include utils.make-flex($justContent: 'space-evenly', $alignItems: 'center', $gap: '8px');
+      @include utils.make-flex($direction: 'column', $alignItems: 'center', $gap: '20px');
+
+      .items {
+        @include utils.make-flex($justContent: 'space-evenly', $gap: '20px', $alignItems: 'center');
+      }
+
+      p {
+        max-width: fit-content;
+        margin: 0 auto;
+      }
     }
 
-    .items-container + button {
+    .items-container a {
       display: block;
       margin: 0 auto;
       margin-top: 14px;
@@ -52,7 +61,7 @@
 }
 
 @mixin _color($color) {
-  .section .items-container + button {
+  .section .items-container a {
     background-color: map.get($color, background, selected-button);
 
     &:hover {
