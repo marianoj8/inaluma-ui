@@ -18,6 +18,6 @@
       </div>
     </div>
   </div>
-  <ng-container *ngIf="itens?.length else nothingToSee"><app-list-item-preview *ngFor="let item of itens" [item]="item"></app-list-item-preview></ng-container>
+  <ng-container *ngIf="itens?.length else nothingToSee"><app-list-item-preview *ngFor="let item of itens" [item]="item" (removeChild)="updateList($event)"></app-list-item-preview></ng-container>
   <ng-template #nothingToSee><div [class.grow]="!itens?.length"><h2>Lamentamos mas a nossa base de dados encontra-se actualmente vazia!</h2></div></ng-template>
 </section>

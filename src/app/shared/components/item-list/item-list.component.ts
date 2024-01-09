@@ -55,6 +55,10 @@ export class ItemListComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  updateList(child: Item) {
+    this.itens = this.itens.filter(item => item.item.id !== child.item.id);
+  }
+
   toggleSearch(): void { this.canSearch = !this.canSearch; }
 
   get itemName() {

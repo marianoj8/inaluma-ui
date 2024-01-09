@@ -1,23 +1,34 @@
 <mat-card class="list-item-preview">
-  <div class="left-content"><img [src]="item.imgSrc"></div>
-  <div class="middle-content">
-    <h3 class="title">{{item.item.nome}}</h3>
-    <div class="bottom-content-wrapper">
-      <span class="detail"><span>Estado</span><span>{{item.item.estado ? 'Disponível' : 'Esgotado'}}</span></span>
-      <span class="detail"><span>Stock</span>{{item.item?.stock}}</span>
-      <span class="detail"><span>Código</span>{{item.item?.code}}</span>
-      <span class="detail"><span>Duração</span>{{duracao}}</span>
-      <span class="detail"><span>Preço</span>{{item.item?.preco}}</span>
+  <section class="preview">
+    <div class="left-content"><img [src]="item.imgSrc"></div>
+    <div class="middle-content">
+      <h3 class="title">{{item.item.nome}}</h3>
+      <div class="bottom-content-wrapper">
+        <div><span class="detail">Estado</span><span>{{item.item.estado ? 'Disponível' : 'Esgotado'}}</span></div>
+        <ng-container *ngIf="isProduto else servico">
+          <div><span  class="detail">Stock</span><span>{{item.item?.stock}}</span></div>
+          <div><span  class="detail">Código</span><span>{{item.item?.code}}</span></div>
+        </ng-container>
+        <ng-template #servico><span><span class="detail">Duração</span>{{duracao}}</span></ng-template>
+        <span><span class="detail">Preço</span><span>{{item.item?.preco}}</span></span>
+      </div>
+      <span class="info" [class.show]="showInfo">{{item.item.descricao}}</span>
     </div>
-  </div>
-  <div class="controls-container">
-    <ng-container>
-      <button mat-mini-fab color="warn" class="mat-elevation-z0"><mat-icon>delete_forever</mat-icon></button>
-      <button mat-mini-fab color="primary" class="mat-elevation-z0"><mat-icon>edit</mat-icon></button>
-    </ng-container>
-    <ng-template>
-      <button mat-mini-fab class="mat-elevation-z0"><mat-icon>add_shopping_cart</mat-icon></button>
-    </ng-template>
-    <button mat-mini-fab class="mat-elevation-z0"><mat-icon>info</mat-icon></button>
-  </div>
+    <div class="controls-container">
+      <ng-container>
+        <div class="delete">
+          <button mat-mini-fab color="warn" class="mat-elevation-z0" [class.viewing]="!isDeleting" (click)="toggleIsDeleting()"><mat-icon>delete_forever</mat-icon></button>
+          <div [class.deleting]="isDeleting" class="deleting-controls">
+            <button mat-flat-button color="warn" (click)="confirmDelete()">Confirmar</button>
+            <button mat-flat-button color="accent" (click)="toggleIsDeleting()">Cancelar</button>
+          </div>
+        </div>
+        <button mat-mini-fab color="primary" class="mat-elevation-z0" (click)="editItem()"><mat-icon>edit</mat-icon></button>
+      </ng-container>
+      <ng-template>
+        <button mat-mini-fab class="mat-elevation-z0"><mat-icon>add_shopping_cart</mat-icon></button>
+      </ng-template>
+      <button mat-mini-fab class="mat-elevation-z0" (click)="toggleInfo()"><mat-icon>info</mat-icon></button>
+    </div>
+  </section>
 </mat-card>

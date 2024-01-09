@@ -3,40 +3,87 @@
 @use '/src/scss/utility/utilities' as utils;
 
 @mixin _layout($theme)  {
-  @include utils.make-flex($alignItems: 'center', $gap: '40px');
-  cursor: pointer;
+  .preview {
+    @include utils.make-flex($alignItems: 'center', $gap: '40px');
 
+    .left-content {
+      width: 150px;
+      height: 150px;
 
-  .left-content {
-    pointer-events: all;
-    max-width: 150px;
-    max-height: 150px;
+      will-change: transform;
+      transition: transform 1s ease;
 
-    will-change: transform;
-    transition: transform 1s ease;
+      &:hover {
+        transform: translateX(100px) scale(2);
+      }
+    }
 
+    .middle-content,
+    .controls-container {
+      @include utils.make-flex($direction: 'column', $gap: '10px');
+    }
 
-    &:hover {
-      transform: scale(2);
+    .middle-content {
+      height: 100%;
+      flex: 1 0;
+
+      .title {
+        font-variant: small-caps;
+        @include _includeFontConfs($theme, 'display-1');
+      }
+
+      .bottom-content-wrapper {
+        @include utils.make-flex($gap: '20px');
+
+        .detail {
+          @include _includeFontConfs($theme, 'title')
+        }
+
+        .detail + span {
+          margin-left: 8px;
+          @include _includeFontConfs($theme, 'body-2')
+        }
+      }
+
+      .info {
+        display: none;
+
+        &.show {
+          display: block;
+        }
+      }
+    }
+
+    .controls-container {
+      align-items: end;
+
+      .delete {
+        will-change: display margin;
+
+        & > * {
+          display: none;
+          overflow: hidden;
+        }
+
+        .deleting-controls button:first-child {
+          margin-right: 8px;
+        }
+
+        .viewing,
+        .deleting {
+          display: block;
+        }
+      }
     }
   }
+}
 
-  .middle-content,
-  .controls-container {
-    @include utils.make-flex($direction: 'column', $gap: '10px');
-  }
+@mixin _includeFontConfs($theme: Map, $conf_name: string) {
+  $conf: map.get(mat.get-typography-config($theme), $conf_name);
 
-  .middle-content {
-    height: 100%;
-    flex: 1 0;
-
-    .bottom-content-wrapper {
-      @include utils.make-flex($gap: '20px')
-    }
-  }
-
-  .controls-container {
-  }
+  font-size: map.get($conf, font-size);
+  line-height: map.get($conf, line-height);
+  font-weight: map.get($conf, font-weight);
 }
 
 @mixin _color($color) {
