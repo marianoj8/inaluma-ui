@@ -21,8 +21,7 @@ export class ItemFormComponent {
 
   /* MEMBERS */
   public itemForm: FormGroup;
-  private _selectedFile: File;
-  private _imgSrc: string;
+  private _file: File;
   private _item: Item;
   public imagePath: string;
   private readonly _chooseImageIcon = "../../../../assets/images/upload_image.svg";
@@ -62,20 +61,16 @@ export class ItemFormComponent {
   }
 
   public onFileSelected(event): void {
-    this._selectedFile = event.target.files[0] as File;
+    this._file = event.target.files[0] as File;
 
     if (typeof FileReader !== 'undefined') {
       const previewReader = new FileReader();
-      const uploadReader = new FileReader();
 
       previewReader.onloadend = (evt: any) => { this.imagePath = evt.currentTarget.result ?? this._chooseImageIcon };
-      uploadReader.onload = (evt: any) => { this._imgSrc = evt.target.result; }
 
-      if ((this.hasFile = !!this._selectedFile)) {
-        uploadReader.readAsArrayBuffer(this._selectedFile);
-        previewReader.readAsDataURL(this._selectedFile);
-      } else {
-        this._selectedFile = null;
+      if ((this.hasFile = !!this._file)) previewReader.readAsDataURL(this._file);
+      else {
+        this._file = null;
         this.imagePath = this._chooseImageIcon;
       }
     }
@@ -91,10 +86,7 @@ export class ItemFormComponent {
     Object.assign(this._item.item, this.itemForm.value);
 
     this._itemsService.registerItem(this._item.item, this._item.isProduto).pipe(
-      switchMap(item => {
-        if(this.hasFile) return this._filesService.uploadImage(new ImageFile(this._selectedFile), item.id, this._item.isProduto)
-        else return of(null);
-      })
+      switchMap(item => this.hasFile ? this._filesService.uploadImage(new ImageFile(this._file), item.id, this.isProduto) : of(null))
     ).subscribe(() => {
       this.showProgressBar = false;
       this.itemForm.reset({emitEvent: false});
