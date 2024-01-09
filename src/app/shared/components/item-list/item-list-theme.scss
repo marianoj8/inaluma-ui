@@ -1,9 +1,35 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
 @use '/src/scss/variables' as vars;
+@use '/src/scss/utility/utilities' as utils;
 @use './list-item-preview/list-item-preview-theme' as item-list-preview;
 
-@mixin _layout($theme) {}
+@mixin _layout($theme) {
+  padding: 10px 20px;
+  .top-content {
+    @include utils.make-flex($justContent: 'space-between', $alignItems: 'center');
+
+    .controls > :first-child {
+      margin-right: 10px;
+    }
+
+    .info {
+      $conf: map.get(mat.get-typography-config($theme), title);
+
+      font-size: map.get($conf, font-size);
+      line-height:  map.get($conf, line-height);
+      font-weight: map.get($conf, font-weight);
+    }
+  }
+
+  .search-container > :first-child {
+    margin-right: 10px;
+  }
+}
 
 @mixin theme($theme) {
-  @include _layout($theme);
-  @include item-list-preview.theme($theme);
+  .item-list {
+    @include _layout($theme);
+    @include item-list-preview.theme($theme);
+  }
 }
