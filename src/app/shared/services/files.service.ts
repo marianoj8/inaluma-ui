@@ -29,10 +29,14 @@ export class FilesService {
     return this._uploadFile(itemId, img, path);
   }
 
-  public getImage(itemID: number, isProduto: boolean) {
+  public async getImage(itemID: number, isProduto: boolean) {
     const path = isProduto ? API_FILES_ROUTES.getProdutos : API_FILES_ROUTES.getServicos;
-    console.log(path);
-    return this._http.get<File>(environment.API+path+itemID);
+    const endpoint = environment.API+path+itemID;
+
+    const res = await fetch(endpoint);
+    const blob = await res.blob()
+
+    return blob;
   }
 
   private _appendFormData(file: File): FormData {
