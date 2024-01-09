@@ -21,6 +21,7 @@ export class LogInComponent {
   public readonly loginForm: FormGroup;
   public readonly capa: string;
   public readonly ano: number;
+  public showProgress: boolean
 
   constructor() {
     this._themeService.init();
@@ -30,6 +31,8 @@ export class LogInComponent {
       username: new FormControl<string>(undefined, [Validators.required])
     });
 
+    this._authService.showProgress.subscribe(emit => { this.showProgress = emit });
+
     this.ano = new Date(Date.now()).getUTCFullYear();
     this.capa = '../../../../../assets/images/capa.png.jpg';
   }
@@ -37,6 +40,7 @@ export class LogInComponent {
   public login() {
     if(!this.loginForm.valid) return;
 
+    this.showProgress = true;
     const user = Object.assign(new User(), this.loginForm.value);
     this._authService.signIn(user);
   }

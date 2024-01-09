@@ -1,5 +1,6 @@
 <section class="log-in">
   <mat-card class="content-wrapper">
+    <mat-progress-bar mode="indeterminate" color="accent" *ngIf="showProgress"></mat-progress-bar>
     <div class="side left-side"><img [src]="capa" /></div>
     <div class="side right-side">
       <h3>Iniciar Sessão</h3>

@@ -24,8 +24,7 @@ export const enum API_FILES_ROUTES {
 }
 
 export const enum API_AUTH_ROUTES {
-  logIn,
-  logOut
+  logIn = 'auth/sign-in'
 }
 
 

@@ -19,7 +19,7 @@ export class LogoutGuard implements CanLoad, CanActivate {
 
   /** Redirects to homepage if there is a valid session and loads current route otherwise */
   private isLoggedIn(): Observable<boolean | UrlTree> | boolean | UrlTree {
-    return this.auhtService.isSessionDead()
+    return this.auhtService.isSignedIn()
       ? true
       : this._router.parseUrl(APP_ROUTES.home);
   }
