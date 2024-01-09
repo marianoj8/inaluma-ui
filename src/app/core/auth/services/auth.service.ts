@@ -26,7 +26,7 @@ export class AuthService {
    * @returns `true` if a user is logged, otherwise `false`
    */
   public isSignedIn(): boolean {
-    return !!localStorage.length;
+    return !!localStorage.getItem(LOCAL_STORAGE.user);
   }
 
 
