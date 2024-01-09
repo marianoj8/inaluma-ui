@@ -6,6 +6,9 @@
 
 @mixin _layout($theme) {
   padding: 10px 20px;
+
+  @include utils.make-flex($direction: 'column', $gap: '20px');
+
   .top-content {
     @include utils.make-flex($justContent: 'space-between', $alignItems: 'center');
 
