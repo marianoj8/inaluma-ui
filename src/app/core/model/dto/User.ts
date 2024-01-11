@@ -1,3 +1,4 @@
+import { Perfil } from "../Profiles";
 import { AbstractUserDTO } from "./AbstractUserDTO";
 
 export class User extends AbstractUserDTO {

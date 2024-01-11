@@ -1,5 +1,6 @@
 
 export enum LOCAL_STORAGE {
   user = 'user',
-  themeKey = 'theme'
+  themeKey = 'theme',
+  carrinho = 'carro'
 }

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output, inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { Item, ItemDTO } from "src/app/core/model/dto/ItemDTO";
+import { CarrinhoService } from "src/app/core/services/carrinho.service";
 import { APP_ROUTES } from "src/app/shared/config";
 import { ItemsService } from "src/app/shared/services/items.service";
 
@@ -11,6 +12,7 @@ import { ItemsService } from "src/app/shared/services/items.service";
 export class ListItemPreviewComponent {
   /* DEPENDENCIES */
   private readonly _itemsService = inject(ItemsService);
+  private readonly _carrinhoService = inject(CarrinhoService);
   private readonly _router = inject(Router);
 
   /* MEMBERS */
@@ -56,5 +58,9 @@ export class ListItemPreviewComponent {
 
   toggleInfo() {
     this.showInfo = !this.showInfo;
+  }
+
+  public adicionarItemCarrinho(): void {
+    this._carrinhoService.adicionarItem(this.item.item);
   }
 }

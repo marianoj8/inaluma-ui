@@ -4,8 +4,15 @@
       <a routerLink="{{routes.home}}">INALUMA MAKEUP</a>
       <a routerLink="{{routes.servicos}}">SERVIÇOS</a>
       <a routerLink="{{routes.produtos}}">PRODUTOS</a>
+      <ng-container *ngIf="isLogado">
+        <a routerLink="{{routes.agendamentos}}">AGENDAMENTOS</a>
+        <a routerLink="{{routes.agendamentos}}">COMPRAS</a>
+      </ng-container>
     </nav>
     <div class="right-content">
+      <button mat-mini-fab [color]="cartColor" class="tem-itens" [matBadge]="itensCarrinho" matBadgePosition="before" matBadgeColor="accent">
+        <mat-icon>shopping_cart</mat-icon>
+      </button>
       <button color="secondary" mat-mini-fab class="mat-elevation-z0" (click)="toggleDarkMode()">
         <mat-icon class="theme-icon">
           <ng-container *ngIf="isDarkThemeMode else light">light_mode</ng-container>
@@ -15,8 +22,9 @@
       <button color="secondary" mat-mini-fab [matMenuTriggerFor]="usrOpt" class="mat-elevation-z0"><mat-icon>account_circle</mat-icon></button>
       <mat-menu #usrOpt="matMenu">
         <ng-template matMenuContent>
-          <button mat-menu-item (click)="login()">Iniciar Sessão</button>
-          <button mat-menu-item (click)="signup()">Cadastrar-se</button>
+          <button mat-menu-item (click)="login()">{{isLogado ? 'Terminar Sessão': 'Iniciar Sessão'}}</button>
+          <button mat-menu-item (click)="signUp()" *ngIf="!isLogado || canAdd()">{{canAdd() ? 'Cadastrar Funcionário' : 'Cadastrar-se'}}</button>
+          <button mat-menu-item (click)="signUp()">{{itensCarrinho}}</button>
         </ng-template>
       </mat-menu>
     </div>

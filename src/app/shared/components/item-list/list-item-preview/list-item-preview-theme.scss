@@ -5,6 +5,8 @@
 @mixin _layout($theme)  {
   .preview {
     @include utils.make-flex($alignItems: 'center', $gap: '40px');
+    position: relative;
+    z-index: 50;
 
     .left-content {
       width: 150px;
