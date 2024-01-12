@@ -1,4 +1,71 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '/src/scss/utility/utilities' as utils;
+
+@mixin _layout($theme) {
+  min-width: 100vw;
+  min-height: 100vh;
+
+  @include utils.make-flex($direction: 'column', $alignItems: 'center', $justContent: 'center');;
+
+  .container {
+    box-sizing: border-box;
+    max-width: 60vw;
+    min-height: 60vh;
+
+    .linha {
+      $gap: '15px';
+
+      & > *,
+      .coluna > * {
+        flex: 1 0;
+      }
+
+      @include utils.make-flex($justContent: 'stretch', $gap: $gap);
+
+      .coluna {
+        @include utils.make-flex($direction: 'column', $gap: $gap);
+
+        $typography: map.get(mat.get-typography-config($theme), display-1);
+        & > .title {
+          text-align: center;
+          margin: 0;
+          padding: 20px;
+
+          font-variant: small-caps;
+          font-weight: map.get($typography, font-weight);
+          font-size: map.get($typography, font-size);
+          line-height: map.get($typography, line-height);
+        }
+      }
+    }
+
+    .linha.space-around .coluna {
+      gap: 0;
+      width: max-content;
+
+      &, button {
+        margin: 0;
+        padding: 0;
+      }
+
+      button .mat-button-wrapper > :first-child {
+        margin-right: 15px;
+      }
+    }
+  }
+}
+
+@mixin _color($color) {
+  background-color: map.get($color, background, background);
+
+}
 
 @mixin theme($theme) {
+  $color: mat.get-color-config($theme);
 
+  .sign-up {
+    @include _layout($theme);
+    @include _color($color);
+  }
 }

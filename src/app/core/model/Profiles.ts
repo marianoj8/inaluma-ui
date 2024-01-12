@@ -1,18 +1,23 @@
+import { IEntityValue } from "./IEntityValue";
 
 export class Perfil {
-  public readonly names = [
-    'ADMIN',
-    'CLIENTE',
-    'FUNCIONARIO'
+  public static readonly names: IEntityValue[] = [
+    {view: 'Funcionário', api: 'FUNCIONARIO'},
+    {view: 'Cliente', api: 'CLIENTE'},
+    {view: 'Administrador', api: 'ADMIN'}
   ];
 
   static get admin() {
-    return {view: 'Administrador', api: 'ADMIN'};
+    return Perfil._findName('ADMIN');
   }
-  static get cliente() {
-    return {view: 'Cliente', api: 'CLIENTE'};
+  static get cliente(): IEntityValue {
+    return Perfil._findName('CLIENTE');
   }
-  static get funcionario() {
-    return {view: 'Funcionário', api: 'FUNCIONARIO'};
+  static get funcionario(): IEntityValue {
+    return Perfil._findName('FUNCIONARIO');
+  }
+
+  private static _findName(name: string): IEntityValue {
+    return this.names.find(i => i.api === name);
   }
 }

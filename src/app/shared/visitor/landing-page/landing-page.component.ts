@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { APP_ROUTES } from '../../config';
-import { ItemDTO } from 'src/app/core/model/dto/ItemDTO';
+import { Item, ItemDTO } from 'src/app/core/model/dto/ItemDTO';
 import { ItemsService } from '../../services/items.service';
 import { take } from 'rxjs';
 
@@ -14,8 +14,8 @@ export class LandingPageComponent implements OnInit {
 
   /* MEMBERS */
   readonly pathFotoCapa = '../../../../assets/images/capa.png.jpg';
-  public produtos: ItemDTO[];
-  public servicos: ItemDTO[];
+  public produtos: Item[];
+  public servicos: Item[];
   public readonly routes = APP_ROUTES;
 
   constructor() {

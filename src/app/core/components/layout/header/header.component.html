@@ -10,7 +10,7 @@
       </ng-container>
     </nav>
     <div class="right-content">
-      <button mat-mini-fab [color]="cartColor" class="tem-itens" [matBadge]="itensCarrinho" matBadgePosition="before" matBadgeColor="accent">
+      <button mat-mini-fab [color]="cartColor" [class.tem-itens]="showBadge" [matBadge]="estadoCarrinho.qtdItens" [matBadgeHidden]="!showBadge" matBadgePosition="before" matBadgeColor="accent">
         <mat-icon>shopping_cart</mat-icon>
       </button>
       <button color="secondary" mat-mini-fab class="mat-elevation-z0" (click)="toggleDarkMode()">
@@ -24,7 +24,7 @@
         <ng-template matMenuContent>
           <button mat-menu-item (click)="login()">{{isLogado ? 'Terminar Sessão': 'Iniciar Sessão'}}</button>
           <button mat-menu-item (click)="signUp()" *ngIf="!isLogado || canAdd()">{{canAdd() ? 'Cadastrar Funcionário' : 'Cadastrar-se'}}</button>
-          <button mat-menu-item (click)="signUp()">{{itensCarrinho}}</button>
+          <span>{{estadoCarrinho | json}}</span>
         </ng-template>
       </mat-menu>
     </div>

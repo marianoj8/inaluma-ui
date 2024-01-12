@@ -1,4 +1,4 @@
-import { Component, ViewChild, inject } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatRadioChange } from "@angular/material/radio";
 import { ActivatedRoute } from "@angular/router";
@@ -31,10 +31,6 @@ export class ItemFormComponent {
   constructor() {
     this.imagePath = this._chooseImageIcon;
     this.showProgressBar = false;
-
-    this._filesService.emitStatusUploader.subscribe(c => {
-      console.log('saving the image');
-    })
 
     const controls: { [key: string]:FormControl<any> } = {
       nome: new FormControl<string>(undefined, [Validators.required]),
@@ -94,7 +90,7 @@ export class ItemFormComponent {
   }
 
   unidadeChanged(evt: MatRadioChange) {
-    this.itemForm.get('unidade').setValue(evt.value);
+    this.itemForm.get('units').setValue(evt.value);
   }
 
   canSave(): boolean {

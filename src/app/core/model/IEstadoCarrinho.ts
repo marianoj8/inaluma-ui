@@ -1,5 +1,7 @@
+import { ItemCarrinho } from "./ItemCarrinho"
 
 export interface IEstadoCarrinho {
-  totalCarrinho: number,
-  qtdItens: number
+  itens?: ItemCarrinho[],
+  totalCarrinho?: number,
+  qtdItens?: number
 }

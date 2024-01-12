@@ -1,7 +1,7 @@
 import { Component, Input, inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { APP_ROUTES } from "../../config";
-import { ItemDTO } from "src/app/core/model/dto/ItemDTO";
+import { Item } from "src/app/core/model/dto/ItemDTO";
 
 @Component({
   selector: 'app-item-preview',
@@ -12,7 +12,7 @@ export class ItemPreviewComponent {
   private readonly _router = inject(Router);
 
   /* MEMBERS */
-  @Input() item: ItemDTO;
+  @Input() item: Item;
 
   public openDetails() {
     this._router.navigate([APP_ROUTES.produtos_comprar, this.item.id]).then();

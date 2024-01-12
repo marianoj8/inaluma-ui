@@ -33,7 +33,7 @@ export class ItemListComponent implements OnInit {
 
     this._route.data.pipe(
       switchMap(data => this._itemsService.fetch(this.isProduto = data.isProduto)),
-      switchMap((items) => from(this.itens = Item.createArray(items))),
+      switchMap((items) => from(this.itens = items)),
       switchMap(d => {
         const test = of({
           item: d,

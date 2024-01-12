@@ -7,7 +7,7 @@ import { API_AUTH_ROUTES, APP_ROUTES, LOCAL_STORAGE } from "src/app/shared/confi
 import { User } from "../../model/dto/User";
 import { Perfil } from "../../model/Profiles";
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class AuthService {
   /* DEPENDENCIES */
   private readonly _router = inject(Router);
@@ -33,7 +33,7 @@ export class AuthService {
    * Checks if a user is logged in
    * @returns `true` if a user is logged, otherwise `false`
    */
-  public isSignedIn(): boolean {
+  public get isSignedIn(): boolean {
     return !!this.user;
   }
 
@@ -64,7 +64,7 @@ export class AuthService {
   }
 
   public signOut() {
-    if(!this.isSignedIn()) return;
+    if(!this.isSignedIn) return;
 
     localStorage.clear();
     this._userLogActionRequested(false);
@@ -83,7 +83,7 @@ export class AuthService {
   }
 
   private _checkProfile(perfil: string) {
-    if(!this.isSignedIn()) return false;
+    if(!this.isSignedIn) return false;
 
     return this.user.perfil === Perfil[perfil].api
   }

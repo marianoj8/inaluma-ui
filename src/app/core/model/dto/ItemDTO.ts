@@ -22,7 +22,8 @@ export class Item {
   constructor (
     public readonly item: ItemDTO,
     public readonly isProduto: boolean,
-    public imgSrc?: string
+    public readonly id = item.id,
+    public imgSrc?: string,
   ) {}
 
   static createArray(dtos: ItemDTO[]) {

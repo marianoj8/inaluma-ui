@@ -23,7 +23,7 @@ export class AuthGuard implements CanLoad, CanActivate {
    * @returns `true` if user has permission, otherwise returns `false`
    */
   private verifyAcess(): Observable<boolean | UrlTree> | boolean | UrlTree {
-    return this._authService.isSignedIn()
+    return this._authService.isSignedIn
       ? this._router.parseUrl(APP_ROUTES.signIn) : true;
   }
 }

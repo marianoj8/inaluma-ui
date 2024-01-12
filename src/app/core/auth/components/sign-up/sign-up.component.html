@@ -1,0 +1,90 @@
+<section class="sign-up">
+  <mat-card class="container">
+    <div class="linha">
+      <div class="coluna">
+        <h1 class="title">{{formTitle}}</h1>
+      </div>
+    </div>
+    <form [formGroup]="userForm" class="linha">
+      <div class="coluna">
+        <div class="linha">
+          <div class="coluna">
+            <mat-form-field appearance="outline">
+              <mat-label>Primeiro Nome</mat-label>
+              <input type="text" matInput formControlName="nome"/>
+              <mat-icon matPrefix>person</mat-icon>
+            </mat-form-field>
+          </div>
+          <div class="coluna">
+            <mat-form-field appearance="outline">
+              <mat-label>Último Nome</mat-label>
+              <input type="text" matInput formControlName="sobrenome"/>
+              <mat-icon matPrefix>person</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="linha">
+          <div class="coluna">
+            <mat-form-field appearance="outline">
+              <mat-label>Tipo de Conta</mat-label>
+              <mat-select formControlName="tipo">
+                <mat-option></mat-option>
+                <mat-option *ngFor="let tipo of tiposConta" [value]="tipo.api">{{tipo.view}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="linha">
+          <div class="coluna">
+            <mat-form-field appearance="outline">
+              <mat-label>Gênero</mat-label>
+              <mat-select formControlName="genero">
+                <mat-option></mat-option>
+                <mat-option *ngFor="let sexo of sexos.names" [value]="sexo.api">{{sexo.view}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="coluna">
+            <mat-form-field appearance="outline">
+              <mat-label>Contacto</mat-label>
+              <input type="text" matInput [formControlName]="isVisitor ? 'contato' : 'contacto'"/>
+              <mat-icon matPrefix>call</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="linha">
+          <div class="coluna">
+            <mat-form-field appearance="outline">
+              <mat-label>Nome de Utilizador</mat-label>
+              <input type="text" matInput formControlName="username"/>
+              <mat-icon matPrefix>account_circle</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="linha">
+          <div class="coluna">
+            <mat-form-field appearance="outline">
+              <mat-label>Senha</mat-label>
+              <input type="text" matInput formControlName="password"/>
+              <mat-icon matPrefix>lock</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="linha space-around">
+          <div class="coluna">
+            <button mat-flat-button color="warn" (click)="cancelar()">
+              <span>Cancelar</span>
+              <mat-icon>close_small</mat-icon>
+            </button>
+          </div>
+          <div class="coluna">
+            <button mat-flat-button color="accent" [disabled]="!canSave">
+              <mat-icon>check</mat-icon>
+              <span>Confirmar</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </mat-card>
+</section>

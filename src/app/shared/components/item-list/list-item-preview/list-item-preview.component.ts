@@ -61,6 +61,6 @@ export class ListItemPreviewComponent {
   }
 
   public adicionarItemCarrinho(): void {
-    this._carrinhoService.adicionarItem(this.item.item);
+    this._carrinhoService.adicionarItem(this.item);
   }
 }
