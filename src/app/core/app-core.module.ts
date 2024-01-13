@@ -3,16 +3,16 @@ import { LayoutModule } from "./components/layout/layout.module";
 import { ThemeService } from "./services/theme.service";
 import { AuthModule } from "./auth/auth.module";
 import { UserModule } from "./components/user/user.module";
-import { CarrinhoService } from "./services/carrinho.service";
+import { CarrinhoModule } from "./components/carrinho/carrinho.module";
 
 @NgModule({
   exports: [
     LayoutModule,
     AuthModule,
-    UserModule
+    UserModule,
+    CarrinhoModule
   ],
   providers: [
-    ThemeService,
-    CarrinhoService
+    ThemeService
   ]
 }) export class CoreModule {}

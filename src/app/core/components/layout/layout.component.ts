@@ -5,7 +5,7 @@ import { HeaderComponent } from "./header/header.component";
 import { SCRTOP_POSITION, SCRTOP_COLOR } from "src/app/shared/config/consts/types";
 import { ThemeService } from "../../services/theme.service";
 import { fromEvent, tap } from "rxjs";
-import { CarrinhoService } from "../../services/carrinho.service";
+import { CarrinhoService } from "../carrinho/carrinho.service";
 
 @Component({
   selector: 'app-layout',

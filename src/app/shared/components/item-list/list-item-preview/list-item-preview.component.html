@@ -1,18 +1,18 @@
 <mat-card class="list-item-preview">
   <section class="preview">
-    <div class="left-content"><img [src]="item.imgSrc"></div>
+    <div class="left-content"><img [src]="img"></div>
     <div class="middle-content">
-      <h3 class="title">{{item.item.nome}}</h3>
+      <h3 class="title">{{nome}}</h3>
       <div class="bottom-content-wrapper">
-        <div><span class="detail">Estado</span><span>{{item.item.estado ? 'Disponível' : 'Esgotado'}}</span></div>
+        <div><span class="detail">Estado</span><span>{{estado}}</span></div>
         <ng-container *ngIf="isProduto else servico">
-          <div><span  class="detail">Stock</span><span>{{item.item?.stock}}</span></div>
-          <div><span  class="detail">Código</span><span>{{item.item?.code}}</span></div>
+          <div><span  class="detail">Stock</span><span>{{stock}}</span></div>
+          <div><span  class="detail">Código</span><span>{{codigo}}</span></div>
         </ng-container>
         <ng-template #servico><span><span class="detail">Duração</span>{{duracao}}</span></ng-template>
-        <span><span class="detail">Preço</span><span>{{item.item?.preco}}</span></span>
+        <span><span class="detail">Preço</span><span>{{preco}}</span></span>
       </div>
-      <span class="info" [class.show]="showInfo">{{item.item.descricao}}</span>
+      <span class="info" [class.show]="showInfo">{{descricao}}</span>
     </div>
     <div class="controls-container">
       <ng-container>

@@ -27,5 +27,7 @@ export enum APP_ROUTES {
   servicos_del = '/servicos/del',
   servicos_agendar = '/servicos/agendar',
 
-  agendamentos = '/agendamentos'
+  agendamentos = '/agendamentos',
+
+  carrinho = '/carrinho'
 }

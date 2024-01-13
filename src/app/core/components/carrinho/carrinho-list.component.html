@@ -1,0 +1,65 @@
+<section class="carrino-list">
+  <div class="container">
+    <header class="controls-section">
+      <button mat-flat-button color="accent"><mat-icon>arrow_back</mat-icon><span>Voltar</span></button>
+    </header>
+    <section class="items-container">
+      <ng-template *ngIf="temItens else noItems">
+        <section class="servicos-section">
+          <mat-toolbar class="title">Serviço</mat-toolbar>
+          <app-list-item-preview></app-list-item-preview>
+        </section>
+        <section class="produtos-section">
+          <mat-toolbar class="title">Produtos</mat-toolbar>
+          <ng-container>
+            <app-list-item-preview *ngFor="let i of produtos" [itemCarrinho]="i"></app-list-item-preview>
+          </ng-container>
+        </section>
+      </ng-template>
+      <ng-template #noItems>
+        <section class="no-items-section">
+          <div class="linha">
+            <div class="coluna">
+              <h1>Não tem items no carrinho</h1>
+            </div>
+          </div>
+        </section>
+      </ng-template>
+    </section>
+    <section class="summary-container">
+      <header>
+        <div class="linha">
+          <div class="coluna">
+            <p>
+              <span>Cliente</span>
+              <span></span>
+            </p>
+          </div>
+          <div class="coluna">
+            <p>
+              <span>Tipo de Operação</span>
+              <span></span>
+            </p>
+          </div>
+          <div class="coluna">
+            <p>
+              <span>Itens no Carrinho</span>
+              <span></span>
+            </p>
+          </div>
+          <div class="coluna">
+            <p>
+              <span>Montante a pagar</span>
+              <span></span>
+            </p>
+          </div>
+        </div>
+      </header>
+      <footer>
+        <div class="linha"><button mat-flat-button><div class="coluna">Cancelar</div></button></div>
+        <div class="linha"><button mat-flat-button><div class="coluna">Confirmar</div></button></div>
+        <div class="linha"><button mat-flat-button><div class="coluna">Adicionar Produtos</div></button></div>
+      </footer>
+    </section>
+  </div>
+</section>

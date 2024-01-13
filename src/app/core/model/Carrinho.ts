@@ -70,4 +70,12 @@ export class Carrinho {
 
     return true;
   }
+  public get servico(): ItemCarrinho {
+    if(!this.temServico) return null;
+    return this.itens.find(i => !i.item.isProduto);
+  }
+  public get produtos(): ItemCarrinho[] {
+    if(!this.temItems) return [];
+    return this.itens.filter(i => i.item.isProduto);
+  }
 }

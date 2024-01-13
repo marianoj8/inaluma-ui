@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { delay } from 'rxjs';
 import { AuthService } from 'src/app/core/auth/services/auth.service';
 import { IEstadoCarrinho } from 'src/app/core/model/IEstadoCarrinho';
-import { CarrinhoService } from 'src/app/core/services/carrinho.service';
+import { CarrinhoService } from 'src/app/core/components/carrinho/carrinho.service';
 import { ThemeService } from 'src/app/core/services/theme.service';
 import { APP_ROUTES } from 'src/app/shared/config';
 

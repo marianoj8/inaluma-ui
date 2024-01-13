@@ -1,10 +1,9 @@
 import { Injectable, inject } from "@angular/core";
-import { Item } from "../model/dto/ItemDTO";
-import { Observable, Subject, delay, forkJoin, from, map, mergeAll, of, switchMap } from "rxjs";
-import { Carrinho } from "../model/Carrinho";
-import { ItemCarrinho } from "../model/ItemCarrinho";
-import { IEstadoCarrinho } from "../model/IEstadoCarrinho";
-import { AuthService } from "../auth/services/auth.service";
+import { Item } from "../../model/dto/ItemDTO";
+import { Observable, Subject, forkJoin, map } from "rxjs";
+import { Carrinho } from "../../model/Carrinho";
+import { ItemCarrinho } from "../../model/ItemCarrinho";
+import { IEstadoCarrinho } from "../../model/IEstadoCarrinho";
 import { LOCAL_STORAGE } from "src/app/shared/config";
 import { ItemsService } from "src/app/shared/services/items.service";
 
@@ -32,6 +31,8 @@ export class CarrinhoService {
     this._getCarrinho.adicionarItem(item);
     this._emitEstadoActualizado();
   }
+  public get servico(): ItemCarrinho { return this._getCarrinho.servico }
+  public get produtos(): ItemCarrinho[] { return this._getCarrinho.produtos }
 
   public removerItem(item: ItemCarrinho) {
     this._getCarrinho.removerItem(item);
@@ -74,7 +75,8 @@ export class CarrinhoService {
   }
   public reterEstado(): boolean {
     if(!this.temItens) return false;
-    else return this._getCarrinho.reterEstado(); }
+    else return this._getCarrinho.reterEstado();
+  }
 }
 
 type TipoRequisicao = {qtd: number, item: Item};
