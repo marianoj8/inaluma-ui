@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { environment } from "src/environments/environment";
-import { API_PRODUTOS_ROUTES, API_SERVICES_ROUTES } from "../config";
+import { API_PRODUTOS_ROUTES, API_SERVICES_ROUTES, Operation } from "../config";
 import { Item, ItemDTO } from "src/app/core/model/dto/ItemDTO";
 import { Observable, map } from "rxjs";
 
@@ -17,10 +17,10 @@ export class ItemsService {
     return transformarDTO(this._getItemByID(id, this._getPath(isProduto, Operation.get)), isProduto);
   }
   public registerItem(item: ItemDTO, isProduto: boolean) {
-    return transformarDTO(this._saveItem(item, this._getPath(isProduto, Operation.save)), isProduto);
+    return transformarDTO(this._saveItem(item, this._getPath(isProduto, Operation.post)), isProduto);
   }
   public updateItem(item: ItemDTO, isProduto: boolean) {
-    return transformarDTO(this._updateItem(item, this._getPath(isProduto, Operation.update)), isProduto);
+    return transformarDTO(this._updateItem(item, this._getPath(isProduto, Operation.put)), isProduto);
   }
   public deleteItemByID(idItem: number, isProduto: boolean) { return this._deleteItemByID(idItem, this._getPath(isProduto, Operation.delete)); }
 
@@ -41,13 +41,13 @@ export class ItemsService {
       case Operation.get:
         path += isProduto ? API_PRODUTOS_ROUTES.getByID : API_SERVICES_ROUTES.getByID;
         break;
-      case Operation.save:
+      case Operation.post:
         path += isProduto ? API_PRODUTOS_ROUTES.create : API_SERVICES_ROUTES.create;
         break;
       case Operation.delete:
         path += isProduto ? API_PRODUTOS_ROUTES.deleteByID : API_SERVICES_ROUTES.deleteByID
         break;
-      case Operation.update:
+      case Operation.put:
         path += isProduto ? API_PRODUTOS_ROUTES.update : API_SERVICES_ROUTES.update;
         break;
     }
@@ -58,11 +58,3 @@ export class ItemsService {
 
 const transformarDTO = (obs$: Observable<ItemDTO>, isProduto: boolean) => { return obs$.pipe(map(i =>  new Item(i, isProduto))) }
 const transformarDTOs = (obs$: Observable<ItemDTO[]>, isProduto: boolean) => { return obs$.pipe(map(itens => itens.map(i => new Item(i, isProduto)))) }
-
-enum Operation {
-  fetch,
-  get,
-  save,
-  delete,
-  update
-}

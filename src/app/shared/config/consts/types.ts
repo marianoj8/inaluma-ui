@@ -34,4 +34,12 @@ enum DOCUMENT_SECTIONS {
   dirsImposicoes
 }
 
+export const enum Operation {
+  fetch,
+  get,
+  post,
+  delete,
+  put
+}
+
 export { SCRTOP_COLOR, SCRTOP_POSITION, DOCUMENT_TYPES, ITEM_TYPES, DOCUMENT_SECTIONS };

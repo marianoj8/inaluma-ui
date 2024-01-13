@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { EventEmitter, Injectable, inject } from "@angular/core";
 import { Router } from "@angular/router";
-import { Observable, Subject } from "rxjs";
+import { Observable, Subject, map } from "rxjs";
 import { environment } from "src/environments/environment";
 import { API_AUTH_ROUTES, APP_ROUTES, LOCAL_STORAGE } from "src/app/shared/config";
 import { User } from "../../model/dto/User";
@@ -44,15 +44,21 @@ export class AuthService {
    */
   public signIn(user: User): void {
     this.showProgress.emit(true);
-    this._http.post<User>(environment.API + API_AUTH_ROUTES.logIn, user)
-      .subscribe((signInRes: User) => {
-        if (signInRes) {
-          this.addToLocalStorage(signInRes);
-          this.showProgress.emit(false);
-          this._userLogActionRequested(true);
-          this._router.navigate([this.routes.home]).then();
-        }
-      });
+    this._http.post<User>(environment.API + API_AUTH_ROUTES.logIn, user).pipe(
+      map(usr => {
+        const u = Object.assign(new User(), usr);
+        u.perf = Perfil.getPerfil(u.perfil);
+
+        return u;
+      })
+    ).subscribe((signInRes: User) => {
+      if (signInRes) {
+        this.addToLocalStorage(signInRes);
+        this.showProgress.emit(false);
+        this._userLogActionRequested(true);
+        this._router.navigate([this.routes.home]).then();
+      }
+    });
   }
 
   /**
@@ -71,27 +77,27 @@ export class AuthService {
   }
 
   public isAdmin() {
-    return this._checkProfile('admin');
+    return this._checkProfile(Perfil.admin.api);
   }
 
   public isCliente() {
-    return this._checkProfile('cliente');
+    return this._checkProfile(Perfil.cliente.api);
   }
 
   public isFuncionario() {
-    return this._checkProfile('funcionario');
+    return this._checkProfile(Perfil.funcionario.api);
   }
 
   private _checkProfile(perfil: string) {
     if(!this.isSignedIn) return false;
-
-    return this.user.perfil === Perfil[perfil].api
+    return Perfil.compare(this.user.perf, perfil);
   }
 
   public get user(): User {
     try {
-      return JSON.parse(localStorage.getItem(LOCAL_STORAGE.user));
+      return JSON.parse(localStorage.getItem(LOCAL_STORAGE.user)) as User;
     } catch (err) {
+      console.log('%cError parsing user', 'font-size:13px;color:red');
       return null;
     }
   }

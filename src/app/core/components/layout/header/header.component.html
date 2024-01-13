@@ -24,7 +24,6 @@
         <ng-template matMenuContent>
           <button mat-menu-item (click)="login()">{{isLogado ? 'Terminar Sessão': 'Iniciar Sessão'}}</button>
           <button mat-menu-item (click)="signUp()" *ngIf="!isLogado || canAdd()">{{canAdd() ? 'Cadastrar Funcionário' : 'Cadastrar-se'}}</button>
-          <span>{{estadoCarrinho | json}}</span>
         </ng-template>
       </mat-menu>
     </div>

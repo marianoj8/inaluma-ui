@@ -27,16 +27,21 @@ export const enum API_AUTH_ROUTES {
   logIn = 'auth/sign-in'
 }
 
+export const enum API_APPLICATION_USER_ROUTES {
+  fetchPutPost = 'users',
+  getDeleteByID = 'users/',
+}
+
 
 export const enum API_USERS_ROUTES {
   fetchFuncionarios = 'funcionarios',
   updateFuncionario = 'funcionarios',
-  postFuncionario = 'funcionarios/',
+  postFuncionario = 'funcionarios',
   getFuncionarioByID = 'funcionarios/',
   deleteFuncionarioByID = 'funcionarios/',
   fetchClientes = 'clientes',
   updateCliente = 'clientes',
-  postCliente = 'clientes/',
+  postCliente = 'clientes',
   getClienteByID = 'clientes/',
   deleteClienteByID = 'clientes/',
 }

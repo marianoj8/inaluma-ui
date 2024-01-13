@@ -26,7 +26,7 @@ export class CarrinhoService {
     this._emitEstadoActualizado();
   }
 
-  private _emitEstadoActualizado(): void { console.log(this._getCarrinho); this._estadoActualizadoSource.next(this.estadoCarrinho); }
+  private _emitEstadoActualizado(): void { this._estadoActualizadoSource.next(this.estadoCarrinho); }
 
   public adicionarItem(item: Item) {
     this._getCarrinho.adicionarItem(item);
@@ -48,7 +48,7 @@ export class CarrinhoService {
     if(fromLocalStorage) {
       try {
         const bkp: any[] = JSON.parse(localStorage.getItem(LOCAL_STORAGE.carrinho));
-        if(!bkp.length) return false;
+        if(!bkp?.length) return false;
 
         const sources = new Array<Observable<TipoRequisicao>>();
         bkp.forEach(i => {

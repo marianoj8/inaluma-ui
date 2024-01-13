@@ -5,6 +5,6 @@ export abstract class AbstractUserDTO extends AbstractEntityDTO {
   public username: string;
   public password: string;
   public estado: boolean;
-  public tipo: string;
-  public readonly perfil: Perfil;
+  public perfil: string;
+  public perf: Perfil;
 }

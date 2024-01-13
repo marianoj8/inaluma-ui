@@ -9,8 +9,7 @@ import { ItemDetailsComponent } from './components/item-details/item-details.com
 import { ItemFormComponent } from './components/item-form/item-form.component';
 import { ItemListComponent } from './components/item-list/item-list.component';
 import { ListItemPreviewComponent } from './components/item-list/list-item-preview/list-item-preview.component';
-import { FilesService } from './services/files.service';
-import { ItemsService } from './services/items.service';
+import { TextMaskModule } from 'angular2-text-mask';
 
 const declarations = [
   LandingPageComponent,
@@ -33,6 +32,7 @@ const declarations = [
     RouterModule,
     MaterialModule,
     ScrollTopModule,
+    TextMaskModule,
     ...declarations
   ],
 })

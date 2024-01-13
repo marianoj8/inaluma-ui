@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { LogInComponent } from "./components/log-in/log-in.component";
 import { SignUpComponent } from "./components/sign-up/sign-up.component";
 import { SharedModule } from "src/app/shared/shared.module";
-import { SignUpService } from "./services/sign-up.service";
+import { ApplicationUserService } from "./services/sign-up.service";
 import { AuthService } from "./services/auth.service";
 
 const declarations = [
@@ -15,7 +15,7 @@ const declarations = [
   imports: [SharedModule],
   providers: [
     AuthService,
-    SignUpService
+    ApplicationUserService
   ]
 })
 export class AuthModule {}

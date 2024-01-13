@@ -1,42 +1,42 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { User } from "src/app/core/model/dto/User";
-import { API_USERS_ROUTES } from "src/app/shared/config";
+import { API_USERS_ROUTES, Operation } from "src/app/shared/config";
+import { environment } from "src/environments/environment";
 
 @Injectable()
 export class UsersService {
   /* DEPENDENCIES */
   private readonly _http = inject(HttpClient);
 
-  private _getPath(isFuncionario: boolean, operation: OperationType) {
-    let path: string;
+  /* MEMBERS */
+  public fetch(isCliente: boolean) { return this._http.get<User[]>(this._getPath(isCliente, Operation.fetch)) }
+  public getByID(isCliente: boolean, id: number) { return this._http.get<User>(this._getPath(isCliente, Operation.get)+id) }
+  public updateByUser(isCliente: boolean, usr: User) { return this._http.put<User>(this._getPath(isCliente, Operation.put), usr) }
+  public saveByUser(isCliente: boolean, usr: User) { return this._http.post<User>(this._getPath(isCliente, Operation.post), usr) }
+  public deleteById(isCliente: boolean, id: number) { return this._http.delete<void>(this._getPath(isCliente, Operation.delete)+id) }
+
+  private _getPath(isCliente: boolean, operation: Operation) {
+    let path = environment.API;
 
     switch(operation) {
-      case OperationType.delete:
-        path = isFuncionario ? API_USERS_ROUTES.deleteFuncionarioByID : API_USERS_ROUTES.deleteClienteByID;
+      case Operation.delete:
+        path += isCliente ? API_USERS_ROUTES.deleteClienteByID : API_USERS_ROUTES.deleteFuncionarioByID;
         break;
-      case OperationType.put:
-        path = isFuncionario ? API_USERS_ROUTES.updateFuncionario : API_USERS_ROUTES.updateCliente;
+      case Operation.put:
+        path += isCliente ? API_USERS_ROUTES.updateCliente : API_USERS_ROUTES.updateFuncionario;
         break;
-      case OperationType.fetch:
-        path = isFuncionario ? API_USERS_ROUTES.fetchFuncionarios : API_USERS_ROUTES.fetchClientes;
+      case Operation.fetch:
+        path += isCliente ? API_USERS_ROUTES.fetchClientes : API_USERS_ROUTES.fetchFuncionarios;
         break;
-      case OperationType.get:
-        path = isFuncionario ? API_USERS_ROUTES.getFuncionarioByID : API_USERS_ROUTES.getClienteByID;
+      case Operation.get:
+        path += isCliente ? API_USERS_ROUTES.getClienteByID : API_USERS_ROUTES.getFuncionarioByID;
         break;
-      case OperationType.update:
-        path = isFuncionario ? API_USERS_ROUTES.deleteFuncionarioByID : API_USERS_ROUTES.deleteClienteByID;
+      case Operation.post:
+        path += isCliente ? API_USERS_ROUTES.postCliente : API_USERS_ROUTES.postFuncionario;
         break;
     }
 
     return path;
   }
-}
-
-enum OperationType {
-  put,
-  fetch,
-  get,
-  delete,
-  update
 }

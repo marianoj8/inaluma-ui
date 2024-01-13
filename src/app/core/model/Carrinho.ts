@@ -17,7 +17,7 @@ export class Carrinho {
     this.itens.splice(0, this.itensCarrinho);
   }
 
-  public get itensCarrinho(): number { return this.itens.length }
+  public get itensCarrinho(): number { return this.itens?.length }
   private get itens(): ItemCarrinho[] { return this._itens }
   public get cliente(): User { return this._cliente }
   public get utilizador(): User { return this._user }

@@ -7,6 +7,11 @@ import { Router } from "@angular/router";
 import { APP_ROUTES } from "src/app/shared/config";
 import { Sexo } from "src/app/core/model/Sexo";
 import { IEntityValue } from "src/app/core/model/IEntityValue";
+import { ApplicationUser } from "src/app/core/model/dto/ApplicationUser";
+import { User } from "src/app/core/model/dto/User";
+import { ApplicationUserService } from "../../services/sign-up.service";
+import { CustomRegExp } from "src/app/shared/config/regexp/regexp-rules";
+import { InvalidUsername } from "src/app/shared/config/validators/form";
 
 @Component({
   selector: 'app-sign-up',
@@ -18,13 +23,14 @@ export class SignUpComponent implements OnInit {
   private readonly _authService = inject(AuthService);
   private readonly _themeService = inject(ThemeService);
   private readonly _router = inject(Router);
+  private readonly _applicationUserSrvc = inject(ApplicationUserService);
 
   /* MEMBERS */
   public readonly userForm: FormGroup;
   public readonly sexos = Sexo;
+  public readonly telMask = CustomRegExp.fone;
 
   constructor() {
-    console.log(this._router.getCurrentNavigation().extras.state);
     let controls: {[k: string]: FormControl} = {
       nome: new FormControl<string>(undefined, [Validators.required]),
       sobrenome: new FormControl<string>(undefined, [Validators.required]),
@@ -45,12 +51,13 @@ export class SignUpComponent implements OnInit {
     this._themeService.init();
   }
 
-  public get isVisitor(): boolean { return this._authService.isSignedIn; }
+  public get isVisitor(): boolean { return !this._authService.isSignedIn; }
+  public get isAdmin(): boolean { return !this.isVisitor && this._authService.isAdmin(); }
   public cancelar(): void { this._router.navigate([APP_ROUTES.home]).then() }
-  public get formTitle(): string { return this.isVisitor ? 'Cadastro de Funcionário' : 'Cadastro de Utilizador' }
+  public get formTitle(): string { return this.isVisitor ? 'Cadastro de Utilizador' : 'Cadastro de Funcionário' }
   public get canSave(): boolean { return this.userForm.valid }
   public get tiposConta(): IEntityValue[] {
-    return this._authService.isCliente()
+    return this.isVisitor
       ? Perfil.names.filter(i => i.api === Perfil.cliente.api)
       : Perfil.names.filter(i => i.api !== Perfil.cliente.api);
   }
@@ -58,6 +65,20 @@ export class SignUpComponent implements OnInit {
   public salvar() {
     if(!this.canSave) return;
 
+    const appUser = new ApplicationUser();
+    const user = new User();
 
+    Object.assign(appUser, this.userForm.value);
+    Object.assign(user, this.userForm.value);
+
+    appUser.perf = Perfil.getPerfil(appUser.perfil);
+
+    this.isVisitor ? appUser.cliente = user : appUser.funcionario = user;
+
+    this._applicationUserSrvc.signUp(appUser).subscribe(usr => {
+      if(this.isVisitor) this._authService.signIn(usr.cliente);
+
+      this.userForm.reset({emitEvent: false});
+    });
   }
 }
