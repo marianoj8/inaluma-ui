@@ -3,12 +3,14 @@ import { Injectable, inject } from "@angular/core";
 import { environment } from "src/environments/environment";
 import { API_PRODUTOS_ROUTES, API_SERVICES_ROUTES, Operation } from "../config";
 import { Item, ItemDTO } from "src/app/core/model/dto/ItemDTO";
-import { Observable, map } from "rxjs";
+import { Observable, map, tap } from "rxjs";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Injectable({providedIn: 'root'})
 export class ItemsService {
   /* DEPENDENCIES */
   private readonly _http = inject(HttpClient);
+  private readonly _snackBarService = inject(MatSnackBar);
 
   public fetch(isProduto: boolean) {
     return transformarDTOs(this._fetchItem(this._getPath(isProduto, Operation.fetch)), isProduto);
@@ -17,12 +19,20 @@ export class ItemsService {
     return transformarDTO(this._getItemByID(id, this._getPath(isProduto, Operation.get)), isProduto);
   }
   public registerItem(item: ItemDTO, isProduto: boolean) {
-    return transformarDTO(this._saveItem(item, this._getPath(isProduto, Operation.post)), isProduto);
+    return transformarDTO(this._saveItem(item, this._getPath(isProduto, Operation.post)), isProduto).pipe(
+      tap(() => { this.mostrarFeedback('Item cadastrado com successo') })
+    );
   }
   public updateItem(item: ItemDTO, isProduto: boolean) {
-    return transformarDTO(this._updateItem(item, this._getPath(isProduto, Operation.put)), isProduto);
+    return transformarDTO(this._updateItem(item, this._getPath(isProduto, Operation.put)), isProduto).pipe(
+      tap(() => { this.mostrarFeedback('Item actualizado com sucesso') })
+    );
   }
-  public deleteItemByID(idItem: number, isProduto: boolean) { return this._deleteItemByID(idItem, this._getPath(isProduto, Operation.delete)); }
+  public deleteItemByID(idItem: number, isProduto: boolean) {
+    return this._deleteItemByID(idItem, this._getPath(isProduto, Operation.delete)).pipe(
+      tap(() => { this.mostrarFeedback('Item eliminado com sucesso')})
+    );
+  }
 
   // Métodos internos
   private _fetchItem(path: string) { return this._http.get<ItemDTO[]>(path); }
@@ -53,6 +63,10 @@ export class ItemsService {
     }
 
     return path;
+  }
+
+  private mostrarFeedback(msg: string): void {
+    this._snackBarService.open(msg, 'Fechar', {duration: 2000});
   }
 }
 

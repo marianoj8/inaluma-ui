@@ -6,13 +6,20 @@ import { ItemCarrinho } from "../../model/ItemCarrinho";
 import { IEstadoCarrinho } from "../../model/IEstadoCarrinho";
 import { LOCAL_STORAGE } from "src/app/shared/config";
 import { ItemsService } from "src/app/shared/services/items.service";
+import { AuthService } from "../../auth/services/auth.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Injectable()
 export class CarrinhoService {
+  /* DEPENDENCIES */
+  private readonly _itemsService = inject(ItemsService);
+  private readonly _authService = inject(AuthService);
+  private readonly _snackBar = inject(MatSnackBar);
+
+  /* MEMBERS */
   private readonly _carrinho: Carrinho;
   private readonly _estadoActualizadoSource: Subject<IEstadoCarrinho>;
   public readonly estadoActualizado$: Observable<IEstadoCarrinho>;
-  private readonly _itemsService = inject(ItemsService);
 
   constructor() {
     this._estadoActualizadoSource = new Subject();
@@ -28,6 +35,13 @@ export class CarrinhoService {
   private _emitEstadoActualizado(): void { this._estadoActualizadoSource.next(this.estadoCarrinho); }
 
   public adicionarItem(item: Item) {
+    if(!this._authService.isSignedIn) {
+      this._snackBar.open('Para adicionar itens ao carrinho deve iniciar sessão');
+      return;
+    }
+
+    this._snackBar.open('Item adicionado ao carrinho com sucesso', 'Ok', {duration: 2000});
+
     this._getCarrinho.adicionarItem(item);
     this._emitEstadoActualizado();
   }
