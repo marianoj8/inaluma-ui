@@ -36,7 +36,7 @@ export class CarrinhoService {
 
   public adicionarItem(item: Item) {
     if(!this._authService.isSignedIn) {
-      this._snackBar.open('Para adicionar itens ao carrinho deve iniciar sessão');
+      this._snackBar.open('Para adicionar itens ao carrinho deve iniciar sessão', 'Ok', {duration: 2500});
       return;
     }
 
