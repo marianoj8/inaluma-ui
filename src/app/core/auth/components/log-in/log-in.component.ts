@@ -48,4 +48,7 @@ export class LogInComponent {
   public cancelar() {
     this._router.navigate([APP_ROUTES.home]).then();
   }
+
+  public get username() { return this.loginForm.get('username') as FormControl<string> }
+  public get password() { return this.loginForm.get('password') as FormControl<string> }
 }

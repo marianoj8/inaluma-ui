@@ -10,11 +10,13 @@
             <mat-icon matPrefix>account_box</mat-icon>
             <mat-label>Nome do Utilizador</mat-label>
             <input type="text" matInput formControlName="username"/>
+            <mat-error *ngIf="username.hasError('required')">O nome de utilizador é obrigatório</mat-error>
           </mat-form-field>
           <mat-form-field appearance="outline" color="accent">
             <mat-icon matPrefix>lock</mat-icon>
             <mat-label>Senha</mat-label>
             <input type="text" matInput formControlName="password"/>
+            <mat-error *ngIf="password.hasError('required')">A senha é obrigatória</mat-error>
           </mat-form-field>
         </div>
         <div class="controls-container">
