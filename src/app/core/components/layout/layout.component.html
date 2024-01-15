@@ -1,19 +1,15 @@
-<mat-sidenav-container>
-  <mat-sidenav-content>
-    <div class="main-container">
-      <!-- Header -->
-      <app-header class="mat-elevation-z4" #theHeader></app-header>
+<article class="main-container">
+  <!-- Header -->
+  <app-header class="mat-elevation-z4" #theHeader></app-header>
 
-      <!-- Main content -->
-      <main class="content-container">
-        <router-outlet></router-outlet>
+  <!-- Main content -->
+  <main class="content-container">
+    <router-outlet></router-outlet>
 
-        <!-- Scroll top button -->
-        <ng-template *appScrollTop="config"></ng-template>
-      </main>
+    <!-- Scroll top button -->
+    <ng-template *appScrollTop="config"></ng-template>
+  </main>
 
-      <!-- Footer -->
-      <app-footer class="main-footer"></app-footer>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  <!-- Footer -->
+  <app-footer class="main-footer"></app-footer>
+</article>

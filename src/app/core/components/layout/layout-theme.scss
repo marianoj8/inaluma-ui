@@ -1,7 +1,20 @@
 @use './header/header-theme' as header;
 @use './footer/footer-theme' as footer;
 
+@mixin _layout($theme) {
+  max-height: 100vh;
+
+  app-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+}
+
 @mixin theme($theme) {
-  @include header.theme($theme);
-  @include footer.theme($theme);
+  .main-container {
+    @include _layout($theme);
+    @include header.theme($theme);
+    @include footer.theme($theme);
+  }
 }
