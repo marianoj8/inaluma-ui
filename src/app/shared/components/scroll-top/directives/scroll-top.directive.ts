@@ -82,12 +82,12 @@ export class ScrollTopDirective implements OnInit, AfterViewInit {
       goingUp$.subscribe(() => console.log('scrolling up'));
       goingDown$.subscribe(() => console.log('scrolling down'));
 
-    } else // scroll listener for any other element
-      this._renderer.listen(elem, 'scroll', (evt: Event) => {
+    } else if(elem) // scroll listener for any other element
+      this._renderer?.listen(elem, 'scroll', (evt: Event) => {
         this._scrollListener(elem, container, elem);
       });
 
-    this._renderer.listen(this._trigger.instance.trigger.nativeElement, 'click', () => {
+    this._renderer?.listen(this._trigger.instance.trigger.nativeElement, 'click', () => {
       this._scrollContainer(elem, 0);
     });
 
