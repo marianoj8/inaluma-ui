@@ -1,18 +1,19 @@
-import { Component, inject } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatRadioChange } from "@angular/material/radio";
 import { ActivatedRoute } from "@angular/router";
 import { Item, ItemDTO } from "src/app/core/model/dto/ItemDTO";
 import { ItemsService } from "../../services/items.service";
 import { FilesService } from "../../services/files.service";
-import { Observable, forkJoin, of, switchMap } from "rxjs";
+import { Observable, forkJoin, map, of, startWith, switchMap } from "rxjs";
 import { ImageFile } from "src/app/core/model/dto/ImageFile";
+import { TiposProdutos } from "src/app/core/model";
 
 @Component({
   selector: 'app-item-form',
   templateUrl: './item-form.component.html'
 })
-export class ItemFormComponent {
+export class ItemFormComponent implements OnInit {
   /* DEPENDENCIES */
   private readonly _formBuilder = inject(FormBuilder);
   private readonly _route = inject(ActivatedRoute);
@@ -27,6 +28,7 @@ export class ItemFormComponent {
   private readonly _chooseImageIcon = "../../../../assets/images/upload_image.svg";
   public showProgressBar: boolean;
   public hasFile: boolean;
+  public filteredOptions: Observable<string[]>;
 
   constructor() {
     this.imagePath = this._chooseImageIcon;
@@ -54,6 +56,18 @@ export class ItemFormComponent {
 
       this.itemForm = this._formBuilder.group(controls);
     });
+  }
+
+  ngOnInit(): void {
+    this.filteredOptions = this.itemForm.get('tipo')?.valueChanges.pipe(
+      startWith(''),
+      map(val => this._filtrar(val || ''))
+    );
+  }
+
+  private _filtrar(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return TiposProdutos.tipos.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   public onFileSelected(event): void {

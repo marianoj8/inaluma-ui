@@ -6,4 +6,5 @@ export * from './IEstadoCarrinho';
 export * from './ItemCarrinho';
 export * from './Profiles';
 export * from './Sexo';
+export * from './TiposProdutos';
 export * from './dto/index';

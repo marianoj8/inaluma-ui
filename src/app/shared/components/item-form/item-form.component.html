@@ -19,7 +19,12 @@
         <div class="row" *ngIf="isProduto else servico">
           <div class="row">
             <span class="title">Tipo</span>
-            <mat-form-field appearance="outline"><input type="text" matInput formControlName="tipo"/></mat-form-field>
+            <mat-form-field appearance="outline">
+              <input type="text" matInput formControlName="tipo" [matAutocomplete]="tipos"/>
+            </mat-form-field>
+            <mat-autocomplete #tipos="matAutocomplete" autoActiveFirstOption>
+              <mat-option *ngFor="let opt of filteredOptions | async" [value]="opt">{{opt}}</mat-option>
+            </mat-autocomplete>
           </div>
           <p class="row">
             <span class="title">Stock</span>
