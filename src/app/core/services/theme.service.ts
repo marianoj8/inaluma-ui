@@ -41,10 +41,10 @@ export class ThemeService {
 
   private _manageThemeMode(theme: THEME_CLASSES, install: boolean) {
     if(install) {
-      this._renderer.addClass(document.body, theme.toString()); // install the theme config on all descendants of MatSidenavContainer
+      this._renderer.addClass(document.body.parentElement, theme.toString()); // install the theme config on all descendants of MatSidenavContainer
       this._overlayContainer.getContainerElement().classList.add(theme.toString()); // install the theme config on all descendants of MatOverlay
     } else {
-      this._renderer.removeClass(document.body, theme.toString());
+      this._renderer.removeClass(document.body.parentElement, theme.toString());
       this._overlayContainer.getContainerElement().classList.remove(theme.toString());
     }
   }
