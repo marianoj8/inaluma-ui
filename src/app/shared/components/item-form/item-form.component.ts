@@ -5,7 +5,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Item, ItemDTO } from "src/app/core/model/dto/ItemDTO";
 import { ItemsService } from "../../services/items.service";
 import { FilesService } from "../../services/files.service";
-import { map, of, switchMap, tap } from "rxjs";
+import { Observable, forkJoin, of, switchMap } from "rxjs";
 import { ImageFile } from "src/app/core/model/dto/ImageFile";
 
 @Component({
@@ -82,9 +82,18 @@ export class ItemFormComponent {
     Object.assign(this._item.item, this.itemForm.value);
 
     this._itemsService.registerItem(this._item.item, this._item.isProduto).pipe(
-      switchMap(item => this.hasFile ? this._filesService.uploadImage(new ImageFile(this._file), item.id, this.isProduto) : of(null))
+      switchMap(item => {
+        let resp: {file: Observable<File>, id: Observable<number>};
+
+        if(this.hasFile) resp = {file: of(this._file), id: of(item.id)};
+        else resp = {file: this._itemsService.getNoImage(), id: of(item.id)}
+
+        return forkJoin(resp);
+      }),
+      switchMap(data => this._filesService.uploadImage(new ImageFile(data.file), data.id, this.isProduto))
     ).subscribe(() => {
       this.showProgressBar = false;
+      this.imagePath = this._chooseImageIcon;
       this.itemForm.reset({emitEvent: false});
     })
   }

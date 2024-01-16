@@ -3,14 +3,18 @@ import { Injectable, inject } from "@angular/core";
 import { environment } from "src/environments/environment";
 import { API_PRODUTOS_ROUTES, API_SERVICES_ROUTES, Operation } from "../config";
 import { Item, ItemDTO } from "src/app/core/model/dto/ItemDTO";
-import { Observable, map, tap } from "rxjs";
+import { Observable, map, of, tap } from "rxjs";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { ToastrService } from "ngx-toastr";
 
 @Injectable({providedIn: 'root'})
 export class ItemsService {
   /* DEPENDENCIES */
   private readonly _http = inject(HttpClient);
-  private readonly _snackBarService = inject(MatSnackBar);
+  private readonly _toastrService = inject(ToastrService);
+
+  /* MEMBERS */
+  private readonly _noImagePath = 'http://localhost:4200/assets/images/no_image.svg';
 
   public fetch(isProduto: boolean) {
     return transformarDTOs(this._fetchItem(this._getPath(isProduto, Operation.fetch)), isProduto);
@@ -65,9 +69,9 @@ export class ItemsService {
     return path;
   }
 
-  private mostrarFeedback(msg: string): void {
-    this._snackBarService.open(msg, 'Fechar', {duration: 2000});
-  }
+  private mostrarFeedback(msg: string): void { this._toastrService.success(msg, 'Successo'); }
+
+  public getNoImage() { return this._http.get(this._noImagePath, {responseType: 'blob'}).pipe(map(b => new File([b], 'no_name', {type: b.type}))) }
 }
 
 const transformarDTO = (obs$: Observable<ItemDTO>, isProduto: boolean) => { return obs$.pipe(map(i =>  new Item(i, isProduto))) }
