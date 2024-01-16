@@ -42,4 +42,16 @@ export const enum Operation {
   put
 }
 
+export const enum DIALOG_RESPONSES {
+  yes,
+  no,
+  cancel,
+  confirm
+}
+
+export const enum DIALOG_CONTROLS {
+  yes_no,
+  confirm_cancel
+}
+
 export { SCRTOP_COLOR, SCRTOP_POSITION, DOCUMENT_TYPES, ITEM_TYPES, DOCUMENT_SECTIONS };

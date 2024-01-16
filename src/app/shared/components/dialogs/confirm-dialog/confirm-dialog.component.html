@@ -1,0 +1,8 @@
+<section class="confirm-dialog">
+  <mat-toolbar class="title"><h1 mat-dialog-title>{{title}}</h1></mat-toolbar>
+  <p mat-dialog-content class="body">{{message}}</p>
+  <div class="controls" mat-dialog-actions [align]="'center'">
+    <button mat-flat-button [color]="negativeOptionColor" (click)="(negativeReply())">{{negativeOption}}</button>
+    <button mat-flat-button [color]="positiveOptionColor" (click)="(positiveReply())">{{positiveOption}}</button>
+  </div>
+</section>

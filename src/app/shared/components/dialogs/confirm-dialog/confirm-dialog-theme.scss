@@ -1,0 +1,18 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '/src/scss/utility/utilities' as utils;
+
+@mixin _layout($theme) {
+  @include utils.make-flex($gap: '10px', $alignItems: 'center');
+  max-width: 50vw;
+
+  .controls {
+    @include utils.make-flex($gap: '5px', $justContent: 'center', $alignItems: 'center');
+  }
+}
+
+@mixin theme($theme) {
+  .confirm-dialog {
+    @include _layout($theme);
+  }
+}
