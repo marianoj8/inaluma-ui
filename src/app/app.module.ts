@@ -22,7 +22,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     CoreModule,
     SharedModule,
-    FontAwesomeModule
+    FontAwesomeModule,
   ],
   providers: [
     { provide: ErrorStateMatcher, useClass: CustomErrorStateMatcher }
