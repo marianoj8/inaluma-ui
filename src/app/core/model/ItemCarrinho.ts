@@ -9,5 +9,5 @@ export class ItemCarrinho {
   public get item(): Item { return this._item }
   public get qtd(): number { return this._qtd }
   public get total(): number { return this.qtd * this.item.item.preco }
-  public somar(qtd: number): number { return this._qtd += qtd }
+  public somar(qtd: number): boolean { this._qtd += qtd; return true; }
 }

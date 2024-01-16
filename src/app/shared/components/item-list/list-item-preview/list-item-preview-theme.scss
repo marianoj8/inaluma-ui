@@ -13,10 +13,11 @@
       height: 150px;
 
       will-change: transform;
-      transition: transform 1s ease;
+      transition: transform 1s ease-in-out;
 
       &:hover {
-        transform: translateX(100px) scale(2);
+        transform: translate(50px, 25px) scale(1.5);
+        z-index: 100;
       }
     }
 

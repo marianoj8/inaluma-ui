@@ -1,2 +1,70 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '/src/scss/variables' as vars;
+@use '/src/scss/utility/utilities' as utils;
 
-@mixin theme($theme) {}
+@mixin _layout($theme) {
+  .container {
+    position: relative;
+    width: 100%;
+    padding: 10px;
+    overflow-y: auto;
+    max-height: 100vh;
+
+    @include utils.make-flex($direction: 'column', $gap: '10px');
+
+    .content-container {
+      @include utils.make-flex($gap: '10px');
+      overflow-y: auto;
+
+      .items-container {
+        overflow-y: auto;
+        height: 1000px;
+        flex: 1 0;
+      }
+
+      .summary-container {
+        position: sticky;
+        align-self: flex-start;
+        // right: 20px;
+        top: 0; //calc(vars.$header-height + 10px);
+
+        &> :first-child {
+          margin-bottom: 30px;
+        }
+
+        .coluna {
+
+          & > .linha {
+            flex: 1 0;
+            justify-content: center;
+          }
+
+          & button {
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    .linha {
+      @include utils.make-flex($gap: '10px');
+    }
+
+    .coluna {
+      @include utils.make-flex($direction: 'column', $gap: '10px');
+    }
+
+    &,
+    .linha,
+    .coluna {
+      box-sizing: border-box;
+    }
+  }
+}
+
+@mixin theme($theme) {
+  .carrinho-list {
+    @include _layout($theme);
+  }
+}

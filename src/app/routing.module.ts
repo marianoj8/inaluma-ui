@@ -34,7 +34,7 @@ const _routes: Routes = [
       },
       {
         path: 'produtos',
-        data: {isProduto: true},
+        data: {isProduto: true, hideShopping: false},
         children: [
           {
             path: '',
@@ -52,7 +52,7 @@ const _routes: Routes = [
       },
       {
         path: 'servicos',
-        data: {isProduto: false},
+        data: {isProduto: false, hideShopping: false},
         children: [
           {
             path: '',
@@ -87,7 +87,8 @@ const _routes: Routes = [
       },
       {
         path: 'carrinho',
-        component: CarrinhoListComponent
+        component: CarrinhoListComponent,
+        data: {hideShopping: true}
       }
     ]
   },

@@ -2,10 +2,12 @@
 @use './item-form/item-form-theme' as item-form;
 @use './item-list/item-list-theme' as item-list;
 @use './item-preview/item-preview-theme' as item-preview;
+@use './item-list/list-item-preview/list-item-preview-theme' as list-item-preview;
 
 @mixin theme($theme) {
   @include item-details.theme($theme);
   @include item-form.theme($theme);
   @include item-list.theme($theme);
   @include item-preview.theme($theme);
+  @include list-item-preview.theme($theme);
 }

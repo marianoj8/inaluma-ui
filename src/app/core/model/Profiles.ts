@@ -13,11 +13,10 @@ export class Perfil {
   public static get cliente(): IEntityValue { return Perfil._findName('CLIENTE'); }
   public static get funcionario(): IEntityValue { return Perfil._findName('FUNCIONARIO'); }
 
-  public get isAdmin(): boolean { return Perfil.admin.api === this.perfil.api }
-  public get isCliente(): boolean { return Perfil.cliente.api === this.perfil.api }
-  public get isFuncionario(): boolean { return Perfil.funcionario.api === this.perfil.api }
+  public get isAdmin(): boolean { return Perfil.admin.api === this.name.api }
+  public get isCliente(): boolean { return Perfil.cliente.api === this.name.api }
+  public get isFuncionario(): boolean { return Perfil.funcionario.api === this.name.api }
 
-  public get perfil(): IEntityValue { return this.name }
   private static _findName(name: string): IEntityValue { return this.names.find(i => i.api === name); }
   public static compare(p1: Perfil, p2: string): boolean { return p1.name.api === this._findName(p2).api }
 

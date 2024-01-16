@@ -6,4 +6,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Inaluma MakeUp';
+
+  constructor() {
+    document.head.getElementsByTagName('title')[0].innerText = this.title;
+  }
 }

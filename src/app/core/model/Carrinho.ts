@@ -6,17 +6,18 @@ import { User } from "./dto/User";
 
 export class Carrinho {
   constructor(
-    private readonly _cliente?: User,
     private readonly _itens: ItemCarrinho[] = [],
-    private readonly _user?: User
+    private _cliente?: User,
+    private _user?: User
   ) {}
 
-  public reset(): void {
+  public reset(removeUser: boolean): void {
     if(!this.temItems) return;
 
     this.itens.splice(0, this.itensCarrinho);
+    if(removeUser) this.setCliente(null);
   }
-
+  private setCliente(usr: User) { this._cliente = usr }
   public get itensCarrinho(): number { return this.itens?.length }
   private get itens(): ItemCarrinho[] { return this._itens }
   public get cliente(): User { return this._cliente }
@@ -30,19 +31,43 @@ export class Carrinho {
   }
 
   public get temItems(): boolean { return this.itensCarrinho > 0 }
-  public adicionarItem(item: Item, qtd = 1): void {
-    if(!item.isProduto && this.temServico) return; // não pode ter mais de um serviço no carrinho
+  public adicionarItem(item: Item, qtd = 1): boolean {
+    if(!item.isProduto && this.temServico) return false; // não pode ter mais de um serviço no carrinho
 
     const existe = this._temItem(item); // determina se deve: adicionar um produto novo, ou se atualizar um existente
 
-    if(existe) this.somar(existe, qtd);
+    if(existe) return this.somar(existe, qtd);
     else this.itens.push(new ItemCarrinho(item, qtd));
+
+    return true;
+  }
+  private _podeSomar(item: Item, qtd: number): boolean {
+    if(!item.isProduto) return false;
+
+    let prod = this._temItem(item);
+    if(prod && (prod?.qtd + qtd) > item.item.stock) return false; // não pode superar o stock existente
+
+    return true;
+  }
+  private _podeSubtrair(item: Item, qtd: number): boolean {
+    if(!item.isProduto) return false;
+
+    let prod = this._temItem(item);
+    if(prod && (prod?.qtd - qtd) <= 0) return false; // não pode superar o stock existente
+
+    return true;
   }
   public get estado(): IEstadoCarrinho { return {qtdItens: this.itensCarrinho, totalCarrinho: this.total} }
   private _indItem(item: ItemCarrinho): number { return this.itens.indexOf(item) }
   public removerItem(item: ItemCarrinho): void { this.itens.splice(this._indItem(item), 1) }
-  public somar(item: ItemCarrinho, qtd:  number): number { return this.getItem(item).somar(qtd) }
-  public subtrair(item: ItemCarrinho, qtd: number): number {return this.getItem(item).somar(-qtd) }
+  public somar(item: ItemCarrinho, qtd:  number): boolean {
+    if(!this._podeSomar(item.item, qtd)) return  false;
+    return this.getItem(item).somar(qtd)
+  }
+  public subtrair(item: ItemCarrinho, qtd: number): boolean {
+    if(!this._podeSubtrair(item.item, qtd)) return false;
+    return this.getItem(item).somar(-qtd)
+  }
   private _temItem(item: Item): ItemCarrinho { return this.itens.find(i => (i.item.id === item.id) && (i.item.isProduto === item.isProduto)) }
   public get temServico(): boolean {
     let tem = false;
@@ -56,7 +81,6 @@ export class Carrinho {
 
     return tem;
   }
-  public podeSubtrair(item: ItemCarrinho, qtd: number): boolean { return this.getItem(item).qtd - qtd >= 0 }
   public getItem(i: ItemCarrinho): ItemCarrinho { return this.itens.find(x => (i.item.id === x.item.id) && (i.item.isProduto === x.item.isProduto)) }
   public reterEstado(): boolean {
     const bkp = new Array<ItemCarrinho>();
@@ -78,4 +102,8 @@ export class Carrinho {
     if(!this.temItems) return [];
     return this.itens.filter(i => i.item.isProduto);
   }
+  public temItem(item: ItemCarrinho): boolean { return !!this._temItem(item.item) }
+  public get hasCliente(): boolean { return !!this.cliente }
+  public selecionarCliente(usr: User): void { this.setCliente(usr) }
+  public esvaziar(): void { this.reset(false) }
 }

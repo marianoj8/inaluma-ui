@@ -10,9 +10,9 @@
       </ng-container>
     </nav>
     <div class="right-content">
-      <button mat-mini-fab [color]="cartColor" [class.tem-itens]="showBadge" [matBadge]="estadoCarrinho.qtdItens" [matBadgeHidden]="!showBadge" matBadgePosition="before" matBadgeColor="accent">
-        <a [routerLink]="routes.carrinho"><mat-icon>shopping_cart</mat-icon></a>
-      </button>
+      <a [routerLink]="routes.carrinho" mat-mini-fab [color]="cartColor" [class.tem-itens]="showBadge" [matBadge]="estadoCarrinho.qtdItens" [matBadgeHidden]="!showBadge" matBadgePosition="before" matBadgeColor="accent">
+        <mat-icon>shopping_cart</mat-icon>
+      </a>
       <button color="secondary" mat-mini-fab class="mat-elevation-z0" (click)="toggleDarkMode()">
         <mat-icon class="theme-icon">
           <ng-container *ngIf="isDarkThemeMode else light">light_mode</ng-container>

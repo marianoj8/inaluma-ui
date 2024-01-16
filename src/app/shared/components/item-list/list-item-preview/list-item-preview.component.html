@@ -6,26 +6,39 @@
       <div class="bottom-content-wrapper">
         <div><span class="detail">Estado</span><span>{{estado}}</span></div>
         <ng-container *ngIf="isProduto else servico">
-          <div><span  class="detail">Stock</span><span>{{stock}}</span></div>
+          <div><span  class="detail">Disponível</span><span>{{stock}}</span></div>
           <div><span  class="detail">Código</span><span>{{codigo}}</span></div>
         </ng-container>
         <ng-template #servico><span><span class="detail">Duração</span>{{duracao}}</span></ng-template>
         <span><span class="detail">Preço</span><span>{{preco}}</span></span>
       </div>
+      <span class="qtd-carrinho" *ngIf="hideShopping && isProduto"><span class="detail">No carrinho</span><span>{{quantidade}}</span></span>
       <span class="info" [class.show]="showInfo">{{descricao}}</span>
     </div>
     <div class="controls-container">
       <ng-container>
+        <ng-template *ngIf="!isCliente">
         <div class="delete">
-          <button mat-mini-fab color="warn" class="mat-elevation-z0" [class.viewing]="!isDeleting" (click)="toggleIsDeleting()"><mat-icon>delete_forever</mat-icon></button>
-          <div [class.deleting]="isDeleting" class="deleting-controls">
-            <button mat-flat-button color="warn" (click)="confirmDelete()">Confirmar</button>
-            <button mat-flat-button color="accent" (click)="toggleIsDeleting()">Cancelar</button>
+            <button mat-mini-fab color="warn" class="mat-elevation-z0" [class.viewing]="!isDeleting" (click)="toggleIsDeleting()">
+              <mat-icon>delete_forever</mat-icon>
+            </button>
+            <div [class.deleting]="isDeleting" class="deleting-controls">
+              <button mat-flat-button color="warn" (click)="confirmDelete()">Confirmar</button>
+              <button mat-flat-button color="accent" (click)="toggleIsDeleting()">Cancelar</button>
+            </div>
           </div>
-        </div>
-        <button mat-mini-fab color="primary" class="mat-elevation-z0" (click)="editItem()"><mat-icon>edit</mat-icon></button>
+          <button mat-mini-fab color="primary" class="mat-elevation-z0" (click)="editItem()"><mat-icon>edit</mat-icon></button>
+        </ng-template>
       </ng-container>
-      <button mat-mini-fab class="mat-elevation-z0" (click)="adicionarItemCarrinho()"><mat-icon>add_shopping_cart</mat-icon></button>
+      <div class="cart-controls">
+        <button mat-mini-fab class="mat-elevation-z0" (click)="adicionarItemCarrinho()" *ngIf="!hideShopping else removeItem"><mat-icon>add_shopping_cart</mat-icon></button>
+        <ng-template #removeItem><button mat-mini-fab (click)="removerItemCarrinho()" color="warn" class="matele"><mat-icon>remove_shopping_cart</mat-icon></button></ng-template>
+        <div class="container" *ngIf="hideShopping">
+          <button mat-mini-fab color="warn" (click)="subtrair(qtd.value)" class="mat-elevation-z0"><mat-icon>remove</mat-icon></button>
+          <mat-form-field appearance="outline" color="accent"><input type="number" value="1" matInput #qtd/></mat-form-field>
+          <button mat-mini-fab color="accent" (click)="somar(qtd.value)" class="mat-elevation-z0"><mat-icon>add</mat-icon></button>
+        </div>
+      </div>
       <button mat-mini-fab class="mat-elevation-z0" (click)="toggleInfo()"><mat-icon>info</mat-icon></button>
     </div>
   </section>

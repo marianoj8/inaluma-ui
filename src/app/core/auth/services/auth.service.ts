@@ -69,11 +69,12 @@ export class AuthService {
     localStorage.setItem(LOCAL_STORAGE.user, JSON.stringify(signInRes));
   }
 
-  public signOut() {
+  public signOut(update = true) {
     if(!this.isSignedIn) return;
 
     localStorage.clear();
-    this._userLogActionRequested(false);
+    if(update) this._userLogActionRequested(false);
+    else this._router.navigate([APP_ROUTES.signIn]).then();
   }
 
   public isAdmin() {
@@ -102,7 +103,5 @@ export class AuthService {
     }
   }
 
-  private _userLogActionRequested(signedIn: boolean) {
-    this._userLogAction.next(signedIn);
-  }
+  private _userLogActionRequested(signedIn: boolean) { this._userLogAction.next(signedIn) }
 }

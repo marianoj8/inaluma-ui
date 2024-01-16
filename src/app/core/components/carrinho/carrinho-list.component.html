@@ -1,65 +1,74 @@
-<section class="carrino-list">
+<section class="carrinho-list">
   <div class="container">
     <header class="controls-section">
-      <button mat-flat-button color="accent"><mat-icon>arrow_back</mat-icon><span>Voltar</span></button>
+      <button mat-flat-button color="accent" (click)="voltar()"><mat-icon>arrow_back</mat-icon><span>Voltar</span></button>
+      <h2>Check Out</h2>
     </header>
-    <section class="items-container">
-      <ng-template *ngIf="temItens else noItems">
-        <section class="servicos-section">
-          <mat-toolbar class="title">Serviço</mat-toolbar>
-          <app-list-item-preview></app-list-item-preview>
-        </section>
-        <section class="produtos-section">
-          <mat-toolbar class="title">Produtos</mat-toolbar>
-          <ng-container>
-            <app-list-item-preview *ngFor="let i of produtos" [itemCarrinho]="i"></app-list-item-preview>
-          </ng-container>
-        </section>
-      </ng-template>
-      <ng-template #noItems>
-        <section class="no-items-section">
-          <div class="linha">
-            <div class="coluna">
-              <h1>Não tem items no carrinho</h1>
+    <div class="content-container">
+      <section class="items-container">
+        <ng-container *ngIf="temItens else noItems">
+          <section class="servicos-section" *ngIf="temServico">
+            <mat-toolbar class="title">Serviço</mat-toolbar>
+            <app-list-item-preview></app-list-item-preview>
+          </section>
+          <section class="produtos-section" *ngIf="temItens">
+            <mat-toolbar class="title">Produtos</mat-toolbar>
+            <ng-container>
+              <app-list-item-preview *ngFor="let i of produtos" [itemCarrinho]="i"></app-list-item-preview>
+            </ng-container>
+          </section>
+        </ng-container>
+        <ng-template #noItems>
+          <section class="no-items-section">
+            <div class="linha">
+              <div class="coluna">
+                <h1>Não tem items no carrinho</h1>
+              </div>
             </div>
+          </section>
+        </ng-template>
+      </section>
+      <section class="summary-container">
+        <header class="coluna">
+          <div class="linha">
+            <div *ngIf="(hasCliente && isCliente) else selecionarCliente">
+              <p>
+                <span>Cliente</span>
+                <span>{{nomeCompleto}}</span>
+              </p>
+              <button mat-mini-fab color="accent" class="mat-elevation-z0" (click)="selectCliente()"><mat-icon>change_circle</mat-icon></button>
+            </div>
+            <ng-template #selecionarCliente><button mat-flat-button (click)="selectCliente()" color="accent">Selecionar Cliente</button></ng-template>
           </div>
-        </section>
-      </ng-template>
-    </section>
-    <section class="summary-container">
-      <header>
-        <div class="linha">
-          <div class="coluna">
-            <p>
-              <span>Cliente</span>
-              <span></span>
-            </p>
-          </div>
-          <div class="coluna">
+          <div class="linha">
             <p>
               <span>Tipo de Operação</span>
-              <span></span>
+              <span>{{tipoOperacao}}</span>
             </p>
           </div>
-          <div class="coluna">
+          <div class="linha">
             <p>
               <span>Itens no Carrinho</span>
-              <span></span>
+              <span>{{itensNoCarrinho}}</span>
             </p>
           </div>
-          <div class="coluna">
+          <div class="linha">
             <p>
               <span>Montante a pagar</span>
-              <span></span>
+              <span>AOA {{totalAPagar}}</span>
             </p>
           </div>
-        </div>
-      </header>
-      <footer>
-        <div class="linha"><button mat-flat-button><div class="coluna">Cancelar</div></button></div>
-        <div class="linha"><button mat-flat-button><div class="coluna">Confirmar</div></button></div>
-        <div class="linha"><button mat-flat-button><div class="coluna">Adicionar Produtos</div></button></div>
-      </footer>
-    </section>
+          <div class="linha">
+            <mat-form-field appearance="outline" color="accent"><input matInput type="number" #quantia/></mat-form-field>
+          </div>
+        </header>
+        <footer class="coluna controls">
+          <div class="linha"><button mat-flat-button color="accent"><div class="coluna">Adicionar Itens</div></button></div>
+          <div class="linha" *ngIf="hasCliente || podeConfirmar"><button mat-flat-button color="accent" [disabled]="!podeConfirmar"><div class="coluna">Confirmar</div></button></div>
+          <div class="linha"><button mat-flat-button color="warn" (click)="esvaziarCarrinho()" [disabled]="!temItens"><div class="coluna">Esvaziar Carrinho</div></button></div>
+          <div class="linha"><button mat-flat-button color="warn"><div class="coluna">Cancelar {{tipoOperacao}}</div></button></div>
+        </footer>
+      </section>
+    </div>
   </div>
 </section>

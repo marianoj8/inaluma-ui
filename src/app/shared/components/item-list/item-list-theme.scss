@@ -2,7 +2,6 @@
 @use '@angular/material' as mat;
 @use '/src/scss/variables' as vars;
 @use '/src/scss/utility/utilities' as utils;
-@use './list-item-preview/list-item-preview-theme' as item-list-preview;
 
 @mixin _layout($theme) {
   padding: 10px 20px;
@@ -33,6 +32,5 @@
 @mixin theme($theme) {
   .item-list {
     @include _layout($theme);
-    @include item-list-preview.theme($theme);
   }
 }
