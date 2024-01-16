@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpStatusCode } from "@angular/common/http";
 import { EventEmitter, Injectable, inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable, Subject, map } from "rxjs";
@@ -6,12 +6,14 @@ import { environment } from "src/environments/environment";
 import { API_AUTH_ROUTES, APP_ROUTES, LOCAL_STORAGE } from "src/app/shared/config";
 import { User } from "../../model/dto/User";
 import { Perfil } from "../../model/Profiles";
+import { ToastrService } from "ngx-toastr";
 
 @Injectable()
 export class AuthService {
   /* DEPENDENCIES */
   private readonly _router = inject(Router);
   private readonly _http = inject(HttpClient);
+  private readonly _toastrService = inject(ToastrService);
 
   /* MEMBERS */
   // ====== Observale sources ====== //
@@ -51,14 +53,23 @@ export class AuthService {
 
         return u;
       })
-    ).subscribe((signInRes: User) => {
-      if (signInRes) {
-        this.addToLocalStorage(signInRes);
-        this.showProgress.emit(false);
-        this._userLogActionRequested(true);
-        this._router.navigate([this.routes.home]).then();
-      }
-    });
+    ).subscribe(
+      {
+        next: (signInRes: User) => {
+          if (signInRes) {
+            this.addToLocalStorage(signInRes);
+            this.showProgress.emit(false);
+            this._userLogActionRequested(true);
+            this._router.navigate([this.routes.home]).then();
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          if(err.status === HttpStatusCode.InternalServerError)
+            this._toastrService.error("Utilizador não encontrado!", 'Erro');
+          this.showProgress.emit(false);
+        }
+      },
+    );
   }
 
   /**
