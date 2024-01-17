@@ -11,6 +11,7 @@ import { ItemListComponent } from './components/item-list/item-list.component';
 import { ListItemPreviewComponent } from './components/item-list/list-item-preview/list-item-preview.component';
 import { TextMaskModule } from 'angular2-text-mask';
 import { DialogsModule } from './components/dialogs/dialogs.module';
+import { ItemsDataResolver } from './components/items-data.resolver';
 
 const declarations = [
   LandingPageComponent,
@@ -37,5 +38,6 @@ const declarations = [
     DialogsModule,
     ...declarations
   ],
+  providers: [ItemsDataResolver]
 })
 export class SharedModule {}

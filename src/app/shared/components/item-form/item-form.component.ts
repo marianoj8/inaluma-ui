@@ -1,13 +1,17 @@
 import { Component, OnInit, inject } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatRadioChange } from "@angular/material/radio";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, ActivatedRouteSnapshot, Router } from "@angular/router";
 import { Item, ItemDTO } from "src/app/core/model/dto/ItemDTO";
 import { ItemsService } from "../../services/items.service";
 import { FilesService } from "../../services/files.service";
-import { Observable, forkJoin, map, of, startWith, switchMap } from "rxjs";
+import { Observable, forkJoin, from, fromEvent, map, of, startWith, switchAll, switchMap } from "rxjs";
 import { ImageFile } from "src/app/core/model/dto/ImageFile";
-import { TiposProdutos } from "src/app/core/model";
+import { IDialogsResponses, TiposProdutos } from "src/app/core/model";
+import { MatButtonToggleChange } from "@angular/material/button-toggle";
+import { MatDialog } from "@angular/material/dialog";
+import { ConfirmDialogComponent } from "../dialogs/confirm-dialog/confirm-dialog.component";
+import { APP_ROUTES, DIALOG_CONTROLS, DIALOG_RESPONSES, LOCAL_STORAGE } from "../../config";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-item-form',
@@ -17,8 +21,11 @@ export class ItemFormComponent implements OnInit {
   /* DEPENDENCIES */
   private readonly _formBuilder = inject(FormBuilder);
   private readonly _route = inject(ActivatedRoute);
-  private _filesService = inject(FilesService);
-  private _itemsService = inject(ItemsService);
+  private readonly _filesService = inject(FilesService);
+  private readonly _itemsService = inject(ItemsService);
+  private readonly _router = inject(Router);
+  private readonly _diagService = inject(MatDialog);
+  private readonly _toastrService = inject(ToastrService);
 
   /* MEMBERS */
   public itemForm: FormGroup;
@@ -29,6 +36,7 @@ export class ItemFormComponent implements OnInit {
   public showProgressBar: boolean;
   public hasFile: boolean;
   public filteredOptions: Observable<string[]>;
+  public formActual: string;
 
   constructor() {
     this.imagePath = this._chooseImageIcon;
@@ -37,25 +45,78 @@ export class ItemFormComponent implements OnInit {
     const controls: { [key: string]:FormControl<any> } = {
       nome: new FormControl<string>(undefined, [Validators.required]),
       preco: new FormControl<number>(undefined, [Validators.required]),
-      descricao: new FormControl<number>(undefined, [Validators.required]),
+      descricao: new FormControl<number>(undefined, [Validators.minLength(20)]),
       imagem: new FormControl<File>(undefined)
     }
 
-    this._route.data.subscribe((data: {isProduto: boolean}) => {
-      this._item = new Item(new ItemDTO(), data.isProduto);
+    const isProduto = this._route.snapshot.data.isProduto;
+    this._item = new Item(new ItemDTO(), isProduto);
+    this.formActual = isProduto ? 'produtos' : 'servicos';
 
-      // cria o formulário dinamicamente em função do item a ser cadastrado
-      if(data.isProduto) {
-        controls.stock = new FormControl<number>(undefined, [Validators.required, Validators.min(1)]);
-        controls.tipo = new FormControl<string>(undefined, [Validators.required]);
-        controls.code = new FormControl<number>(undefined, [Validators.required]);
-      } else {
-        controls.duracao = new FormControl<number>(undefined, [Validators.required]);
-        controls.units = new FormControl('H', [Validators.required]);
+    // cria o formulário dinamicamente em função do item a ser cadastrado
+    if(this.isProduto) {
+      controls.stock = new FormControl<number>(undefined, [Validators.required, Validators.min(1)]);
+      controls.tipo = new FormControl<string>(undefined, [Validators.required]);
+      controls.code = new FormControl<string>(undefined, [Validators.required]);
+    } else {
+      controls.duracao = new FormControl<number>(0, [Validators.required]);
+      controls.units = new FormControl('H', [Validators.required]);
+    }
+
+    this.itemForm = this._formBuilder.group(controls);
+
+    const currPath = this._route.routeConfig.path;
+    if(currPath === 'edit') {
+      fromEvent(window, 'beforeunload').subscribe(() => {
+        localStorage.setItem(LOCAL_STORAGE.itemID, this._item.id.toString());
+      });
+    }
+
+    if(currPath === 'edit') {
+      this.showProgressBar = true;
+
+      try {
+        let itemID = +localStorage.getItem(LOCAL_STORAGE.itemID);
+
+        if(!itemID) itemID = this._router.getCurrentNavigation().extras.state.itemID;
+        else localStorage.removeItem(LOCAL_STORAGE.itemID);
+
+        this._itemsService.getItemByID(itemID, this.isProduto).pipe(
+          map(itm => {
+            this._item = itm;
+
+            const values: Values = {
+              nome: itm.item.nome,
+              preco: itm.item.preco,
+              descricao: itm.item.descricao,
+            }
+
+            if(this.isProduto) {
+              values.stock = itm.item.stock;
+              values.tipo = itm.item.tipo;
+              values.code = itm.item.code;
+            } else {
+              values.duracao = itm.item.duracao;
+              values.units = itm.item.units;
+            }
+
+            this._patchData(values, this.itemForm);
+
+            return from(this._filesService.getImage(itm.id, this.isProduto));
+          }),
+          switchAll()
+        ).subscribe(blob => {
+          const file = new File([blob], this._item.item.fileName, {type: blob.type});
+          this._selectFile((this._file = file));
+        });
+      } catch(exc) {
+        let msg = 'Erro ao buscar os dados do ' + (this.isProduto ? 'produto': 'serviço')
+          + '! Por favor retorne à listagem para tentar outra vez.';
+        this._toastrService.error(msg, 'Item não selecionado');
+        this.showProgressBar = false;
+        console.log(exc);
       }
-
-      this.itemForm = this._formBuilder.group(controls);
-    });
+    }
   }
 
   ngOnInit(): void {
@@ -72,11 +133,17 @@ export class ItemFormComponent implements OnInit {
 
   public onFileSelected(event): void {
     this._file = event.target.files[0] as File;
+    this._selectFile(this._file);
+  }
 
-    if (typeof FileReader !== 'undefined') {
+  private _selectFile(file: File) {
+    if (FileReader) {
       const previewReader = new FileReader();
 
-      previewReader.onloadend = (evt: any) => { this.imagePath = evt.currentTarget.result ?? this._chooseImageIcon };
+      previewReader.onloadend = (evt: any) => {
+        this.imagePath = evt.currentTarget.result ?? this._chooseImageIcon
+        this.showProgressBar = false;
+      };
 
       if ((this.hasFile = !!this._file)) previewReader.readAsDataURL(this._file);
       else {
@@ -95,32 +162,105 @@ export class ItemFormComponent implements OnInit {
 
     Object.assign(this._item.item, this.itemForm.value);
 
-    this._itemsService.registerItem(this._item.item, this._item.isProduto).pipe(
-      switchMap(item => {
-        let resp: {file: Observable<File>, id: Observable<number>};
+    if(this._item.id) {
+      this._itemsService.updateItem(this._item.item, this.isProduto).pipe(
+        map((itm) => {
+          this._item = itm;
 
-        if(this.hasFile) resp = {file: of(this._file), id: of(item.id)};
-        else resp = {file: this._itemsService.getNoImage(), id: of(item.id)}
+          this._filesService.uploadImage(new ImageFile(this._file), this._item.id, this.isProduto)
+        }),
+      ).subscribe(() => {
+        const values: Values = {
+          nome: this._item.item.nome,
+          preco: this._item.item.preco,
+          descricao: this._item.item.descricao,
+        }
 
-        return forkJoin(resp);
-      }),
-      switchMap(data => this._filesService.uploadImage(new ImageFile(data.file), data.id, this.isProduto))
-    ).subscribe(() => {
-      this.showProgressBar = false;
-      this.imagePath = this._chooseImageIcon;
-      this.itemForm.reset({emitEvent: false});
-    })
+        if(this.isProduto) {
+          values.stock = this._item.item.stock;
+          values.tipo = this._item.item.tipo;
+          values.code = this._item.item.code;
+        } else {
+          values.duracao = this._item.item.duracao;
+          values.units = this._item.item.units;
+        }
+
+        this._patchData(values, this.itemForm);
+        this.showProgressBar = false;
+      });
+    } else {
+      this._itemsService.registerItem(this._item.item, this._item.isProduto).pipe(
+        switchMap(item => {
+          let resp: {file: Observable<File>, id: Observable<number>};
+
+          if(this.hasFile) resp = {file: of(this._file), id: of(item.id)};
+          else resp = {file: this._itemsService.getNoImage(), id: of(item.id)}
+
+          return forkJoin(resp);
+        }),
+        switchMap(data => this._filesService.uploadImage(new ImageFile(data.file), data.id, this.isProduto))
+      ).subscribe(() => {
+        this.showProgressBar = false;
+        this.limparCampos();
+      })
+    }
   }
 
-  unidadeChanged(evt: MatRadioChange) {
-    this.itemForm.get('units').setValue(evt.value);
+  unidadeChanged(evt: MatButtonToggleChange) { this.itemForm.get('units').setValue(evt.value) }
+  canSave(): boolean { return this.itemForm.valid }
+  get isProduto(): boolean { return this._item.isProduto }
+
+  public get duracao(): string {
+    let s = "";
+
+    if(this.itemForm.value.duracao && this.itemForm.value.units) {
+      s = this.itemForm.value.units === 'H' ? 'hora' : 'minuto';
+
+      if(this.itemForm.value.duracao > 1) s += 's';
+
+      s = this.itemForm.value.duracao + ' ' + s;
+    }
+
+    return s;
   }
 
-  canSave(): boolean {
-    return this.itemForm.valid;
+  public handleButtonGroupChange(evt: MatButtonToggleChange) {
+    const route = this.isProduto ? APP_ROUTES.servicos_add : APP_ROUTES.produtos_add;
+
+    if(this.itemForm.touched) {
+      this._diagService.open(
+        ConfirmDialogComponent,
+        {
+          height: 'auto',
+          width: 'auto',
+          data: {
+            controls: DIALOG_CONTROLS.confirm_cancel,
+            isNegativeWarn: false,
+            message: 'Deseja mudar de formulário? Qualquer alteração que tenha feito será perdida!',
+            title: 'Mudar Formulário'
+          }
+        }
+      ).afterClosed().subscribe((resp: IDialogsResponses) => {
+        if(resp.response === DIALOG_RESPONSES.confirm) this._router.navigate([route]).then();
+      })
+    } else this._router.navigate([route]).then();
   }
 
-  get isProduto(): boolean {
-    return this._item.isProduto;
+  public limparCampos(): void {
+    this.imagePath = this._chooseImageIcon;
+    this.itemForm.reset({emitEvent: false});
   }
+
+  private _patchData(data: Values, form: FormGroup): void { this.itemForm.patchValue({...data}) }
+}
+
+type Values = {
+  nome: string,
+  preco: number,
+  descricao: string,
+  stock?: number,
+  tipo?: string,
+  code?: string,
+  duracao?: number,
+  units?: string
 }

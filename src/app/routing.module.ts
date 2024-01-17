@@ -9,6 +9,7 @@ import { LogInComponent } from './core/auth/components/log-in/log-in.component';
 import { SignUpComponent } from './core/auth/components/sign-up/sign-up.component';
 import { UserComponent } from './core/components/user/user.component';
 import { CarrinhoListComponent } from './core/components/carrinho/carrinho-list.component';
+import { ItemsDataResolver } from './shared/components/items-data.resolver';
 
 const _routes: Routes = [
   {
@@ -46,6 +47,7 @@ const _routes: Routes = [
           },
           {
             path: 'edit',
+            resolve: {dynamic: ItemsDataResolver},
             component: ItemFormComponent
           }
         ],
@@ -64,6 +66,7 @@ const _routes: Routes = [
           },
           {
             path: 'edit',
+            resolve: {dynamic: ItemsDataResolver},
             component: ItemFormComponent
           },
           {

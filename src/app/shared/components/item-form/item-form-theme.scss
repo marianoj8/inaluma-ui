@@ -18,10 +18,6 @@
     .content-row.first,
     .rows-container.column .row:not(.full-space) {
       flex-wrap: wrap;
-
-      .row :not(:first-child) {
-        flex: 1 0;
-      }
     }
 
     .content-row.second .mat-form-field {

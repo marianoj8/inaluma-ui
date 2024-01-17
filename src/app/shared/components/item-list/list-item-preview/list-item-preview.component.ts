@@ -51,7 +51,7 @@ export class ListItemPreviewComponent {
 
   editItem() {
     const route = this.isProduto ? APP_ROUTES.produtos_edit : APP_ROUTES.servicos_edit;
-    this._router.navigate([route, this.item.item.id]).then();
+    this._router.navigate([route], {state: {itemID: this.item.item.id}}).then();
   }
 
   toggleInfo() {
@@ -81,7 +81,7 @@ export class ListItemPreviewComponent {
   public get descricao(): string { return this._item?.item.descricao }
   public get preco(): number { return this._item?.item.preco }
   public get isVisitor(): boolean { return this._authService.isSignedIn }
-  public get isCliente(): boolean { return this._authService.isCliente(); }
+  public get isCliente(): boolean { return this._authService.isCliente() }
   public get isInCart(): boolean { return this._carrinhoService.estaNoCarrinho(this.itemCarrinho)}
 
   public somar(qtd: string): void { this._carrinhoService.aumentarQtd(this.itemCarrinho, Number(qtd)) }
