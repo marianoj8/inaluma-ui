@@ -44,7 +44,7 @@ export class AuthService {
    * @param user User object to post
    * @external {@link User}
    */
-  public signIn(user: User): void {
+  public signIn(user: User, newUser = false): void {
     this.showProgress.emit(true);
     this._http.post<User>(environment.API + API_AUTH_ROUTES.logIn, user).pipe(
       map(usr => {
@@ -61,6 +61,7 @@ export class AuthService {
             this.showProgress.emit(false);
             this._userLogActionRequested(true);
             this._router.navigate([this.routes.home]).then();
+            if(newUser) this._toastrService.success('Conta criada e logada com successo','Operação bem Sucedida');
           }
         },
         error: (err: HttpErrorResponse) => {
