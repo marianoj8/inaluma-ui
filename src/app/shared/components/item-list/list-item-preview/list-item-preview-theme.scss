@@ -61,7 +61,8 @@
       align-items: end;
 
       .delete {
-        will-change: display margin;
+        will-change: display, margin;
+        @include utils.make-flex($gap: '10px');
 
         & > * {
           display: none;
