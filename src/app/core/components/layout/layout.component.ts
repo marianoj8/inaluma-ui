@@ -43,10 +43,10 @@ export class LayoutComponent implements OnInit {
     // options for the scrolltop button
     this.config = {
       anchor: SCRTOP_POSITION.bottomRight,
-      opacity: 0.36,
+      opacity: 0.25,
       scrollHeight: 100,
       icon: 'north',
-      color: SCRTOP_COLOR.secondary,
+      color: SCRTOP_COLOR.accent,
       positioning: 'fixed',
       scrollComponent: this.sidenavContainer,
     };
