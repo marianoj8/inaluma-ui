@@ -34,7 +34,7 @@ export class SignUpComponent implements OnInit {
     let controls: {[k: string]: FormControl} = {
       nome: new FormControl<string>(undefined, [Validators.required]),
       sobrenome: new FormControl<string>(undefined, [Validators.required]),
-      tipo: new FormControl<string>(this.isVisitor ? Perfil.cliente.api : undefined, [Validators.required]),
+      perfil: new FormControl<string>(this.isVisitor ? Perfil.cliente.api : undefined, [Validators.required]),
       estado: new FormControl(false, [Validators.required]),
       genero: new FormControl<string>(undefined, [Validators.required]),
       username: new FormControl<string>(undefined, [Validators.required]),
@@ -76,9 +76,19 @@ export class SignUpComponent implements OnInit {
     this.isVisitor ? appUser.cliente = user : appUser.funcionario = user;
 
     this._applicationUserSrvc.signUp(appUser).subscribe(usr => {
-      if(this.isVisitor) this._authService.signIn(usr.cliente);
+      if(this.isVisitor) {
+        const u = new User();
+        u.username = usr.username;
+        u.password = usr.password;
+
+        this._authService.signIn(u, true);
+      };
 
       this.userForm.reset({emitEvent: false});
     });
+  }
+
+  public toggleControlType(ctrl: HTMLInputElement) {
+    ctrl.type = ctrl.type === 'text' ? 'password' : 'text';
   }
 }
