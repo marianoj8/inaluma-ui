@@ -99,7 +99,7 @@ export class ListItemPreviewComponent implements OnChanges {
   }
 
   public subtrair(qtd: string): void {
-    if(!this.isProduto)
+    if(!this.isProduto) return;
     this._carrinhoService.reduzirQtd(this.itemCarrinho, Number(qtd));
   }
 }
