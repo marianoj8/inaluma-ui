@@ -1,9 +1,9 @@
 import { Component, OnInit, inject } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Item, ItemDTO } from "src/app/core/model/dto/ItemDTO";
+import { ActivatedRoute } from "@angular/router";
+import { Item } from "src/app/core/model/dto/ItemDTO";
 import { APP_ROUTES } from "../../config";
 import { ItemsService } from "../../services/items.service";
-import { debounceTime, delay, forkJoin, from, map, mergeMap, of, switchAll, switchMap, tap } from "rxjs";
+import {  from, mergeMap, of, switchMap } from "rxjs";
 import { FilesService } from "../../services/files.service";
 import { Location } from "@angular/common";
 
@@ -30,19 +30,11 @@ export class ItemListComponent implements OnInit {
   constructor() {
     this.imagePlaceholder = '../../../../assets/images/No-Image-Placeholder.svg'
     this.canSearch = false;
+    this.isProduto = this._route.snapshot.data.isProduto;
 
-    this._route.data.pipe(
-      switchMap(data => this._itemsService.fetch(this.isProduto = data.isProduto)),
-      switchMap((items) => from(this.itens = items)),
-      switchMap(d => {
-        const test = of({
-          item: d,
-          blob: this._filesService.getImage(d.item.id, d.isProduto)
-        });
-
-        return of(test);
-      }),
-      switchMap(o => o),
+    this._itemsService.fetch(this.isProduto).pipe(
+      switchMap(items => from(this.itens = items)),
+      mergeMap(item => of({item, blob: this._filesService.getImage(item.item.id, item.isProduto)}))
     ).subscribe(data => {
       data.blob.then(b => {
         const reader = new FileReader();

@@ -32,19 +32,47 @@
 
       .title {
         font-variant: small-caps;
-        @include _includeFontConfs($theme, 'display-1');
+        @include _includeFontConfs($theme, 'display-2');
       }
 
-      .bottom-content-wrapper {
-        @include utils.make-flex($gap: '20px');
+      .bottom-content-wrapper,
+      .qtd-carrinho {
+        & > span {
+          position: relative;
+        }
 
         .detail {
-          @include _includeFontConfs($theme, 'title')
+          @include _includeFontConfs($theme, 'headline')
         }
 
         .detail + span {
-          margin-left: 8px;
-          @include _includeFontConfs($theme, 'body-2')
+          margin-left: 20px;
+          @include _includeFontConfs($theme, 'headline');
+          color: map.get(mat.get-color-config($theme), foreground, disabled-text);
+
+          &:not(:first-of-type)::before {
+            position: absolute;
+            top: 11px;
+            left: -20px;
+            display: block;
+            content: '';
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            background-color: currentColor//map.get(mat.get-color-config($theme), background, background);
+          }
+        }
+      }
+
+      .bottom-content-wrapper {
+        @include utils.make-flex($gap: '60px', $wrap: 'wrap');
+      }
+
+      .qtd-carrinho {
+        position: relative;
+
+        & > span {
+          position: static;
         }
       }
 
@@ -58,7 +86,7 @@
     }
 
     .controls-container {
-      align-items: end;
+      align-items: flex-end;
 
       .delete {
         will-change: display, margin;
@@ -76,6 +104,21 @@
         .viewing,
         .deleting {
           display: block;
+        }
+      }
+
+      .cart-controls {
+        @include utils.make-flex($direction: 'column', $alignItems: 'flex-end', $gap: '10px', $wrap: 'wrap');
+
+        .container {
+          @include utils.make-flex($justContent: 'flex-end', $alignItems: 'center', $gap: '10px');
+          padding: 0;
+
+          .mat-form-field {
+            @include utils.reset-form-field($theme);
+            min-width: 70px!important;
+            width: 70px;
+          }
         }
       }
     }

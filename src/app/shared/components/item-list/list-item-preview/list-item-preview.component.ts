@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild, inject } from "@angular/core";
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild, inject } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Item } from "src/app/core/model/dto/ItemDTO";
 import { CarrinhoService } from "src/app/core/components/carrinho/carrinho.service";
@@ -6,12 +6,13 @@ import { APP_ROUTES } from "src/app/shared/config";
 import { ItemsService } from "src/app/shared/services/items.service";
 import { ItemCarrinho } from "src/app/core/model/ItemCarrinho";
 import { AuthService } from "src/app/core/auth/services/auth.service";
+import { TooltipPosition } from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-list-item-preview',
   templateUrl: './list-item-preview.component.html'
 })
-export class ListItemPreviewComponent {
+export class ListItemPreviewComponent implements OnChanges {
   /* DEPENDENCIES */
   private readonly _itemsService = inject(ItemsService);
   private readonly _carrinhoService = inject(CarrinhoService);
@@ -33,6 +34,10 @@ export class ListItemPreviewComponent {
     this.showInfo = false;
 
     this.hideShopping = this._route.snapshot.data.hideShopping;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes)
   }
 
   get duracao() {
@@ -82,8 +87,19 @@ export class ListItemPreviewComponent {
   public get preco(): number { return this._item?.item.preco }
   public get isVisitor(): boolean { return this._authService.isSignedIn }
   public get isCliente(): boolean { return this._authService.isCliente() }
-  public get isInCart(): boolean { return this._carrinhoService.estaNoCarrinho(this.itemCarrinho)}
+  public get isLogado(): boolean { return this._authService.isSignedIn }
+  public get isInCart(): boolean { return this._carrinhoService.estaNoCarrinho(this.itemCarrinho) }
+  public get tipPosition(): TooltipPosition { return 'before' }
+  public get tipShowDelay(): number { return 1000 }
+  public get tipHideDelay(): number { return 250 }
 
-  public somar(qtd: string): void { this._carrinhoService.aumentarQtd(this.itemCarrinho, Number(qtd)) }
-  public subtrair(qtd: string): void { this._carrinhoService.reduzirQtd(this.itemCarrinho, Number(qtd)) }
+  public somar(qtd: string): void {
+    if(!this.isProduto) return;
+    this._carrinhoService.aumentarQtd(this.itemCarrinho, Number(qtd));
+  }
+
+  public subtrair(qtd: string): void {
+    if(!this.isProduto)
+    this._carrinhoService.reduzirQtd(this.itemCarrinho, Number(qtd));
+  }
 }
