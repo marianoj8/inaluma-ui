@@ -84,8 +84,9 @@
       </mat-form-field>
     </section>
     <section class="controls-row row">
-      <button mat-flat-button color="warn">Cancelar</button>
       <button mat-flat-button color="accent" [disabled]="!canSave()" (click)="saveItem()">Salvar</button>
+      <button mat-flat-button color="warn" [disabled]="!itemForm.dirty" (click)="limparCampos()">Limpar Campos</button>
+      <button mat-flat-button color="warn" (click)="cancelar()">Cancelar</button>
     </section>
   </form>
 </section>
