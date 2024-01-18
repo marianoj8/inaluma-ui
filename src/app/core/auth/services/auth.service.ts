@@ -60,7 +60,8 @@ export class AuthService {
             this.addToLocalStorage(signInRes);
             this.showProgress.emit(false);
             this._userLogActionRequested(true);
-            this._router.navigate([this.routes.home]).then();
+            // this._router.navigate([this.routes.home]).then();
+            history.back();
             if(newUser) this._toastrService.success('Conta criada e logada com successo','Operação bem Sucedida');
           }
         },
