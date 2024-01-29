@@ -2,12 +2,18 @@ import { Injectable, RendererFactory2, inject } from "@angular/core";
 import { OverlayContainer } from "@angular/cdk/overlay";
 import { THEME_CLASSES } from "src/app/shared/config";
 import { LOCAL_STORAGE } from "src/app/shared/config";
+import { AuthService } from "../auth/services/auth.service";
 
 @Injectable()
 export class ThemeService {
   /* DEPENDENCIES */
   private readonly _renderer = inject(RendererFactory2).createRenderer(null, null);
   private readonly _overlayContainer = inject(OverlayContainer);
+  private readonly _authService = inject(AuthService);
+
+  constructor() {
+    this._authService.userLogged$.subscribe(() => { this.init() });
+  }
 
   /* MEMBERS */
   private _defaultThemeMode = THEME_CLASSES.dark;
