@@ -49,13 +49,13 @@
           <div class="linha">
             <p>
               <span>Itens</span>
-              <span>{{itensNoCarrinho}}</span>
+              <span>{{itensNoCarrinho | number:"1.0-0"}}</span>
             </p>
           </div>
           <div class="linha">
             <p>
               <span>Total</span>
-              <span>{{totalAPagar}} Kz</span>
+              <span>{{totalAPagar | number:"1.2-3"}} Kz</span>
             </p>
           </div>
           <div class="linha"><mat-form-field appearance="outline" color="accent"><input matInput type="number" #quantia/></mat-form-field></div>

@@ -71,7 +71,7 @@ export class ListItemPreviewComponent {
   public get isEsgotado(): boolean { return this._item?.item.stock === 0 }
   public get isIndisponível(): boolean { return this._item?.item.estado}
   private get _item(): Item { return this.item ? this.item : this.itemCarrinho?.item; }
-  public get quantidade(): string { return this._formatNumber(this.itemCarrinho.qtd) }
+  public get quantidade(): string { return formatNumber(this.itemCarrinho.qtd, 'pt', '1.0-0') }
   public get total(): string { return this._formatNumber(this.itemCarrinho.total) }
   public get isCarrinhoItem(): boolean { return !!this.itemCarrinho }
   public get img(): string { return this._item?.imgSrc }
