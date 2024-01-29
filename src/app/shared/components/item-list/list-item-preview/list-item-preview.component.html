@@ -6,13 +6,16 @@
       <div class="bottom-content-wrapper">
         <span><span class="detail">Estado</span><span>{{estado}}</span></span>
         <ng-container *ngIf="isProduto else servico">
-          <span><span  class="detail">Disponível</span><span>{{stock}}</span></span>
+          <span><span  class="detail">Stock</span><span>{{stock}}</span></span>
           <span><span  class="detail">Código</span><span>{{codigo}}</span></span>
         </ng-container>
         <ng-template #servico><span><span class="detail">Duração</span>{{duracao}}</span></ng-template>
-        <span><span class="detail">Preço</span><span>{{preco}}</span></span>
+        <span><span class="detail">Preço</span><span>{{preco}} Kz</span></span>
       </div>
-      <span class="qtd-carrinho" *ngIf="hideShopping && isProduto"><span class="detail">Quatidade no carrinho</span><span>{{quantidade}}</span></span>
+      <div class="dados-carrinho" *ngIf="hideShopping && isProduto">
+        <span><span class="detail">Quatidade no carrinho</span><span>{{quantidade}}</span></span>
+        <span><span class="detail">Total</span><span>{{total}} Kz</span></span>
+      </div>
       <span class="info" [class.show]="showInfo">{{descricao}}</span>
     </div>
     <div class="controls-container">

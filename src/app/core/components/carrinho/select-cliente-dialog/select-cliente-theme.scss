@@ -1,0 +1,30 @@
+@use '/src/scss/utility/utilities' as utils;
+
+.select-cliente-dialog {
+  width: 60vw;
+  height: 60vh;
+
+  @include utils.make-flex($direction: 'column', $gap: '10px');
+
+  .mat-dialog-title {
+    margin: 0;
+  }
+
+  .clientes {
+    flex: 1 0;
+    max-height: 100%;
+    overflow-y: auto;
+
+    .cliente {
+      @include utils.make-flex($justContent: 'space-between', $alignItems: 'center', $gap: '10px');
+
+      h3 {
+        margin-bottom: 2px;
+      }
+
+      h4 {
+        @include utils.make-flex($gap: '10px');
+      }
+    }
+  }
+}

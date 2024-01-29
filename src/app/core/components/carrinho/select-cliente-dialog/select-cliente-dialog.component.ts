@@ -7,7 +7,8 @@ import { MatDialogRef } from "@angular/material/dialog";
 
 @Component({
   selector: 'app-select-cliente-dialog',
-  templateUrl: './select-cliente-dialog.component.html'
+  templateUrl: './select-cliente-dialog.component.html',
+  styleUrls: ['./select-cliente-theme.scss']
 })
 export class SelectClienteDialogComponent implements OnInit {
   /* DEPENDENCIES */

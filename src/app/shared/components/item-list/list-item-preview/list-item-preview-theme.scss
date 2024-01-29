@@ -36,7 +36,9 @@
       }
 
       .bottom-content-wrapper,
-      .qtd-carrinho {
+      .dados-carrinho {
+        @include utils.make-flex($gap: '60px', $wrap: 'wrap');
+
         & > span {
           position: relative;
         }
@@ -61,18 +63,6 @@
             border-radius: 50%;
             background-color: currentColor//map.get(mat.get-color-config($theme), background, background);
           }
-        }
-      }
-
-      .bottom-content-wrapper {
-        @include utils.make-flex($gap: '60px', $wrap: 'wrap');
-      }
-
-      .qtd-carrinho {
-        position: relative;
-
-        & > span {
-          position: static;
         }
       }
 
