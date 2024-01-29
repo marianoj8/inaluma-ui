@@ -9,9 +9,9 @@
         <ng-container *ngIf="temItens else noItems">
           <section class="item-section servicos-section" *ngIf="temServico">
             <mat-toolbar class="title">Serviço</mat-toolbar>
-            <app-list-item-preview></app-list-item-preview>
+            <app-list-item-preview [itemCarrinho]="servico"></app-list-item-preview>
           </section>
-          <section class="item-section produtos-section" *ngIf="temItens">
+          <section class="item-section produtos-section" *ngIf="temProdutos">
             <mat-toolbar class="title">Produtos</mat-toolbar>
             <ng-container>
               <app-list-item-preview *ngFor="let i of produtos" [itemCarrinho]="i"></app-list-item-preview>

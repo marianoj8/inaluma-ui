@@ -32,6 +32,7 @@ export class CarrinhoListComponent {
       this.servico = this._carrinhoService.servico;
     });
   }
+
   public selectCliente(): void {
     this._diagService.open(
       SelectClienteDialogComponent,
@@ -46,9 +47,11 @@ export class CarrinhoListComponent {
       }
     })
   }
+
   public voltar(): void { this._location.back(); }
   public get temServico(): boolean { return this._carrinhoService.temServico; }
   public get temItens(): boolean { return this._carrinhoService.temItens }
+  public get temProdutos(): boolean { return this._carrinhoService.temProdutos }
   public get tipoOperacao(): string { return this.temServico ? 'Agendamento' : 'Compra' }
   public get itensNoCarrinho(): number { return this._carrinhoService.estadoCarrinho.qtdItens }
   public get totalAPagar(): number { return this._carrinhoService.estadoCarrinho.totalCarrinho }

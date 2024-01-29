@@ -81,6 +81,18 @@ export class Carrinho {
 
     return tem;
   }
+  public get temProdutos(): boolean {
+    let tem = false;
+
+    for(let item of this.itens) {
+      if (item.item.isProduto) {
+        tem = true;
+        break;
+      }
+    }
+
+    return tem;
+  }
   public getItem(i: ItemCarrinho): ItemCarrinho { return this.itens.find(x => (i.item.id === x.item.id) && (i.item.isProduto === x.item.isProduto)) }
   public reterEstado(): boolean {
     const bkp = new Array<ItemCarrinho>();

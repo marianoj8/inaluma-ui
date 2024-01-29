@@ -72,6 +72,7 @@ export class CarrinhoService {
   public get servico(): ItemCarrinho { return this._getCarrinho.servico }
   public get produtos(): ItemCarrinho[] { return this._getCarrinho.produtos }
   public get temServico(): boolean { return this._getCarrinho.temServico }
+  public get temProdutos(): boolean { return this._getCarrinho.temProdutos }
 
   public removerItem(item: ItemCarrinho) {
     this._diagService.open(
