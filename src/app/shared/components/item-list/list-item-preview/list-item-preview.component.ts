@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild, inject } from "@angular/core";
+import { Component, EventEmitter, Input, Output, inject } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Item } from "src/app/core/model/dto/ItemDTO";
 import { CarrinhoService } from "src/app/core/components/carrinho/carrinho.service";
@@ -7,12 +7,13 @@ import { ItemsService } from "src/app/shared/services/items.service";
 import { ItemCarrinho } from "src/app/core/model/ItemCarrinho";
 import { AuthService } from "src/app/core/auth/services/auth.service";
 import { TooltipPosition } from "@angular/material/tooltip";
+import { formatNumber } from "@angular/common";
 
 @Component({
   selector: 'app-list-item-preview',
   templateUrl: './list-item-preview.component.html'
 })
-export class ListItemPreviewComponent implements OnChanges {
+export class ListItemPreviewComponent {
   /* DEPENDENCIES */
   private readonly _itemsService = inject(ItemsService);
   private readonly _carrinhoService = inject(CarrinhoService);
@@ -36,10 +37,6 @@ export class ListItemPreviewComponent implements OnChanges {
     this.hideShopping = this._route.snapshot.data.hideShopping;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes)
-  }
-
   get duracao() {
     let unit = this._item?.item?.units === 'H' ? 'hora' : 'minuto';
     if(this._item?.item?.duracao > 1) unit += 's';
@@ -59,9 +56,7 @@ export class ListItemPreviewComponent implements OnChanges {
     this._router.navigate([route], {state: {itemID: this.item.item.id}}).then();
   }
 
-  toggleInfo() {
-    this.showInfo = !this.showInfo;
-  }
+  toggleInfo() { this.showInfo = !this.showInfo }
 
   public adicionarItemCarrinho(): void { this._carrinhoService.adicionarItem(this.item); }
   public removerItemCarrinho(): void { this._carrinhoService.removerItem(this.itemCarrinho) }
@@ -75,16 +70,16 @@ export class ListItemPreviewComponent implements OnChanges {
 
   public get isEsgotado(): boolean { return this._item?.item.stock === 0 }
   public get isIndisponível(): boolean { return this._item?.item.estado}
-  public get _item(): Item { return this.item ? this.item : this.itemCarrinho?.item; }
-  public get quantidade(): number { return this.itemCarrinho.qtd }
-  public get total(): number { return this.itemCarrinho.total }
+  private get _item(): Item { return this.item ? this.item : this.itemCarrinho?.item; }
+  public get quantidade(): string { return this._formatNumber(this.itemCarrinho.qtd) }
+  public get total(): string { return this._formatNumber(this.itemCarrinho.total) }
   public get isCarrinhoItem(): boolean { return !!this.itemCarrinho }
   public get img(): string { return this._item?.imgSrc }
   public get nome(): string { return this._item?.item.nome }
-  public get stock(): number { return this._item?.item.stock }
+  public get stock(): string { return this._formatNumber(this._item?.item.stock) }
   public get codigo(): string { return this._item?.item.code }
   public get descricao(): string { return this._item?.item.descricao }
-  public get preco(): number { return this._item?.item.preco }
+  public get preco(): string { return this._formatNumber(this._item?.item.preco) }
   public get isVisitor(): boolean { return this._authService.isSignedIn }
   public get isCliente(): boolean { return this._authService.isCliente() }
   public get isLogado(): boolean { return this._authService.isSignedIn }
@@ -92,6 +87,8 @@ export class ListItemPreviewComponent implements OnChanges {
   public get tipPosition(): TooltipPosition { return 'before' }
   public get tipShowDelay(): number { return 1000 }
   public get tipHideDelay(): number { return 250 }
+
+  private _formatNumber(num: number):string { return formatNumber(num, 'pt-pt', '2.2-2') }
 
   public somar(qtd: string): void {
     if(!this.isProduto) return;
