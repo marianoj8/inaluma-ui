@@ -13,7 +13,7 @@ import { User } from "../../model/dto/User";
 import { Perfil } from "../../model/Profiles";
 import { ConfirmDialogComponent } from "src/app/shared/components/dialogs/confirm-dialog/confirm-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
-import { IDialogsResponses } from "../../model";
+import { IDialogsConfig, IDialogsResponses } from "../../model";
 
 @Injectable()
 export class CarrinhoService {
@@ -55,7 +55,6 @@ export class CarrinhoService {
   private _emitEstadoActualizado(): void { this._estadoActualizadoSource.next(this.estadoCarrinho); }
 
   public adicionarItem(item: Item) {
-    console.log(item);
     if(!this._authService.isSignedIn) {
       this._toastrService.error('Para adicionar itens ao carrinho deve iniciar sessão', 'Proibido');
       return;
@@ -69,18 +68,38 @@ export class CarrinhoService {
       else this._toastrService.error('Não pode ter mais de um serviço em um agendamento!', 'Operação Proibida');
     }
   }
+
   public get servico(): ItemCarrinho { return this._getCarrinho.servico }
   public get produtos(): ItemCarrinho[] { return this._getCarrinho.produtos }
-
   public get temServico(): boolean { return this._getCarrinho.temServico }
 
   public removerItem(item: ItemCarrinho) {
-    this._getCarrinho.removerItem(item);
-    this._emitEstadoActualizado();
-    this._toastrService.info('Item removido do carrinho', 'Notificação');
+    this._diagService.open(
+      ConfirmDialogComponent,
+      {
+        disableClose: true,
+        data: {
+          controls: DIALOG_CONTROLS.yes_no,
+          isNegativeWarn: false,
+          message: 'Confirma a remoção do ítem do carrinho?',
+          title: 'Remover Ítem'
+        }
+      }
+    ).afterClosed().subscribe((resp: IDialogsResponses) => {
+      if(resp.response === DIALOG_RESPONSES.yes) {
+        this._getCarrinho.removerItem(item);
+        this._emitEstadoActualizado();
+        this._toastrService.info('Item removido do carrinho', 'Notificação');
+      }
+    })
   }
 
   public aumentarQtd(item: ItemCarrinho, qtd: number): boolean {
+    if(!qtd) {
+      this._toastrService.error('O incremento dever ser maior ou igual a 1', 'Operação Proibida');
+      return false;
+    }
+
     const rslt = this._getCarrinho.somar(item, qtd);
 
     if(rslt) this._emitEstadoActualizado();
@@ -89,10 +108,15 @@ export class CarrinhoService {
     return rslt;
   }
   public reduzirQtd(item: ItemCarrinho, qtd: number): boolean {
+    if(!qtd) {
+      this._toastrService.error('O decremento dever ser maior ou igual a 1', 'Operação Proibida');
+      return false;
+    }
+
     const rslt = this._getCarrinho.subtrair(item, qtd);
 
     if(rslt) this._emitEstadoActualizado();
-    else this._toastrService.error('Erro, quatia negativa ou nula', 'Operação Proibida');
+    else this._toastrService.error('Erro, quantia negativa ou nula', 'Operação Proibida');
 
     return rslt
   }
@@ -100,6 +124,7 @@ export class CarrinhoService {
   public get itensCarrinho(): number { return this._getCarrinho.itensCarrinho }
   public get estadoCarrinho(): IEstadoCarrinho { return this._getCarrinho.estado }
   public get temItens(): boolean { return this._getCarrinho.temItems }
+
   public restaurarEstado(fromLocalStorage = true): boolean {
     if(fromLocalStorage) {
       try {
@@ -131,8 +156,7 @@ export class CarrinhoService {
               return cnt;
             }),
           ).subscribe(res => {
-
-            console.log(res)
+            // console.log(res)
           })
         });
 
@@ -154,13 +178,16 @@ export class CarrinhoService {
     }
   }
   public estaNoCarrinho(item: ItemCarrinho): boolean { return this._getCarrinho.temItem(item) }
+
   public reterEstado(): boolean {
     if(!this.temItens) return false;
     else return this._getCarrinho.reterEstado();
   }
+
   public get hasCliente(): boolean { return this._getCarrinho.hasCliente }
   public get cliente(): User { return this._getCarrinho.cliente }
-  public selecionarCliente(usr: User): void { this._getCarrinho.selecionarCliente(usr); }
+  public selecionarCliente(usr: User): void { this._getCarrinho.selecionarCliente(usr) }
+
   public destruir(operacao: string): void {
     if(!this.temItens) this._toastrService.error('Carrinho vazio!', 'Operaçao Proibida');
     else this._diagService.open(
@@ -180,6 +207,7 @@ export class CarrinhoService {
         if(resp.response === DIALOG_RESPONSES.confirm) this._resetCarrinho(false);
       });
   }
+
   public esvaziar(): void {
     if(!this.temItens) this._toastrService.error('Carrinho vazio!', 'Operaçao Proibida');
     else this._diagService.open(
