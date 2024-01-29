@@ -1,17 +1,17 @@
 <section class="carrinho-list">
   <div class="container">
     <header class="controls-section">
-      <button mat-flat-button color="accent" (click)="voltar()"><mat-icon>arrow_back</mat-icon><span>Voltar</span></button>
+      <button mat-flat-button color="warn" (click)="voltar()"><mat-icon>arrow_back</mat-icon><span>Voltar</span></button>
       <h2>Check Out</h2>
     </header>
     <div class="content-container">
       <section class="items-container">
         <ng-container *ngIf="temItens else noItems">
-          <section class="servicos-section" *ngIf="temServico">
+          <section class="item-section servicos-section" *ngIf="temServico">
             <mat-toolbar class="title">Serviço</mat-toolbar>
             <app-list-item-preview></app-list-item-preview>
           </section>
-          <section class="produtos-section" *ngIf="temItens">
+          <section class="item-section produtos-section" *ngIf="temItens">
             <mat-toolbar class="title">Produtos</mat-toolbar>
             <ng-container>
               <app-list-item-preview *ngFor="let i of produtos" [itemCarrinho]="i"></app-list-item-preview>
@@ -30,43 +30,41 @@
       </section>
       <section class="summary-container">
         <header class="coluna">
-          <div class="linha">
-            <div *ngIf="(hasCliente && isCliente) else selecionarCliente">
+          <div class="linha has-controls">
+            <ng-container *ngIf="hasCliente else selecionarCliente">
               <p>
                 <span>Cliente</span>
                 <span>{{nomeCompleto}}</span>
               </p>
-              <button mat-mini-fab color="accent" class="mat-elevation-z0" (click)="selectCliente()"><mat-icon>change_circle</mat-icon></button>
-            </div>
-            <ng-template #selecionarCliente><button mat-flat-button (click)="selectCliente()" color="accent">Selecionar Cliente</button></ng-template>
+              <mat-icon mat-icon-button color="accent" class="mat-elevation-z0" (click)="selectCliente()" *ngIf="!isCliente">change_circle</mat-icon>
+            </ng-container>
+            <ng-template #selecionarCliente><button mat-flat-button (click)="selectCliente()" color="accent" [disabled]="!isSignedIn">Selecionar Cliente</button></ng-template>
           </div>
           <div class="linha">
             <p>
-              <span>Tipo de Operação</span>
+              <span>Operação</span>
               <span>{{tipoOperacao}}</span>
             </p>
           </div>
           <div class="linha">
             <p>
-              <span>Itens no Carrinho</span>
+              <span>Itens</span>
               <span>{{itensNoCarrinho}}</span>
             </p>
           </div>
           <div class="linha">
             <p>
-              <span>Montante a pagar</span>
-              <span>AOA {{totalAPagar}}</span>
+              <span>Total</span>
+              <span>{{totalAPagar}} Kz</span>
             </p>
           </div>
-          <div class="linha">
-            <mat-form-field appearance="outline" color="accent"><input matInput type="number" #quantia/></mat-form-field>
-          </div>
+          <div class="linha"><mat-form-field appearance="outline" color="accent"><input matInput type="number" #quantia/></mat-form-field></div>
         </header>
         <footer class="coluna controls">
           <div class="linha"><button mat-flat-button color="accent"><div class="coluna">Adicionar Itens</div></button></div>
           <div class="linha" *ngIf="hasCliente || podeConfirmar"><button mat-flat-button color="accent" [disabled]="!podeConfirmar"><div class="coluna">Confirmar</div></button></div>
           <div class="linha"><button mat-flat-button color="warn" (click)="esvaziarCarrinho()" [disabled]="!temItens"><div class="coluna">Esvaziar Carrinho</div></button></div>
-          <div class="linha"><button mat-flat-button color="warn"><div class="coluna">Cancelar {{tipoOperacao}}</div></button></div>
+          <div class="linha"><button mat-flat-button color="warn" (click)="cancelar()" disabled="!temItens"><div class="coluna">Cancelar {{tipoOperacao}}</div></button></div>
         </footer>
       </section>
     </div>

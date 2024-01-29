@@ -3,7 +3,7 @@ import { CarrinhoService } from "./carrinho.service";
 import { ItemCarrinho } from "../../model/ItemCarrinho";
 import { Location } from "@angular/common";
 import { AuthService } from "../../auth/services/auth.service";
-import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { MatDialog } from "@angular/material/dialog";
 import { ToastrService } from "ngx-toastr";
 import { SelectClienteDialogComponent } from "./select-cliente-dialog/select-cliente-dialog.component";
 
@@ -57,6 +57,7 @@ export class CarrinhoListComponent {
   public get nomeCompleto(): string { return this._carrinhoService.cliente?.nome + " " + this._carrinhoService.cliente?.sobrenome }
   public cancelar(): void { this._carrinhoService.destruir(this.tipoOperacao) }
   public esvaziarCarrinho(): void { this._carrinhoService.esvaziar() }
+  public get isSignedIn(): boolean { return this._authService.isSignedIn }
   public get podeConfirmar(): boolean {
     return false;
   }

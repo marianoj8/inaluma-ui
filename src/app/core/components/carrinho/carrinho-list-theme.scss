@@ -4,23 +4,46 @@
 @use '/src/scss/utility/utilities' as utils;
 
 @mixin _layout($theme) {
+
   .container {
     position: relative;
+    padding: 10px 20px;
     width: 100%;
-    padding: 10px;
     overflow-y: auto;
     max-height: 100vh;
 
-    @include utils.make-flex($direction: 'column', $gap: '10px');
+    @include utils.make-flex($direction: 'column', $gap: '20px');
+
+    .controls-section {
+      @include utils.make-flex($justContent: 'center', $alignItems: 'center', $gap: '10px');
+
+      & > :nth-child(2) {
+        flex: 1 0;
+        text-align: center;
+        margin: 0;
+        text-transform: uppercase;
+      }
+    }
 
     .content-container {
-      @include utils.make-flex($gap: '10px');
+      @include utils.make-flex($gap: '20px');
       overflow-y: auto;
 
       .items-container {
         overflow-y: auto;
-        height: 1000px;
+        min-height: calc(100vh - calc(vars.$header-height + 20px));
         flex: 1 0;
+
+        @include utils.make-flex($direction: 'column', $gap: '20px');
+
+        .item-section > * {
+          height: 50px;
+          font-weight: 600;
+
+          & > * {
+            margin-top: 15px;
+          }
+        }
       }
 
       .summary-container {
@@ -37,7 +60,14 @@
 
           & > .linha {
             flex: 1 0;
-            justify-content: center;
+            justify-content: stretch;
+
+            & > p {
+              width: 100%;
+              @include utils.make-flex($justContent: 'space-between', $gap: '10px', $wrap: 'wrap');
+
+              
+            }
           }
 
           & button {
