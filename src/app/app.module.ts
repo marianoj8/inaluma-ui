@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './routing.module';
@@ -10,6 +10,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { CustomErrorStateMatcher } from './shared/config/validators/form';
 import { HttpClientModule } from '@angular/common/http';
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+
+registerLocaleData(localePt, 'pt');
 
 @NgModule({
   declarations: [
@@ -25,7 +29,8 @@ import { HttpClientModule } from '@angular/common/http';
     FontAwesomeModule,
   ],
   providers: [
-    { provide: ErrorStateMatcher, useClass: CustomErrorStateMatcher }
+    { provide: ErrorStateMatcher, useClass: CustomErrorStateMatcher },
+    {provide: LOCALE_ID, useValue: 'pt'}
   ],
   bootstrap: [AppComponent]
 })
