@@ -58,7 +58,12 @@
               <span>{{totalAPagar | number:"1.2-3"}} Kz</span>
             </p>
           </div>
-          <div class="linha"><mat-form-field appearance="outline" color="accent"><input matInput type="number" #quantia/></mat-form-field></div>
+          <div class="linha">
+            <mat-form-field appearance="fill" color="accent">
+              <mat-label>Pagamento</mat-label>
+              <input matInput type="number" #quantia placeholder="Insira o Pagamento"/>
+            </mat-form-field>
+          </div>
         </header>
         <footer class="coluna controls">
           <div class="linha"><button mat-flat-button color="accent"><div class="coluna">Adicionar Itens</div></button></div>
