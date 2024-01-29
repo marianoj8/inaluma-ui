@@ -46,7 +46,7 @@
             <mat-icon>remove_shopping_cart</mat-icon>
           </button>
         </ng-template>
-        <div class="container" *ngIf="hideShopping">
+        <div class="container" *ngIf="hideShopping && isProduto">
           <button mat-mini-fab color="warn" (click)="subtrair(qtd.value)" class="mat-elevation-z0" matTooltip="Reduzir quantidade"
             [matTooltipShowDelay]="tipShowDelay" [matTooltipHideDelay]="tipHideDelay" [matTooltipPosition]="tipPosition"><mat-icon>remove</mat-icon></button>
           <mat-form-field appearance="outline" color="accent"><input type="number" value="1" matInput #qtd/></mat-form-field>
