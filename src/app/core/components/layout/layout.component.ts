@@ -30,13 +30,9 @@ export class LayoutComponent implements OnInit {
   @ViewChild(HeaderComponent, { read: ElementRef }) theHeader: ElementRef<HTMLElement>;
 
   constructor() {
-    fromEvent(window, 'beforeunload').pipe(
-      tap((evt) => {
-        if(this._carrinhoService.temItens) {
-          this._carrinhoService.reterEstado();
-        }
-      }),
-    ).subscribe();
+    fromEvent(window, 'beforeunload').subscribe(() => {
+      if(this._carrinhoService.temItens) this._carrinhoService.reterEstado();
+    });
   }
 
   ngOnInit(): void {

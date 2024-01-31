@@ -1,6 +1,6 @@
 import { Injectable, inject } from "@angular/core";
 import { Item } from "../../model/dto/ItemDTO";
-import { Observable, Subject, forkJoin, from, map, mergeAll, of } from "rxjs";
+import { Observable, Subject, from, map, mergeAll, of, switchMap } from "rxjs";
 import { Carrinho } from "../../model/Carrinho";
 import { ItemCarrinho } from "../../model/ItemCarrinho";
 import { IEstadoCarrinho } from "../../model/IEstadoCarrinho";
@@ -13,7 +13,8 @@ import { User } from "../../model/dto/User";
 import { Perfil } from "../../model/Profiles";
 import { ConfirmDialogComponent } from "src/app/shared/components/dialogs/confirm-dialog/confirm-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
-import { IDialogsConfig, IDialogsResponses } from "../../model";
+import { IDialogsResponses } from "../../model";
+import { UsersService } from "../user/services/users.service";
 
 @Injectable()
 export class CarrinhoService {
@@ -23,6 +24,7 @@ export class CarrinhoService {
   private readonly _toastrService = inject(ToastrService);
   private readonly _filesService = inject(FilesService);
   private readonly _diagService = inject(MatDialog);
+  private readonly _usersService = inject(UsersService);
 
   /* MEMBERS */
   private readonly _carrinho: Carrinho;
@@ -37,7 +39,7 @@ export class CarrinhoService {
       if(!signed) this._resetCarrinho(true);
       else {
         try {
-          const usr = JSON.parse(localStorage.getItem(LOCAL_STORAGE.user)) as User;
+          const usr = this._authService.user;
           if(usr.perfil === Perfil.cliente.api) this.selecionarCliente(usr);
         } catch(exc) {
           this._toastrService.error('Erro ao iniciar sessão!', 'Erro');
@@ -128,56 +130,33 @@ export class CarrinhoService {
 
   public restaurarEstado(fromLocalStorage = true): boolean {
     if(fromLocalStorage) {
-      try {
-        const bkp: any[] = JSON.parse(localStorage.getItem(LOCAL_STORAGE.carrinho));
-        if(!bkp?.length) return false;
+      const bkp = this._getCarrinho.restaurarEstadoLS();
 
-        const sources = new Array<Observable<TipoRequisicao>>();
-        let cnt: TipoRequisicao;
+      if(!bkp) return false;
 
-        bkp.forEach(i => {
-          this._itemsService.getItemByID(i._item.id, i._item.isProduto).pipe(
-            map(itm => {
-              cnt = {qtd: i._qtd, item: itm};
-              return from(this._filesService.getImage(itm.id, itm.isProduto));
-            }),
-            mergeAll(),
-            map(file => {
-              const fr = new FileReader();
-              fr.onload = (ev: any) => {
-                cnt.item.imgSrc = ev.target.result;
-                this._getCarrinho.adicionarItem(cnt.item, cnt.qtd);
-                this._emitEstadoActualizado();
-                sources.push(of(cnt));
-              };
-
-              fr.readAsDataURL(file);
-              if(localStorage.getItem(LOCAL_STORAGE.carrinho)) localStorage.removeItem(LOCAL_STORAGE.carrinho);
-
-              return cnt;
-            }),
-          ).subscribe(res => {
-            // console.log(res)
-          })
-        });
-
-        const obs: {[k: number]: Observable<TipoRequisicao>} = {};
-
-        for(let [k,v] of Object.entries(sources)) obs[k] = v;
-
-        forkJoin(obs).subscribe(d => {
-          for(let v of Object.values(d)) this._getCarrinho.adicionarItem(v.item, v.qtd);
-          localStorage.removeItem(LOCAL_STORAGE.carrinho);
+      from(bkp.itens).pipe(
+        map(itemC => this._itemsService.getItemByID$(itemC.item).pipe(map(itm => new ItemCarrinho(itm, itemC.qtd)))),
+        mergeAll(),
+        switchMap(item => {
+          this._getCarrinho.adicionarItem(item.item, item.qtd);
           this._emitEstadoActualizado();
-        })
 
-        return true;
-      } catch (exc) {
-        console.log('%cErro ao restaurar estado do carrinho', 'font-size:15px; color: red');
-        console.log(exc)
-      }
+          /* if(bkp.user?.id) return this._usersService.getByID(true, bkp.user.id);
+          else */ return of(null);
+        }),
+      ).subscribe(usr => {
+        if(usr) {
+          this.selecionarCliente(usr);
+          bkp.user = null;
+        }
+
+        localStorage.removeItem(LOCAL_STORAGE.carrinho);
+      });
+
+      return true;
     }
   }
+
   public estaNoCarrinho(item: ItemCarrinho): boolean { return this._getCarrinho.temItem(item) }
 
   public reterEstado(): boolean {
