@@ -3,15 +3,16 @@ import { Injectable, inject } from "@angular/core";
 import { environment } from "src/environments/environment";
 import { API_PRODUTOS_ROUTES, API_SERVICES_ROUTES, Operation } from "../config";
 import { Item, ItemDTO } from "src/app/core/model/dto/ItemDTO";
-import { Observable, map, of, tap } from "rxjs";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { Observable, map, switchMap, tap } from "rxjs";
 import { ToastrService } from "ngx-toastr";
+import { FilesService } from "./files.service";
 
 @Injectable({providedIn: 'root'})
 export class ItemsService {
   /* DEPENDENCIES */
   private readonly _http = inject(HttpClient);
   private readonly _toastrService = inject(ToastrService);
+  private readonly _filesService = inject(FilesService);
 
   /* MEMBERS */
   private readonly _noImagePath = 'http://localhost:4200/assets/images/no_image.svg';
@@ -22,6 +23,19 @@ export class ItemsService {
   public getItemByID(id: number, isProduto: boolean) {
     return transformarDTO(this._getItemByID(id, this._getPath(isProduto, Operation.get)), isProduto);
   }
+
+  public getItemByID$(item: Item): Observable<Item>;
+  public getItemByID$(id: number, isProduto: boolean): Observable<Item>;
+  public getItemByID$(p1: Item | number, p2?: boolean): Observable<Item> {
+    let item$: Observable<Item>;
+
+    item$ = (typeof p1 === 'number')
+      ? transformarDTO(this._getItemByID(p1, this._getPath(p2, Operation.get)), p2)
+      : transformarDTO(this._getItemByID(p1.id, this._getPath(p1.isProduto, Operation.get)), p1.isProduto);
+
+    return item$.pipe(switchMap(itm => this._filesService.getImage$(itm)));
+  }
+  
   public registerItem(item: ItemDTO, isProduto: boolean) {
     return transformarDTO(this._saveItem(item, this._getPath(isProduto, Operation.post)), isProduto).pipe(
       tap(() => { this.mostrarFeedback('Item cadastrado com successo') })
