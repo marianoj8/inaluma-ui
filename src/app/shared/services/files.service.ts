@@ -3,7 +3,8 @@ import { EventEmitter, Injectable, inject } from "@angular/core";
 import { ImageFile } from "src/app/core/model/dto/ImageFile";
 import { environment } from "src/environments/environment";
 import { API_FILES_ROUTES, API_SERVICES_ROUTES } from "../config";
-import { tap } from "rxjs";
+import { Observable, from, fromEvent, map, switchMap, tap } from "rxjs";
+import { Item } from "src/app/core/model";
 
 @Injectable({ providedIn: 'root' })
 export class FilesService {
@@ -37,6 +38,27 @@ export class FilesService {
     const blob = await res.blob()
 
     return blob;
+  }
+
+  public getImage$(item: Item): Observable<Item> {
+    const path = item.isProduto ? API_FILES_ROUTES.getProdutos : API_FILES_ROUTES.getServicos;
+    const endpoint = environment.API+path+item.id;
+
+    return this._http.get(endpoint, {responseType: 'blob'}).pipe(
+      switchMap(blob => {
+        const fr = new FileReader();
+        const obs$ = fromEvent(fr, 'load').pipe(
+          map((res: any) => {
+            item.imgSrc = res.target.result;
+            return item;
+          })
+        );
+
+        fr.readAsDataURL(blob);
+
+        return obs$;
+      })
+    );
   }
 
   private _appendFormData(file: File): FormData {
