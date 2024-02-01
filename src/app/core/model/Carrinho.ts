@@ -1,14 +1,14 @@
 import { IEstadoCarrinho } from "./IEstadoCarrinho";
 import { ItemCarrinho } from "./ItemCarrinho";
 import { Item, ItemDTO } from "./dto/ItemDTO";
-import { User } from "./dto/User";
+import { UserDTO } from "./dto/UserDTO";
 import { EstadoCarrinho } from "./EstadoCarrinho";
 
 export class Carrinho {
   constructor(
     private readonly _itens: ItemCarrinho[] = [],
-    private _cliente?: User,
-    private _user?: User
+    private _cliente?: UserDTO,
+    private _user?: UserDTO
   ) {}
 
   public reset(removeUser: boolean): void {
@@ -106,9 +106,9 @@ export class Carrinho {
   public get estado(): IEstadoCarrinho { return {qtdItens: this.itensCarrinho, totalCarrinho: this.total} }
   public get itensCarrinho(): number { return this.itens?.length }
   private get itens(): ItemCarrinho[] { return this._itens }
-  public get cliente(): User { return this._cliente }
-  public get utilizador(): User { return this._user }
-  private _setCliente(usr: User) { this._cliente = usr }
+  public get cliente(): UserDTO { return this._cliente }
+  public get utilizador(): UserDTO { return this._user }
+  private _setCliente(usr: UserDTO) { this._cliente = usr }
   private _indItem(item: ItemCarrinho): number { return this.itens.indexOf(item) }
   private _temItem(item: Item): ItemCarrinho { return this.itens.find(i => (i.item.id === item.id) && (i.item.isProduto === item.isProduto)) }
   public removerItem(item: ItemCarrinho): void { this.itens.splice(this._indItem(item), 1) }
@@ -116,6 +116,6 @@ export class Carrinho {
   public reterEstado(): boolean { return EstadoCarrinho.saveToLocalStorage(this.itens, this.cliente); }
   public restaurarEstadoLS(): EstadoCarrinho { return EstadoCarrinho.readFromLocalStorage() }
   public temItem(item: ItemCarrinho): boolean { return !!this._temItem(item.item) }
-  public selecionarCliente(usr: User): void { this._setCliente(usr) }
+  public selecionarCliente(usr: UserDTO): void { this._setCliente(usr) }
   public esvaziar(): void { this.reset(false) }
 }

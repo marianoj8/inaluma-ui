@@ -1,7 +1,7 @@
 import { Component, inject } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "../../services/auth.service";
-import { User } from "src/app/core/model/dto/User";
+import { UserDTO } from "src/app/core/model/dto/UserDTO";
 import { ThemeService } from "src/app/core/services/theme.service";
 import { Router } from "@angular/router";
 import { APP_ROUTES } from "src/app/shared/config";
@@ -41,7 +41,7 @@ export class LogInComponent {
     if(!this.loginForm.valid) return;
 
     this.showProgress = true;
-    const user = Object.assign(new User(), this.loginForm.value);
+    const user = Object.assign(new UserDTO(), this.loginForm.value);
     this._authService.signIn(user);
   }
 

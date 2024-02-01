@@ -1,5 +1,5 @@
 import { Component, inject } from "@angular/core";
-import { User } from "../../model/dto/User";
+import { UserDTO } from "../../model/dto/UserDTO";
 import { UsersService } from "./services/users.service";
 
 @Component({
@@ -12,8 +12,8 @@ export class UserComponent {
   // public readonly ;
 
   /* MEMBERS */
-  public users: User[];
-  public userToPreview: User;
+  public users: UserDTO[];
+  public userToPreview: UserDTO;
   public isPreviewing: boolean;
 
   constructor() {
@@ -21,7 +21,7 @@ export class UserComponent {
     this.isPreviewing = false;
   }
 
-  public previewUser(user: User) {
+  public previewUser(user: UserDTO) {
 
   }
 }

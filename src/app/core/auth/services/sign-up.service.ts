@@ -2,7 +2,7 @@ import { Injectable, inject } from "@angular/core";
 import { UsersService } from "../../components/user/services/users.service";
 import { HttpClient } from "@angular/common/http";
 import { AuthService } from "./auth.service";
-import { ApplicationUser } from "../../model/dto/ApplicationUser";
+import { ApplicationUserDTO } from "../../model/dto/ApplicationUserDTO";
 import { API_APPLICATION_USER_ROUTES, API_USERS_ROUTES, Operation } from "src/app/shared/config";
 import { environment } from "src/environments/environment";
 import { Observable, map, switchMap } from "rxjs";
@@ -16,7 +16,7 @@ export class ApplicationUserService {
 
   /* MEMBERS */
 
-  public signUp(appUser: ApplicationUser): Observable<ApplicationUser> {
+  public signUp(appUser: ApplicationUserDTO): Observable<ApplicationUserDTO> {
     const usr = appUser.perf.isCliente ? appUser.cliente : appUser.funcionario;
 
     return this._usersService.saveByUser(appUser.perf.isCliente, usr).pipe(
@@ -28,11 +28,11 @@ export class ApplicationUserService {
     )
   }
 
-  public fetch() { return this._http.get<ApplicationUser[]>(this._path(Operation.fetch)); }
+  public fetch() { return this._http.get<ApplicationUserDTO[]>(this._path(Operation.fetch)); }
   public deleteByID(id: number) { return this._http.delete<void>(this._path(Operation.delete)+id) }
-  public getByID(id: number) { return this._http.get<ApplicationUser>(this._path(Operation.get)+id) }
-  public save(usr: ApplicationUser) { return this._http.post<ApplicationUser>(this._path(Operation.post), usr) }
-  public update(usr: ApplicationUser) { return this._http.put<ApplicationUser>(this._path(Operation.put), usr) }
+  public getByID(id: number) { return this._http.get<ApplicationUserDTO>(this._path(Operation.get)+id) }
+  public save(usr: ApplicationUserDTO) { return this._http.post<ApplicationUserDTO>(this._path(Operation.post), usr) }
+  public update(usr: ApplicationUserDTO) { return this._http.put<ApplicationUserDTO>(this._path(Operation.put), usr) }
 
   private _path(op: Operation): string {
     let route = environment.API;

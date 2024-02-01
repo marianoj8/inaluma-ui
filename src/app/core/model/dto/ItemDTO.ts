@@ -1,5 +1,5 @@
 import { AbstractEntityDTO } from "./AbstractEntityDTO";
-import { User } from "./User";
+import { UserDTO } from "./UserDTO";
 
 export class ItemDTO extends AbstractEntityDTO {
   nome: string;
@@ -13,7 +13,7 @@ export class ItemDTO extends AbstractEntityDTO {
   tipo?: string;
   stock?: number;
   code?: string;
-  funcionario?: User;
+  funcionario?: UserDTO;
   units?: 'M' | 'H';
   duracao?: number;
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from "@angular/core";
 import { UsersService } from "../../user/services/users.service";
 import { Observable } from "rxjs";
-import { User } from "src/app/core/model/dto/User";
+import { UserDTO } from "src/app/core/model/dto/UserDTO";
 import { Perfil } from "src/app/core/model/Profiles";
 import { MatDialogRef } from "@angular/material/dialog";
 
@@ -16,16 +16,16 @@ export class SelectClienteDialogComponent implements OnInit {
   private readonly _diagRef = inject(MatDialogRef);
 
   /* MEMBERS */
-  public clientes$: Observable<User[]>;
+  public clientes$: Observable<UserDTO[]>;
 
   ngOnInit(): void {
     this.clientes$ = this._usersService.fetch(true)
   }
 
-  public selecionar(usr: User): void { this._fecharDialogo(usr); }
+  public selecionar(usr: UserDTO): void { this._fecharDialogo(usr); }
   public cancelar(): void { this._fecharDialogo(null); }
 
-  private _fecharDialogo(usr: User): void {
+  private _fecharDialogo(usr: UserDTO): void {
     this._diagRef.close(usr);
   }
 }

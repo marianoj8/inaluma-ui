@@ -9,7 +9,7 @@ import { ItemsService } from "src/app/shared/services/items.service";
 import { AuthService } from "../../auth/services/auth.service";
 import { ToastrService } from "ngx-toastr";
 import { FilesService } from "src/app/shared/services/files.service";
-import { User } from "../../model/dto/User";
+import { UserDTO } from "../../model/dto/UserDTO";
 import { Perfil } from "../../model/Profiles";
 import { ConfirmDialogComponent } from "src/app/shared/components/dialogs/confirm-dialog/confirm-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
@@ -165,8 +165,8 @@ export class CarrinhoService {
   }
 
   public get hasCliente(): boolean { return this._getCarrinho.hasCliente }
-  public get cliente(): User { return this._getCarrinho.cliente }
-  public selecionarCliente(usr: User): void { this._getCarrinho.selecionarCliente(usr) }
+  public get cliente(): UserDTO { return this._getCarrinho.cliente }
+  public selecionarCliente(usr: UserDTO): void { this._getCarrinho.selecionarCliente(usr) }
 
   public destruir(operacao: string): void {
     if(!this.temItens) this._toastrService.error('Carrinho vazio!', 'Operaçao Proibida');

@@ -1,19 +1,19 @@
 import { LOCAL_STORAGE } from "src/app/shared/config";
 import { ItemCarrinho } from "./ItemCarrinho";
-import { User } from "./dto";
+import { UserDTO } from "./dto";
 
 export class EstadoCarrinho {
   private constructor(
     public readonly itens: ItemCarrinho[],
-    public user?: User
+    public user?: UserDTO
   ) {}
 
-  public static saveToLocalStorage(itens: ItemCarrinho[], user?:User): boolean {
+  public static saveToLocalStorage(itens: ItemCarrinho[], user?:UserDTO): boolean {
     try {
       if(!(itens.length || user)) return false;
 
       const items = ItemCarrinho.forLocalStorage(itens);
-      const estado = user ? new EstadoCarrinho(items, new User(user.id)) : new EstadoCarrinho(items);
+      const estado = user ? new EstadoCarrinho(items, new UserDTO(user.id)) : new EstadoCarrinho(items);
 
       localStorage.setItem(LOCAL_STORAGE.carrinho, JSON.stringify(estado));
 
@@ -33,7 +33,7 @@ export class EstadoCarrinho {
     let estado: EstadoCarrinho;
     const itens = ItemCarrinho.fromEstadoCarrinho(parsedBkp);
 
-    estado = parsedBkp.user ? new EstadoCarrinho(itens, new User(parsedBkp.user.id)) : new EstadoCarrinho(itens);
+    estado = parsedBkp.user ? new EstadoCarrinho(itens, new UserDTO(parsedBkp.user.id)) : new EstadoCarrinho(itens);
 
     return estado;
   }

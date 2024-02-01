@@ -7,8 +7,8 @@ import { Router } from "@angular/router";
 import { APP_ROUTES } from "src/app/shared/config";
 import { Sexo } from "src/app/core/model/Sexo";
 import { IEntityValue } from "src/app/core/model/IEntityValue";
-import { ApplicationUser } from "src/app/core/model/dto/ApplicationUser";
-import { User } from "src/app/core/model/dto/User";
+import { ApplicationUserDTO } from "src/app/core/model/dto/ApplicationUserDTO";
+import { UserDTO } from "src/app/core/model/dto/UserDTO";
 import { ApplicationUserService } from "../../services/sign-up.service";
 import { CustomRegExp } from "src/app/shared/config/regexp/regexp-rules";
 import { InvalidUsername } from "src/app/shared/config/validators/form";
@@ -65,8 +65,8 @@ export class SignUpComponent implements OnInit {
   public salvar() {
     if(!this.canSave) return;
 
-    const appUser = new ApplicationUser();
-    const user = new User();
+    const appUser = new ApplicationUserDTO();
+    const user = new UserDTO();
 
     Object.assign(appUser, this.userForm.value);
     Object.assign(user, this.userForm.value);
@@ -77,7 +77,7 @@ export class SignUpComponent implements OnInit {
 
     this._applicationUserSrvc.signUp(appUser).subscribe(usr => {
       if(this.isVisitor) {
-        const u = new User();
+        const u = new UserDTO();
         u.username = usr.username;
         u.password = usr.password;
 

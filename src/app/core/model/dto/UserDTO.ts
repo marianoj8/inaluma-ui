@@ -1,6 +1,6 @@
 import { AbstractUserDTO } from "./AbstractUserDTO";
 
-export class User extends AbstractUserDTO {
+export class UserDTO extends AbstractUserDTO {
   public nome: string;
   public sobrenome: string;
   public genero: 'M' | 'F';

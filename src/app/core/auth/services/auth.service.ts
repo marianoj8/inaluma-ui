@@ -4,7 +4,7 @@ import { Router } from "@angular/router";
 import { Observable, Subject, map } from "rxjs";
 import { environment } from "src/environments/environment";
 import { API_AUTH_ROUTES, APP_ROUTES, LOCAL_STORAGE } from "src/app/shared/config";
-import { User } from "../../model/dto/User";
+import { UserDTO } from "../../model/dto/UserDTO";
 import { Perfil } from "../../model/Profiles";
 import { ToastrService } from "ngx-toastr";
 
@@ -42,20 +42,20 @@ export class AuthService {
   /**
    * Logs a user into the app
    * @param user User object to post
-   * @external {@link User}
+   * @external {@link UserDTO}
    */
-  public signIn(user: User, newUser = false): void {
+  public signIn(user: UserDTO, newUser = false): void {
     this.showProgress.emit(true);
-    this._http.post<User>(environment.API + API_AUTH_ROUTES.logIn, user).pipe(
+    this._http.post<UserDTO>(environment.API + API_AUTH_ROUTES.logIn, user).pipe(
       map(usr => {
-        const u = Object.assign(new User(), usr);
+        const u = Object.assign(new UserDTO(), usr);
         u.perf = Perfil.getPerfil(u.perfil);
 
         return u;
       })
     ).subscribe(
       {
-        next: (signInRes: User) => {
+        next: (signInRes: UserDTO) => {
           if (signInRes) {
             this.addToLocalStorage(signInRes);
             this.showProgress.emit(false);
@@ -78,7 +78,7 @@ export class AuthService {
    * Registers a user in the local storage
    * @param signInRes user to register in the local storage
    */
-  public addToLocalStorage(signInRes: User): void {
+  public addToLocalStorage(signInRes: UserDTO): void {
     localStorage.setItem(LOCAL_STORAGE.user, JSON.stringify(signInRes));
   }
 
@@ -107,9 +107,9 @@ export class AuthService {
     return Perfil.compare(this.user.perf, perfil);
   }
 
-  public get user(): User {
+  public get user(): UserDTO {
     try {
-      return JSON.parse(localStorage.getItem(LOCAL_STORAGE.user)) as User;
+      return JSON.parse(localStorage.getItem(LOCAL_STORAGE.user)) as UserDTO;
     } catch (err) {
       console.log('%cError parsing user', 'font-size:13px;color:red');
       return null;

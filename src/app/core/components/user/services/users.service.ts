@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
-import { User } from "src/app/core/model/dto/User";
+import { UserDTO } from "src/app/core/model/dto/UserDTO";
 import { API_USERS_ROUTES, Operation } from "src/app/shared/config";
 import { environment } from "src/environments/environment";
 
@@ -10,10 +10,10 @@ export class UsersService {
   private readonly _http = inject(HttpClient);
 
   /* MEMBERS */
-  public fetch(isCliente: boolean) { return this._http.get<User[]>(this._getPath(isCliente, Operation.fetch)) }
-  public getByID(isCliente: boolean, id: number) { return this._http.get<User>(this._getPath(isCliente, Operation.get)+id) }
-  public updateByUser(isCliente: boolean, usr: User) { return this._http.put<User>(this._getPath(isCliente, Operation.put), usr) }
-  public saveByUser(isCliente: boolean, usr: User) { return this._http.post<User>(this._getPath(isCliente, Operation.post), usr) }
+  public fetch(isCliente: boolean) { return this._http.get<UserDTO[]>(this._getPath(isCliente, Operation.fetch)) }
+  public getByID(isCliente: boolean, id: number) { return this._http.get<UserDTO>(this._getPath(isCliente, Operation.get)+id) }
+  public updateByUser(isCliente: boolean, usr: UserDTO) { return this._http.put<UserDTO>(this._getPath(isCliente, Operation.put), usr) }
+  public saveByUser(isCliente: boolean, usr: UserDTO) { return this._http.post<UserDTO>(this._getPath(isCliente, Operation.post), usr) }
   public deleteById(isCliente: boolean, id: number) { return this._http.delete<void>(this._getPath(isCliente, Operation.delete)+id) }
 
   private _getPath(isCliente: boolean, operation: Operation) {
