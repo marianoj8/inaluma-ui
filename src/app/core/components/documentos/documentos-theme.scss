@@ -1,0 +1,7 @@
+@use './agendamento/agendamento-list-theme' as agendamento;
+@use './documento-item/documento-item-theme' as documento-item;
+
+@mixin theme($theme) {
+  @include agendamento.theme($theme);
+  @include documento-item.theme($theme);
+}

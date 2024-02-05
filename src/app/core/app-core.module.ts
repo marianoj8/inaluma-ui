@@ -5,6 +5,7 @@ import { AuthModule } from "./auth/auth.module";
 import { UserModule } from "./components/user/user.module";
 import { CarrinhoModule } from "./components/carrinho/carrinho.module";
 import { ToastrModule } from "ngx-toastr";
+import { DocumentosModule } from "./components/documentos/documentos.module";
 
 @NgModule({
   imports: [ToastrModule.forRoot()],
@@ -13,6 +14,7 @@ import { ToastrModule } from "ngx-toastr";
     AuthModule,
     UserModule,
     CarrinhoModule,
+    DocumentosModule,
     ToastrModule
   ],
   providers: [

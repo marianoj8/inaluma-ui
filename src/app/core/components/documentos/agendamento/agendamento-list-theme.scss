@@ -1,0 +1,113 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '/src/scss/variables' as vars;
+@use '/src/scss/utility/utilities' as utils;
+
+$header-section-height: 61px;
+$body-header-height: 54px;
+$left-menu-width: 500px;
+$body-viewport-height: calc(100vh - calc(vars.$body-height + $header-section-height + $body-header-height));
+
+@mixin _layout($theme) {
+  $color: mat.get-color-config($theme);
+
+  @include utils.expand-body('agendamento-list');
+
+  & {
+    &.linha,
+    .linha {
+      @include utils.make-flex($wrap: 'wrap');
+    }
+
+    &.coluna,
+    .coluna {
+      @include utils.make-flex($direction: 'column', $wrap: 'wrap');
+    }
+
+    & > .coluna {
+      gap: 15px;
+      flex: 1 0;
+    }
+
+    width: 100vw!important;
+    justify-content: stretch!important;
+  }
+
+  .header-section {
+    justify-content: space-between;
+    gap: 40px;
+    padding: 10px 20px;
+    border-bottom: 1px solid map.get($color, foreground, divider);
+    max-height: $header-section-height;
+
+    & > :nth-child(2n) {
+      @include utils.reset-form-field($theme);
+      flex: 1 .5;
+      width: 500px;
+      max-width: 35%;
+    }
+  }
+
+  .body-section .body-section-container {
+    padding: 0 20px;
+    width: 100%;
+
+    .body-header {
+      justify-content: center;
+      position: relative;
+      top: 1px;
+
+      .btn-container {
+        padding: 8px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+
+      .btn-container.activo {
+        border: 1px solid map.get($color, foreground, divider);
+        border-bottom-color: map.get($color, background, background);
+      }
+    }
+
+    .body-content {
+      border: 1px solid map.get($color, foreground, divider);
+      border-bottom: none;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+
+      padding: 16px;
+      padding-left: 0; // porque o mat-list-item-content já possui 16px em padding
+
+      .section {
+        gap: 20px;
+      }
+
+      .section .left-menu {
+        width: $left-menu-width;
+      }
+
+      .section > .content {
+        align-items: flex-start;
+        gap: 20px;
+        flex-wrap: wrap;
+        border: 1px solid;
+
+        overflow-y: auto;
+        max-height: $body-viewport-height;
+        width: 100vw;
+      }
+
+      .section > .content > .linha {
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-items: center;
+      }
+    }
+  }
+}
+
+@mixin theme($theme) {
+  .agendamento-list-component {
+    @include _layout($theme);
+  }
+}

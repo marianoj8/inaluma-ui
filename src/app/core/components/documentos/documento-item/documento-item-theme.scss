@@ -1,0 +1,27 @@
+@use '/src/scss/utility/utilities' as utils;
+
+@mixin _layout($theme) {
+  .item-header {
+    justify-content: space-between;
+  }
+
+  .item-footer {
+    justify-content: space-evenly;
+  }
+}
+
+@mixin theme($theme) {
+  .documento-item-component {
+    &.coluna,
+    .coluna {
+      @include utils.make-flex($direction: 'column', $wrap: 'wrap', $gap: '10px');
+    }
+
+    &.linha,
+    .linha {
+      @include utils.make-flex($wrap: 'wrap', $gap: '10px');
+    }
+
+    @include _layout($theme);
+  }
+}

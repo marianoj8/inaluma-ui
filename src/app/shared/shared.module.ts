@@ -12,6 +12,7 @@ import { ListItemPreviewComponent } from './components/item-list/list-item-previ
 import { TextMaskModule } from 'angular2-text-mask';
 import { DialogsModule } from './components/dialogs/dialogs.module';
 import { ItemsDataResolver } from './components/items-data.resolver';
+import { DocumentoFiltroComponent } from './components/documento-filtro/documento-filtro.component';
 
 const declarations = [
   LandingPageComponent,
@@ -19,7 +20,8 @@ const declarations = [
   ItemDetailsComponent,
   ItemFormComponent,
   ItemListComponent,
-  ListItemPreviewComponent
+  ListItemPreviewComponent,
+  DocumentoFiltroComponent
 ];
 
 @NgModule({

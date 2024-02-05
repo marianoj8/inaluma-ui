@@ -1,9 +1,11 @@
 @use './components/layout/layout-theme' as layout;
 @use './components/carrinho/carrinho-list-theme' as carrinho;
 @use './auth/auth-theme' as auth;
+@use './components/documentos/documentos-theme' as documentos;
 
 @mixin theme($theme) {
   @include layout.theme($theme);
   @include auth.theme($theme);
   @include carrinho.theme($theme);
+  @include documentos.theme($theme);
 }

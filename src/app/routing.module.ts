@@ -10,6 +10,7 @@ import { SignUpComponent } from './core/auth/components/sign-up/sign-up.componen
 import { UserComponent } from './core/components/user/user.component';
 import { CarrinhoListComponent } from './core/components/carrinho/carrinho-list.component';
 import { ItemsDataResolver } from './shared/components/items-data.resolver';
+import { AgendamentoListComponent } from './core/components/documentos/agendamento/agendamento-list.component';
 
 const _routes: Routes = [
   {
@@ -92,6 +93,10 @@ const _routes: Routes = [
         path: 'carrinho',
         component: CarrinhoListComponent,
         data: {hideShopping: true}
+      },
+      {
+        path: 'agendamentos',
+        component: AgendamentoListComponent
       }
     ]
   },

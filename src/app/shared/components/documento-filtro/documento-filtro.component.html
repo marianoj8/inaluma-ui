@@ -1,0 +1,40 @@
+
+<article class="documento-filtro-component">
+  <form [formGroup]="filterForm">
+    <mat-list>
+      <mat-list-item>
+        <span>Estado</span>
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Estado" formControlName="estado">
+            <mat-option></mat-option>
+            <mat-option>Estado</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-list-item>
+      <mat-list-item>
+        <span>Data</span>
+        <mat-form-field appearance="outline" color="accent">
+          <input type="text" matInput placeholder="mm/dd/aaaa" formControlName="data"/>
+        </mat-form-field>
+      </mat-list-item>
+      <mat-list-item>
+        <span>Cliente</span>
+        <mat-form-field appearance="outline" color="accent">
+          <mat-select placeholder="Cliente" formControlName="cliente">
+            <mat-option></mat-option>
+            <mat-option>Cliente</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-list-item>
+      <mat-list-item>
+        <span>Funcionário</span>
+        <mat-form-field appearance="outline" color="accent">
+          <mat-select placeholder="Funcionário" formControlName="funcionario">
+            <mat-option></mat-option>
+            <mat-option>Funcionário</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </mat-list-item>
+    </mat-list>
+  </form>
+</article>

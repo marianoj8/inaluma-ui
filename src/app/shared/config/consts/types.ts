@@ -54,4 +54,30 @@ export const enum DIALOG_CONTROLS {
   confirm_cancel
 }
 
+export enum STATUS_AGENDAMENTO {
+  agendado = "Agendado",
+  expirado = "Expirado",
+  atendido = "Concluído",
+  cancelado = 'Cancelado'
+}
+
+export enum STATUS_FACTURA {
+  paga = 'Liquidada',
+  porPagar = 'Por Liquidar',
+  anulada = 'Anulada'
+}
+
+export enum STATUS_PAGAMENTO {
+  confirmado = 'Confirmado',
+  anulado = 'Anulado'
+}
+
+export enum METODO_PAGAMENTO {
+  dinheiro = 'Dinheiro',
+  notaDebito = 'Nota de Débito',
+  notaCredito = 'Nota de Crédito',
+  cartaoDebito = 'Cartão de Débito',
+  cartaoCredito = 'Cartão de Crédito'
+}
+
 export { SCRTOP_COLOR, SCRTOP_POSITION, DOCUMENT_TYPES, ITEM_TYPES, DOCUMENT_SECTIONS };

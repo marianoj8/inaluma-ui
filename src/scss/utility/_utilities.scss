@@ -70,11 +70,21 @@
         height: auto;
         margin-top: 4px;
         margin-left: 4px;
+        vertical-align: bottom;
       }
     }
   }
 
   .mat-form-field-wrapper {
     .mat-form-field-underline { bottom: 0 }
+  }
+}
+
+@mixin expand-body($component-selector) {
+  @at-root {
+    app-#{$component-selector} {
+      display: block;
+      height: calc(100vh - calc(vars.$header-height + vars.$footer-height));
+    }
   }
 }

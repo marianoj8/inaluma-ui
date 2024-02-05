@@ -6,9 +6,10 @@ $min-width: 350px;
 $media-sm: 250px;
 
 /* ------ layout variables ------ */
-$header-height: 80px;
 $switcher-form-fields-height: 40px;
-$footer-height: 512px;
+$header-height: 80px;
+$footer-height: 314px;
+$body-height: calc(100vh - calc($header-height + $footer-height));
 
 // others
 $z-scroll-top: 800; // overlays are placed 1000

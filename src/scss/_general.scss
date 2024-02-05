@@ -19,7 +19,7 @@ img {
 }
 
 .content-container {
-  min-height: calc(100vh - vars.$header-height);
+  min-height: vars.$body-height;
 }
 
 @mixin _color($config) {

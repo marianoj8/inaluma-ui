@@ -1,0 +1,27 @@
+@use '/src/scss/utility/utilities' as utils;
+
+@mixin _layout($theme) {
+  form .mat-list-base {
+    @include utils.make-flex($direction: 'column', $gap: '10px');
+
+    .mat-list-item {
+      height: fit-content;
+
+      .mat-list-item-content {
+        gap: 20px;
+        justify-content: space-between;
+      }
+
+      .mat-form-field {
+        flex: 1 0;
+        @include utils.reset-form-field($theme);
+      }
+    }
+  }
+}
+
+@mixin theme($theme) {
+  .documento-filtro-component {
+    @include _layout($theme);
+  }
+}

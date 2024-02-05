@@ -1,0 +1,46 @@
+<article class="agendamento-list-component linha">
+  <div class="coluna">
+    <header class="header-section linha">
+      <button mat-flat-button color="warn">
+        <mat-icon>arrow_left</mat-icon>
+        <span>Voltar</span>
+      </button>
+      <mat-form-field color="accent" appearance="outline" class="search-field">
+        <input type="text" matInput placeholder="Digite o número do Agendamento para filtrar"/>
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      <button mat-flat-button color="accent">
+        <span>Novo</span>
+        <mat-icon>add</mat-icon>
+      </button>
+    </header>
+    <section class="body-section linha">
+      <div class="body-section-container coluna">
+        <header class="body-header linha">
+          <div class="btn-container activo"><button mat-flat-button>Todos</button></div>
+          <div class="btn-container"><button mat-flat-button>Meus Agendamentos</button></div>
+          <div class="btn-container"><button mat-flat-button>Minha Agenda</button></div>
+        </header>
+        <section class="body-content">
+          <section class="section section-todos linha">
+            <section class="left-menu coluna"><app-documento-filtro></app-documento-filtro></section>
+            <section class="content coluna">
+              <div class="linha">
+                <app-documento-item></app-documento-item>
+              </div>
+            </section>
+          </section>
+          <ng-template>
+            <section class="section section-meus linha">
+              <section class="left-menu"><app-documento-filtro></app-documento-filtro></section>
+              <section class="content coluna"><app-documento-item></app-documento-item></section>
+            </section>
+          </ng-template>
+          <ng-template>
+            <section class="section section-agenda"></section>
+          </ng-template>
+        </section>
+      </div>
+    </section>
+  </div>
+</article>

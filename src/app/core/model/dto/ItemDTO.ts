@@ -26,6 +26,36 @@ export class Item {
     public imgSrc?: string,
   ) {}
 
+  public get nome(): string { return this.item.nome; }
+  public get descricao(): string { return this.item.descricao; }
+  public get preco(): number { return this.item.preco; }
+  public get estado(): boolean { return this.item.estado; }
+
+  public get tipo(): string {
+    if(this.isProduto) return this.item.tipo;
+    else throw new Error("Method not implemented");
+  }
+
+  public get code(): string {
+    if(this.isProduto) return this.item.code;
+    else throw new Error("Method not implemented");
+  }
+
+  public get stock(): number {
+    if(this.isProduto) return this.item.stock;
+    else throw new Error("Method not implemented");
+  }
+
+  public get units(): string {
+    if(!this.isProduto) return this.item.units;
+    else throw new Error("Method not implemented");
+  }
+
+  public get duracao(): number {
+    if(!this.isProduto) return this.item.duracao;
+    else throw new Error("Method not implemented");
+  }
+
   static createArray(dtos: ItemDTO[]) {
     const items = new Array<Item>();
 
@@ -34,9 +64,5 @@ export class Item {
     })
 
     return items;
-  }
-
-  private static _convertDataToBase(data: any): string {
-    return '';
   }
 }
