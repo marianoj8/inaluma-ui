@@ -84,7 +84,7 @@
   @at-root {
     app-#{$component-selector} {
       display: block;
-      height: calc(100vh - calc(vars.$header-height + vars.$footer-height));
+      min-height: calc(100vh - calc(vars.$header-height + vars.$footer-height));
     }
   }
 }
