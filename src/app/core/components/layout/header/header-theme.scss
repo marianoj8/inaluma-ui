@@ -26,7 +26,8 @@
           font-size: map.get($conf, font-size);
         }
 
-        &:hover {
+        &:hover,
+        &.active {
           border-bottom: 2px solid;
           font-weight: bold;
         }

@@ -1,12 +1,12 @@
 <div class="header-component">
   <mat-toolbar class="main-toolbar">
     <nav class="left-content">
-      <a routerLink="{{routes.home}}">INALUMA MAKEUP</a>
-      <a routerLink="{{routes.servicos}}">SERVIÇOS</a>
-      <a routerLink="{{routes.produtos}}">PRODUTOS</a>
+      <a routerLink="{{routes.home}}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">INALUMA MAKEUP</a>
+      <a routerLink="{{routes.servicos}}" routerLinkActive="active">SERVIÇOS</a>
+      <a routerLink="{{routes.produtos}}" routerLinkActive="active">PRODUTOS</a>
       <ng-container *ngIf="isLogado">
-        <a routerLink="{{routes.agendamentos}}">AGENDAMENTOS</a>
-        <a routerLink="{{routes.agendamentos}}">COMPRAS</a>
+        <a routerLink="{{routes.agendamentos}}" routerLinkActive="active">AGENDAMENTOS</a>
+        <a routerLink="{{routes.compras}}" routerLinkActive="active">COMPRAS</a>
       </ng-container>
     </nav>
     <div class="right-content">
