@@ -7,7 +7,7 @@ import { Observable, map, switchMap, tap } from "rxjs";
 import { ToastrService } from "ngx-toastr";
 import { FilesService } from "./files.service";
 
-@Injectable({providedIn: 'root'})
+@Injectable()
 export class ItemsService {
   /* DEPENDENCIES */
   private readonly _http = inject(HttpClient);
@@ -35,7 +35,7 @@ export class ItemsService {
 
     return item$.pipe(switchMap(itm => this._filesService.getImage$(itm)));
   }
-  
+
   public registerItem(item: ItemDTO, isProduto: boolean) {
     return transformarDTO(this._saveItem(item, this._getPath(isProduto, Operation.post)), isProduto).pipe(
       tap(() => { this.mostrarFeedback('Item cadastrado com successo') })

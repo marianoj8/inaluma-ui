@@ -6,7 +6,7 @@ import { API_FILES_ROUTES, API_SERVICES_ROUTES } from "../config";
 import { Observable, from, fromEvent, map, switchMap, tap } from "rxjs";
 import { Item } from "src/app/core/model";
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class FilesService {
   /* DEPENDENCIES */
   private readonly _http = inject(HttpClient);
