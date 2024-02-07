@@ -64,7 +64,7 @@ export class ListItemPreviewComponent {
   public removerItemCarrinho(): void { this._carrinhoService.removerItem(this.itemCarrinho) }
 
   public get estado(): string {
-    let estado = this.isEsgotado ? "Esgotado" : "Em Stock";
+    let estado = this.isEsgotado ? "Esgotado" : "Em Estoque";
     if(this.isIndisponível) estado = "Indisponível";
 
     return estado;
