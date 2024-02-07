@@ -37,6 +37,10 @@
     .right-content {
       @include utils.make-flex($justContent: 'end', $alignItems: 'center', $gap: '8px');
 
+      a.active {
+        outline: 2px solid;
+      }
+
       .tem-itens .mat-badge-content {
         top: -9px;
         left: -9px;
