@@ -191,6 +191,7 @@ export class ItemFormComponent implements OnInit {
 
       this._patchData(values, this.itemForm);
       this.showProgressBar = false;
+      history.back();
     });
   }
 
