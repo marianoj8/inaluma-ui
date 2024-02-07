@@ -45,3 +45,14 @@ export const enum API_USERS_ROUTES {
   getClienteByID = 'clientes/',
   deleteClienteByID = 'clientes/',
 }
+
+export const enum API_AGENDAMENTOS_ROUTES {
+  fetchPutPost = 'agendamentos',
+  getDeleteByID = 'agendamentos/'
+}
+
+export const enum API_FACTURA_ITEMS_ROUTES {
+  fetchPutPost = 'items',
+  getDeleteByID = 'items/',
+  getByFacturaID = 'items/fatura/'
+}
