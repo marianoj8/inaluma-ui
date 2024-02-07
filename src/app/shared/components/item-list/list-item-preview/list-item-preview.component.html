@@ -2,6 +2,7 @@
   <section class="preview">
     <div class="left-content"><img [src]="img"></div>
     <div class="middle-content">
+      <span class="item-type">{{itemType}}</span>
       <h3 class="title">{{nome}}</h3>
       <div class="bottom-content-wrapper">
         <span><span class="detail">Estado</span><span>{{estado}}</span></span>
@@ -19,21 +20,23 @@
       <span class="info" [class.show]="showInfo">{{descricao}}</span>
     </div>
     <div class="controls-container">
-      <ng-container *ngIf="!isCliente && !hideShopping && isLogado">
-        <div class="delete">
-          <button mat-mini-fab color="warn" class="mat-elevation-z0" [class.viewing]="!isDeleting" (click)="toggleIsDeleting()"
-            matTooltip="Apagar" [matTooltipPosition]="tipPosition" [matTooltipShowDelay]="tipShowDelay" [matTooltipHideDelay]="tipHideDelay">
-            <mat-icon>delete_forever</mat-icon>
-          </button>
-          <div [class.deleting]="isDeleting" class="deleting-controls">
-            <button mat-flat-button color="warn" (click)="confirmDelete()">Eliminar</button>
-            <button mat-flat-button color="accent" (click)="toggleIsDeleting()">Cancelar</button>
+      <ng-container *ngIf="!isDialog">
+        <ng-container *ngIf="!isCliente && !hideShopping && isLogado">
+          <div class="delete">
+            <button mat-mini-fab color="warn" class="mat-elevation-z0" [class.viewing]="!isDeleting" (click)="toggleIsDeleting()"
+              matTooltip="Apagar" [matTooltipPosition]="tipPosition" [matTooltipShowDelay]="tipShowDelay" [matTooltipHideDelay]="tipHideDelay">
+              <mat-icon>delete_forever</mat-icon>
+            </button>
+            <div [class.deleting]="isDeleting" class="deleting-controls">
+              <button mat-flat-button color="warn" (click)="confirmDelete()">Eliminar</button>
+              <button mat-flat-button color="accent" (click)="toggleIsDeleting()">Cancelar</button>
+            </div>
+            <button mat-mini-fab color="accent" class="mat-elevation-z0 viewing" (click)="editItem()" matTooltip="Editar"
+              [matTooltipShowDelay]="tipShowDelay" [matTooltipPosition]="tipPosition" [matTooltipHideDelay]="tipHideDelay">
+              <mat-icon>edit</mat-icon>
+            </button>
           </div>
-          <button mat-mini-fab color="accent" class="mat-elevation-z0 viewing" (click)="editItem()" matTooltip="Editar"
-            [matTooltipShowDelay]="tipShowDelay" [matTooltipPosition]="tipPosition" [matTooltipHideDelay]="tipHideDelay">
-            <mat-icon>edit</mat-icon>
-          </button>
-        </div>
+        </ng-container>
       </ng-container>
       <div class="cart-controls">
         <button mat-mini-fab class="mat-elevation-z0" (click)="adicionarItemCarrinho()" *ngIf="!hideShopping else removeItem" matTooltip="Adicionar ao carrinho"
@@ -54,7 +57,7 @@
           [matTooltipShowDelay]="tipShowDelay" [matTooltipHideDelay]="tipHideDelay" [matTooltipPosition]="tipPosition"><mat-icon>add</mat-icon></button>
         </div>
       </div>
-      <button mat-mini-fab class="mat-elevation-z0" (click)="toggleInfo()" matTooltip="Ver descrição"
+      <button mat-mini-fab class="mat-elevation-z0" (click)="toggleInfo()" matTooltip="Ver descrição" *ngIf="hasDescription"
         [matTooltipPosition]="tipPosition" [matTooltipShowDelay]="tipShowDelay" [matTooltipHideDelay]="tipHideDelay"><mat-icon>info</mat-icon></button>
     </div>
   </section>

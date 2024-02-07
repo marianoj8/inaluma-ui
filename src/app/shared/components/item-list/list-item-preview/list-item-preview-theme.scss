@@ -30,6 +30,15 @@
       height: 100%;
       flex: 1 0;
 
+      .item-type {
+        align-self: flex-end;
+        text-transform: uppercase;
+        background-color: map.get(mat.get-color-config($theme), accent, 900);
+        border-radius: 50px;
+        padding: 5px 10px;
+        opacity: .85;
+      }
+
       .title {
         font-variant: small-caps;
         @include _includeFontConfs($theme, 'display-2');
@@ -37,7 +46,9 @@
 
       .bottom-content-wrapper,
       .dados-carrinho {
-        @include utils.make-flex($gap: '60px', $wrap: 'wrap');
+        @include utils.make-flex($wrap: 'wrap');
+        row-gap: 5px;
+        column-gap: 60px;
 
         & > span {
           position: relative;
@@ -123,15 +134,10 @@
   font-weight: map.get($conf, font-weight);
 }
 
-@mixin _color($color) {
-
-}
-
 @mixin theme($theme) {
   $color: mat.get-color-config($theme);
 
   .list-item-preview {
     @include _layout($theme);
-    @include _color($color);
   }
 }

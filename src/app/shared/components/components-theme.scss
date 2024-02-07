@@ -1,3 +1,4 @@
+@use './dialogs/dialogs-theme' as dialogs;
 @use './item-details/item-details-theme' as item-details;
 @use './item-form/item-form-theme' as item-form;
 @use './item-list/item-list-theme' as item-list;
@@ -6,6 +7,7 @@
 @use './documento-filtro/documento-filtro-theme' as documento-filtro;
 
 @mixin theme($theme) {
+  @include dialogs.theme($theme);
   @include item-details.theme($theme);
   @include item-form.theme($theme);
   @include item-list.theme($theme);

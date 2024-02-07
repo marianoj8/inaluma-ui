@@ -1,0 +1,7 @@
+@use './select-items/select-items-theme' as select-items;
+@use './confirm-dialog/confirm-dialog-theme' as confirm;
+
+@mixin theme($theme) {
+  @include select-items.theme($theme);
+  @include confirm.theme($theme);
+}

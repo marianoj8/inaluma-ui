@@ -6,6 +6,7 @@ import { AuthService } from "../../auth/services/auth.service";
 import { MatDialog } from "@angular/material/dialog";
 import { ToastrService } from "ngx-toastr";
 import { SelectClienteDialogComponent } from "./select-cliente-dialog/select-cliente-dialog.component";
+import { SelectItemsDialogComponent } from "src/app/shared/components/dialogs/select-items/select-items.component";
 
 @Component({
   selector: 'app-carrinho-list',
@@ -30,6 +31,20 @@ export class CarrinhoListComponent {
     this._carrinhoService.estadoActualizado$.subscribe(() => {
       this.produtos = this._carrinhoService.produtos;
       this.servico = this._carrinhoService.servico;
+    });
+  }
+
+  public adicionarItens() {
+    this._diagService.open(
+      SelectItemsDialogComponent,
+      {
+        width: 'auto',
+        height: 'auto',
+        disableClose: true,
+        panelClass: 'adicionar-items-diag'
+      }
+    ).afterClosed().subscribe(items => {
+
     });
   }
 

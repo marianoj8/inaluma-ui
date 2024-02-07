@@ -1,7 +1,7 @@
 <article class="agendamento-list-component linha">
   <div class="coluna">
     <header class="header-section linha">
-      <button mat-flat-button color="warn">
+      <button mat-flat-button color="warn" (click)="back()">
         <mat-icon>arrow_left</mat-icon>
         <span>Voltar</span>
       </button>
@@ -9,7 +9,7 @@
         <input type="text" matInput placeholder="Digite o número do Agendamento para filtrar"/>
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
-      <button mat-flat-button color="accent">
+      <button mat-flat-button color="accent" (click)="new()">
         <span>Novo</span>
         <mat-icon>add</mat-icon>
       </button>
@@ -24,11 +24,7 @@
         <section class="body-content">
           <section class="section section-todos linha">
             <section class="left-menu coluna"><app-documento-filtro></app-documento-filtro></section>
-            <section class="content coluna">
-              <div class="linha">
-                <app-documento-item></app-documento-item>
-              </div>
-            </section>
+            <section class="content coluna"><div class="linha"><app-documento-item *ngFor="let agend of agendamentos" [documento]="agend"></app-documento-item></div></section>
           </section>
           <ng-template>
             <section class="section section-meus linha">

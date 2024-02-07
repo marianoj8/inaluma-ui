@@ -25,6 +25,8 @@ export class ListItemPreviewComponent {
   @Output() removeChild: EventEmitter<Item>;
   @Input() item: Item;
   @Input() itemCarrinho: ItemCarrinho;
+  @Input() isDialog: boolean = false;
+
   isDeleting: boolean;
   showInfo: boolean;
   public readonly hideShopping: boolean;
@@ -87,6 +89,8 @@ export class ListItemPreviewComponent {
   public get tipPosition(): TooltipPosition { return 'before' }
   public get tipShowDelay(): number { return 1000 }
   public get tipHideDelay(): number { return 250 }
+  public get hasDescription(): boolean { return !!this._item.descricao }
+  public get itemType() { return this._item.isProduto ? 'Produto' : 'Serviço'; }
 
   private _formatNumber(num: number):string { return formatNumber(num, 'pt-pt', '2.2-2') }
 

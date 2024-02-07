@@ -1,0 +1,99 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '/src/scss/utility/utilities' as utils;
+
+@mixin _layout($theme) {
+  width: 55vw;
+  height: 75vh;
+
+  .linha {
+    @include utils.make-flex();
+  }
+
+  .coluna {
+    @include utils.make-flex($direction: 'column');
+    height: fit-content;
+  }
+
+  .content-container {
+    height: inherit;
+  }
+
+  .content-container .content-wrapper {
+    flex: 1 0;
+    height: 100%;
+    gap: 15px;
+
+    .content-header {
+      $typography: mat.get-typography-config($theme);
+
+      .title {
+        @include mat.typography-level($typography, title);
+        justify-content: center;
+        padding: 5px;
+      }
+    }
+
+    .content-body {
+      overflow-y: auto;
+      flex: 1 0;
+
+      .content,
+      .filter-controls,
+      .items {
+        width: 100%;
+      }
+
+      .content {
+        height: 100%;
+        gap: 5px;
+
+        .items {
+          overflow-y: auto;
+          flex: 1 0;
+          flex-wrap: wrap;
+          justify-content: center;
+          align-items: flex-start;
+          gap: 5px;
+          padding-bottom: 10px;
+        }
+
+        .items .items-container {
+          padding: 10px 10px 0;
+          gap: 10px;
+        }
+
+        .items .item .mat-card {
+          background-color: map.get(mat.get-color-config($theme), background, status-bar);
+        }
+
+        .filter-controls {
+          gap: 10px;
+
+          .mat-form-field {
+            @include utils.reset-form-field($theme);
+          }
+
+          .mat-form-field:nth-child(2) {
+            flex: 1 0;
+          }
+        }
+      }
+    }
+
+    .content-footer {
+      justify-content: center;
+      gap: 20px;
+    }
+  }
+}
+
+@mixin theme($theme) {
+  .adicionar-items-diag .mat-dialog-container {
+    background-color: map.get(mat.get-color-config($theme), background, background);
+  }
+
+  .select-items-component {
+    @include _layout($theme);
+  }
+}

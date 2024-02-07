@@ -1,0 +1,24 @@
+<article class="select-items-component container">
+  <div class="content-container linha">
+    <div class="content-wrapper coluna">
+      <header class="content-header section"><mat-toolbar class="title">Adicionar Ítens ao Carrinho</mat-toolbar></header>
+      <section class="content-body linha section">
+        <div class="content coluna">
+          <form class="filter-controls linha" [formGroup]="filterForm">
+            <mat-form-field appearance="outline" color="accent">
+              <mat-select placeholder="Tipo de Ítem" [value]="-1" formControlName="tipoItem"><mat-option *ngFor="let flt of tipoItem" [value]="flt.val">{{flt.display}}</mat-option></mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" color="accent"><input matInput type="text" placeholder="nome, preço, duração" formControlName="search"/></mat-form-field>
+          </form>
+          <section class="items linha" #items><div class="items-container coluna">
+            <app-list-item-preview *ngFor="let i of publicItems | async" [item]="i" [isDialog]="true" class="mat-elevation-z3"></app-list-item-preview></div>
+          </section>
+        </div>
+      </section>
+      <footer class="content-footer linha section">
+        <div class="coluna"><button mat-flat-button color="warn" (click)="cancelar()">Cancelar</button></div>
+        <div class="coluna"><button mat-flat-button color="accent" (click)="confirmar()">Confirmar</button></div>
+      </footer>
+    </div>
+  </div>
+</article>

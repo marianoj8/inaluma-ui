@@ -82,7 +82,7 @@ export class ItemsService {
 
     return path;
   }
-
+  
   private mostrarFeedback(msg: string): void { this._toastrService.success(msg, 'Successo'); }
 
   public getNoImage() { return this._http.get(this._noImagePath, {responseType: 'blob'}).pipe(map(b => new File([b], 'no_name', {type: b.type}))) }

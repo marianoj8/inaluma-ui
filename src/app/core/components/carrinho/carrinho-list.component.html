@@ -66,7 +66,7 @@
           </div>
         </header>
         <footer class="coluna controls">
-          <div class="linha"><button mat-flat-button color="accent"><div class="coluna">Adicionar Itens</div></button></div>
+          <div class="linha"><button mat-flat-button color="accent" (click)="adicionarItens()"><div class="coluna">Adicionar Itens</div></button></div>
           <div class="linha" *ngIf="hasCliente || podeConfirmar"><button mat-flat-button color="accent" [disabled]="!podeConfirmar"><div class="coluna">Confirmar</div></button></div>
           <div class="linha"><button mat-flat-button color="warn" (click)="esvaziarCarrinho()" [disabled]="!temItens"><div class="coluna">Esvaziar Carrinho</div></button></div>
           <div class="linha"><button mat-flat-button color="warn" (click)="cancelar()" disabled="!temItens"><div class="coluna">Cancelar {{tipoOperacao}}</div></button></div>
