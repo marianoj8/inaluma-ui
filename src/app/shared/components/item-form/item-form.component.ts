@@ -132,8 +132,8 @@ export class ItemFormComponent implements OnInit {
   }
 
   public onFileSelected(event): void {
-    this._file = event.target.files[0] as File;
-    this._selectFile(this._file);
+    const potentialFile = event.target.files[0] as File;
+    if(potentialFile) this._selectFile(this._file = potentialFile);
   }
 
   private _selectFile(file: File) {
@@ -168,10 +168,10 @@ export class ItemFormComponent implements OnInit {
 
   private _update(): void {
     this._itemsService.updateItem(this._item.item, this.isProduto).pipe(
-      map((itm) => {
+      switchMap((itm) => {
         this._item = itm;
 
-        this._filesService.uploadImage(new ImageFile(this._file), this._item.id, this.isProduto)
+        return this._filesService.updateImage$(this._item, new ImageFile(this._file))
       }),
     ).subscribe(() => {
       const values: Values = {

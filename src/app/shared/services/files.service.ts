@@ -25,9 +25,16 @@ export class FilesService {
   }
 
   public uploadImage(img: ImageFile, itemId: number, isProduto: boolean) {
-    const path = isProduto ? API_FILES_ROUTES.postProdutos : API_FILES_ROUTES.postServicos;
+    const path = isProduto ? API_FILES_ROUTES.putPostProdutos : API_FILES_ROUTES.putPostServicos;
 
     return this._uploadFile(itemId, img, path);
+  }
+
+  public updateImage$(item: Item, imageFile: ImageFile) {
+    const path = item.isProduto ? API_FILES_ROUTES.putPostProdutos : API_FILES_ROUTES.putPostServicos;
+    const endpoint = environment.API+path+item.id;
+
+    return this._http.put(endpoint, this._appendFormData(imageFile.file));
   }
 
   public async getImage(itemID: number, isProduto: boolean) {
