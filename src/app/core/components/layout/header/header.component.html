@@ -11,7 +11,7 @@
     </nav>
     <div class="right-content">
       <a [routerLink]="routes.carrinho" mat-mini-fab [color]="cartColor" [class.tem-itens]="showBadge" [matBadge]="estadoCarrinho.qtdItens"
-        [matBadgeHidden]="!showBadge" matBadgePosition="before" matBadgeColor="accent" class="mat-elevation-z0" routerLinkActive="active">
+        [matBadgeHidden]="!showBadge" matBadgePosition="before" matBadgeColor="accent" class="mat-elevation-z0" routerLinkActive="active" *ngIf="isLogado">
         <mat-icon>shopping_cart</mat-icon>
       </a>
       <button color="secondary" mat-mini-fab class="mat-elevation-z0" (click)="toggleDarkMode()">

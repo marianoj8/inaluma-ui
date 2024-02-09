@@ -11,6 +11,7 @@ import { UserComponent } from './core/components/user/user.component';
 import { CarrinhoListComponent } from './core/components/carrinho/carrinho-list.component';
 import { ItemsDataResolver } from './shared/components/items-data.resolver';
 import { AgendamentoListComponent } from './core/components/documentos/agendamento/agendamento-list.component';
+import { CarrinhoLoadGuard } from './core/components/carrinho/carrinho-load.guard';
 
 const _routes: Routes = [
   {
@@ -91,6 +92,7 @@ const _routes: Routes = [
       },
       {
         path: 'carrinho',
+        canActivate: [CarrinhoLoadGuard],
         component: CarrinhoListComponent,
         data: {hideShopping: true}
       },
