@@ -5,6 +5,7 @@ import { HeaderComponent } from "./header/header.component";
 import { SideMenuComponent } from "./side-menu/side-menu.component";
 import { FooterComponent } from "./footer/footer.component";
 import { LayoutService } from "./layout.service";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 const declarations = [
   LayoutComponent,
@@ -15,7 +16,10 @@ const declarations = [
 
 @NgModule({
   declarations: declarations,
-  imports: [SharedModule],
+  imports: [
+    SharedModule,
+    FontAwesomeModule
+  ],
   providers: [
     LayoutService
   ]

@@ -24,9 +24,9 @@
           Copyright @{{ano}} Todos os direitos reservados
         </div>
         <div class="right-content">
-          <button mat-mini-fab color="secondary" class="mat-elevation-z0"><a [href]="facebook"><i class="fa-brands fa-facebook-f"></i></a></button>
-          <button mat-mini-fab color="secondary" class="mat-elevation-z0"><a [href]="twitter"><i class="fa-brands fa-facebook-f"></i></a></button>
-          <button mat-mini-fab color="secondary" class="mat-elevation-z0"><a [href]="instagram"><i class="fa-brands fa-facebook-f"></i></a></button>
+          <a [href]="fbURL" mat-mini-fab color="secondary" target="_blank" class="mat-elevation-z0"><fa-icon [icon]="faFacebook" size="lg"></fa-icon></a>
+          <a [href]="'instagram'" mat-mini-fab color="secondary" class="mat-elevation-z0"><fa-icon [icon]="faInstagram" size="lg"></fa-icon></a>
+          <a [href]="'facebook'" mat-mini-fab color="secondary" class="mat-elevation-z0"><fa-icon [icon]="faFacebook"></fa-icon></a>
         </div>
       </div>
     </div>
