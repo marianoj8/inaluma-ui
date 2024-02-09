@@ -18,6 +18,16 @@ img {
   height: 100%;
 }
 
+.material-symbols-outlined {
+  will-change: font-variation-settings;
+  transition: all .4s ease;
+}
+
+.material-symbol-filled,
+*.material-symbol-filled {
+  font-variation-settings: 'FILL' 1;
+}
+
 .content-container {
   min-height: vars.$body-height;
 }
