@@ -6,6 +6,7 @@ import { UserModule } from "./components/user/user.module";
 import { CarrinhoModule } from "./components/carrinho/carrinho.module";
 import { ToastrModule } from "ngx-toastr";
 import { DocumentosModule } from "./components/documentos/documentos.module";
+import { SectionActivationGuard } from "./services/section-activation.guard";
 
 @NgModule({
   imports: [ToastrModule.forRoot()],
@@ -18,6 +19,7 @@ import { DocumentosModule } from "./components/documentos/documentos.module";
     ToastrModule
   ],
   providers: [
-    ThemeService
+    ThemeService,
+    SectionActivationGuard
   ]
 }) export class CoreModule {}

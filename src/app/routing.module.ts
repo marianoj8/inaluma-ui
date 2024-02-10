@@ -11,11 +11,14 @@ import { UserComponent } from './core/components/user/user.component';
 import { CarrinhoListComponent } from './core/components/carrinho/carrinho-list.component';
 import { ItemsDataResolver } from './shared/components/items-data.resolver';
 import { AgendamentoListComponent } from './core/components/documentos/agendamento/agendamento-list.component';
-import { CarrinhoLoadGuard } from './core/components/carrinho/carrinho-load.guard';
+import { SectionActivationGuard as SectionActivationGuard } from './core/services/section-activation.guard';
+import { AuthGuard } from './core/auth/guards/auth.guard';
+import { EmployeeGuard } from './core/services/employee.guard';
 
 const _routes: Routes = [
   {
     path: 'auth',
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'log-in',
@@ -45,10 +48,12 @@ const _routes: Routes = [
           },
           {
             path: 'add',
+            canActivate: [EmployeeGuard],
             component: ItemFormComponent
           },
           {
             path: 'edit',
+            canActivate: [EmployeeGuard],
             resolve: {dynamic: ItemsDataResolver},
             component: ItemFormComponent
           }
@@ -64,21 +69,20 @@ const _routes: Routes = [
           },
           {
             path: 'add',
+            canActivate: [EmployeeGuard],
             component: ItemFormComponent
           },
           {
             path: 'edit',
+            canActivate: [EmployeeGuard],
             resolve: {dynamic: ItemsDataResolver},
             component: ItemFormComponent
-          },
-          {
-            path: 'agendar',
-            redirectTo: ''
           }
         ],
       },
       {
         path: 'user',
+        canActivate: [EmployeeGuard],
         children: [
           {
             path: 'funcionario',
@@ -92,12 +96,13 @@ const _routes: Routes = [
       },
       {
         path: 'carrinho',
-        canActivate: [CarrinhoLoadGuard],
+        canActivate: [SectionActivationGuard],
         component: CarrinhoListComponent,
         data: {hideShopping: true}
       },
       {
         path: 'agendamentos',
+        canActivate: [SectionActivationGuard],
         component: AgendamentoListComponent
       }
     ]

@@ -1,29 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Route, CanLoad, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { APP_ROUTES } from 'src/app/shared/config';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({providedIn: 'root'})
-export class AuthGuard implements CanLoad, CanActivate {
+export class AuthGuard implements CanActivate {
   constructor(private _authService: AuthService, private _router: Router) { }
 
-  canLoad(route: Route): Observable<boolean | UrlTree> |  UrlTree | boolean {
-    return this.verifyAcess();
-  }
-
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> |  UrlTree | boolean {
-    return this.verifyAcess();
-  }
-
-  /**
-   * Checks whether the current user is logged in and whether the session is still valid;
-   * Should the test fail, the user is redirected to the login page and navigation to the `original route` is
-   * canceled
-   * @returns `true` if user has permission, otherwise returns `false`
-   */
-  private verifyAcess(): Observable<boolean | UrlTree> | boolean | UrlTree {
-    return this._authService.isSignedIn
-      ? this._router.parseUrl(APP_ROUTES.signIn) : true;
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): UrlTree | boolean {
+    return this._authService.isSignedIn ? this._router.parseUrl(APP_ROUTES.home) : true;
   }
 }
