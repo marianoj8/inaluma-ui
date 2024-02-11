@@ -56,6 +56,12 @@ export class Item {
     else throw new Error("Method not implemented");
   }
 
+  public get itemTypeName(): string { return this.isProduto ? 'Produto' : 'Serviço' }
+
+  public equals(o: Object): boolean {
+    return (o instanceof Item) ? this.id === (o as Item).id && this.isProduto === (o as Item).isProduto : false;
+  }
+
   static createArray(dtos: ItemDTO[]) {
     const items = new Array<Item>();
 
