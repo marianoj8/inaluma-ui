@@ -7,5 +7,5 @@ export class EmployeeGuard implements CanActivate {
   private readonly _authService = inject(AuthService);
   private readonly _router = inject(Router);
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean { return this._authService.isSignedIn && !this._authService.isCliente; }
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean { return this._authService.isEmployee; }
 }
