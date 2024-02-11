@@ -4,6 +4,7 @@ import { CommonModule } from "@angular/common";
 import { MaterialModule } from "../../material.module";
 import { SelectItemsDialogComponent } from "./select-items/select-items.component";
 import { SharedComponentsModule } from "../shared-components.module";
+import { SelectItemsService } from "./select-items/select-items.service";
 
 const declarations = [
   ConfirmDialogComponent,
@@ -19,6 +20,7 @@ const declarations = [
     CommonModule,
     MaterialModule,
     SharedComponentsModule
-  ]
+  ],
+  providers: [SelectItemsService]
 })
 export class DialogsModule {}

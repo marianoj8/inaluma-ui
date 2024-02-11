@@ -6,12 +6,24 @@
         <div class="content coluna">
           <form class="filter-controls linha" [formGroup]="filterForm">
             <mat-form-field appearance="outline" color="accent">
-              <mat-select placeholder="Tipo de Ítem" [value]="-1" formControlName="tipoItem"><mat-option *ngFor="let flt of tipoItem" [value]="flt.val">{{flt.display}}</mat-option></mat-select>
+              <mat-select placeholder="Tipo de Ítem" formControlName="tipoItem">
+                <mat-option *ngFor="let flt of tipoItem" [value]="flt.val">{{flt.display}}</mat-option>
+              </mat-select>
             </mat-form-field>
-            <mat-form-field appearance="outline" color="accent"><input matInput type="text" placeholder="nome, preço, duração" formControlName="search"/></mat-form-field>
+            <mat-form-field appearance="outline" color="accent">
+              <input matInput type="text" placeholder="nome, preço, duração" formControlName="search"/>
+              <button mat-icon-button matSuffix (click)="clearSearch()"><mat-icon>cancel</mat-icon></button>
+            </mat-form-field>
+            <button mat-icon-button (click)="setActive(VIEW_MODES.row)" aria-label="view as list" aria-labelledby="view as list">
+              <mat-icon [class.material-symbol-filled]="isCurrentViewMode(VIEW_MODES.row)" aria-hidden="false">view_agenda</mat-icon>
+            </button>
+            <button mat-icon-button (click)="setActive(VIEW_MODES.column)" aria-label="view as column" aria-labelledby="view as column">
+              <mat-icon [class.material-symbol-filled]="isCurrentViewMode(VIEW_MODES.column)" aria-hidden="false">view_column_2</mat-icon>
+            </button>
           </form>
-          <section class="items linha" #items><div class="items-container coluna">
-            <app-list-item-preview *ngFor="let i of publicItems | async" [item]="i" [isDialog]="true" class="mat-elevation-z3"></app-list-item-preview></div>
+          <section class="items linha" #items [ngClass]="{'view-list': isCurrentViewMode(VIEW_MODES.row), 'view-column': isCurrentViewMode(VIEW_MODES.column)}">
+            <app-list-item-preview *ngFor="let i of publicItems$ | async" [item]="i" [isDialog]="true" class="item"
+            (markItemRequested)="handleMarkItemRequested($event)"></app-list-item-preview>
           </section>
         </div>
       </section>

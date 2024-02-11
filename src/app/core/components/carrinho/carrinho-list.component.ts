@@ -43,9 +43,7 @@ export class CarrinhoListComponent {
         disableClose: true,
         panelClass: 'adicionar-items-diag'
       }
-    ).afterClosed().subscribe(items => {
-
-    });
+    ).afterClosed().subscribe(items => { if(items) this._carrinhoService.adicionarItens(items); });
   }
 
   public selectCliente(): void {
@@ -76,7 +74,5 @@ export class CarrinhoListComponent {
   public cancelar(): void { this._carrinhoService.destruir(this.tipoOperacao) }
   public esvaziarCarrinho(): void { this._carrinhoService.esvaziar() }
   public get isSignedIn(): boolean { return this._authService.isSignedIn }
-  public get podeConfirmar(): boolean {
-    return false;
-  }
+  public get podeConfirmar(): boolean { return false }
 }

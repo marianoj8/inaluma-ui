@@ -71,6 +71,16 @@ export class CarrinhoService {
     }
   }
 
+  public adicionarItens(itens: Item[]): void {
+    if(this._getCarrinho.adicionarItens(itens)) {
+      this._emitEstadoActualizado();
+      this._toastrService.success('Itens adicionado ao carrinho com sucesso');
+    } else {
+      this._emitEstadoActualizado();
+      this._toastrService.error('Erro ao adicionar itens ao carrinho!');
+    }
+  }
+
   public get servico(): ItemCarrinho { return this._getCarrinho.servico }
   public get produtos(): ItemCarrinho[] { return this._getCarrinho.produtos }
   public get temServico(): boolean { return this._getCarrinho.temServico }
@@ -157,7 +167,7 @@ export class CarrinhoService {
     }
   }
 
-  public estaNoCarrinho(item: ItemCarrinho): boolean { return this._getCarrinho.temItem(item) }
+  public estaNoCarrinho(item: ItemCarrinho | Item): boolean { return this._getCarrinho.temItem(item) }
 
   public reterEstado(): boolean {
     if(!this.temItens) return false;

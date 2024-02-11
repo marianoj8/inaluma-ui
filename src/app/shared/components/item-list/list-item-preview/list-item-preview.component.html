@@ -2,7 +2,6 @@
   <section class="preview">
     <div class="left-content"><img [src]="img"></div>
     <div class="middle-content">
-      <span class="item-type" *ngIf="isDialog">{{itemType}}</span>
       <h3 class="title">{{nome}}</h3>
       <div class="bottom-content-wrapper">
         <span><span class="detail">Estado</span><span>{{estado}}</span></span>
@@ -20,6 +19,7 @@
       <span class="info" [class.show]="showInfo">{{descricao}}</span>
     </div>
     <div class="controls-container">
+      <span class="item-type" *ngIf="isDialog">{{itemType}}</span>
       <ng-container *ngIf="!isDialog">
         <ng-container *ngIf="!isCliente && !hideShopping && isLogado">
           <div class="delete">
@@ -39,8 +39,8 @@
         </ng-container>
       </ng-container>
       <div class="cart-controls">
-        <button mat-mini-fab class="mat-elevation-z0" (click)="adicionarItemCarrinho()" *ngIf="!hideShopping else removeItem" matTooltip="Adicionar ao carrinho"
-        [matTooltipHideDelay]="tipHideDelay" [matTooltipShowDelay]="tipShowDelay" [matTooltipPosition]="tipPosition">
+        <button mat-mini-fab class="mat-elevation-z0" (click)="adicionarItemCarrinho()" *ngIf="!showAddToCart else removeItem" matTooltip="Adicionar ao carrinho"
+        [matTooltipHideDelay]="tipHideDelay" [matTooltipShowDelay]="tipShowDelay" [matTooltipPosition]="tipPosition" [disabled]="isNotSelectedService">
           <mat-icon>add_shopping_cart</mat-icon>
         </button>
         <ng-template #removeItem>

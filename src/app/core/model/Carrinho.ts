@@ -37,6 +37,21 @@ export class Carrinho {
     return true;
   }
 
+  public adicionarItens(itens: Item[]): boolean {
+    let sucesso = true;
+
+    for(let i of itens) {
+      if(this._temItem(i)) {
+        sucesso = false;
+        break;
+      }
+    }
+
+    if(sucesso) itens.forEach(i => { this.adicionarItem(i)})
+
+    return sucesso;
+  }
+
   private _podeSomar(item: Item, qtd: number): boolean {
     if(!item.isProduto) return false;
 
@@ -101,6 +116,15 @@ export class Carrinho {
     return this.itens.filter(i => i.item.isProduto);
   }
 
+  public temItem(item: ItemCarrinho | Item): boolean {
+    let tem = false;
+
+    if(item instanceof Item) tem = !!this._temItem(item);
+    else tem = !!this._temItem(item.item);
+
+    return tem;
+  }
+
   public get temItems(): boolean { return this.itensCarrinho > 0 }
   public get hasCliente(): boolean { return !!this.cliente }
   public get estado(): IEstadoCarrinho { return {qtdItens: this.itensCarrinho, totalCarrinho: this.total} }
@@ -115,7 +139,6 @@ export class Carrinho {
   public getItem(i: ItemCarrinho): ItemCarrinho { return this.itens.find(x => (i.item.id === x.item.id) && (i.item.isProduto === x.item.isProduto)) }
   public reterEstado(): boolean { return EstadoCarrinho.saveToLocalStorage(this.itens, this.cliente); }
   public restaurarEstadoLS(): EstadoCarrinho { return EstadoCarrinho.readFromLocalStorage() }
-  public temItem(item: ItemCarrinho): boolean { return !!this._temItem(item.item) }
   public selecionarCliente(usr: UserDTO): void { this._setCliente(usr) }
   public esvaziar(): void { this.reset(false) }
 }

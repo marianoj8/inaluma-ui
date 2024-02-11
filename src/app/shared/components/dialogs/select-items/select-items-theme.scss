@@ -3,7 +3,10 @@
 @use '/src/scss/utility/utilities' as utils;
 
 @mixin _layout($theme) {
-  width: 55vw;
+  $typography: mat.get-typography-config($theme);
+  $color: mat.get-color-config($theme);
+
+  width: 67vw;
   height: 75vh;
 
   .linha {
@@ -25,8 +28,6 @@
     gap: 15px;
 
     .content-header {
-      $typography: mat.get-typography-config($theme);
-
       .title {
         @include mat.typography-level($typography, title);
         justify-content: center;
@@ -40,7 +41,7 @@
 
       .content,
       .filter-controls,
-      .items {
+      .content .items {
         width: 100%;
       }
 
@@ -48,23 +49,149 @@
         height: 100%;
         gap: 5px;
 
+        .filter-controls .mat-icon-button {
+          @include utils.make-square(fit-content);
+        }
+
         .items {
-          overflow-y: auto;
+          overflow: hidden auto;
           flex: 1 0;
           flex-wrap: wrap;
-          justify-content: center;
-          align-items: flex-start;
-          gap: 5px;
+          align-items: stretch;
+          align-content: stretch;
+          padding-top: 20px;
           padding-bottom: 10px;
+          column-gap: 5px;
+          row-gap: 20px;
+
+          .item:only-child {
+            align-self: flex-start;
+          }
         }
 
-        .items .items-container {
-          padding: 10px 10px 0;
-          gap: 10px;
+        .items.view-list {
+          justify-content: stretch;
+
+          .item {
+            width: 100%;
+          }
         }
 
-        .items .item .mat-card {
-          background-color: map.get(mat.get-color-config($theme), background, status-bar);
+        .items.view-column {
+          justify-content: flex-start;
+
+          .item {
+            $width: calc(50% - 3px);
+            width: $width;
+          }
+        }
+
+        .item {
+          .mat-card {
+            box-sizing: border-box;
+          }
+
+          .mat-card,
+          .preview {
+            height: 100%;
+            width: 100%;
+          }
+
+          .preview {
+            gap: 25px;
+            position: relative;
+          }
+
+          .left-content {
+            width: 80px;
+            height: 80px;
+
+            &:hover {
+              transform: none;
+              z-index: auto;
+            }
+          }
+
+          .middle-content,
+          .controls-container {
+            gap: 5px;
+          }
+
+          .middle-content {
+            .title {
+              @include mat.typography-level($typography, title);
+              margin: 0;
+            }
+
+            .bottom-content-wrapper,
+            .dados-carrinho {
+              column-gap: 30px;
+
+              .detail,
+              .detail + span {
+                @include mat.typography-level($typography, subheading-1);
+              }
+
+              .detail + span {
+                margin-left: 5px;
+
+                &:not(:first-of-type)::before {
+                  top: 6px;
+                  left: -15px;
+                }
+              }
+            }
+          }
+
+          .controls-container {
+            .item-type {
+              $label-background-color: map.get($color, accent, A700);
+              $border-color: map.get($color, background, card);
+
+              position: absolute;
+              box-sizing: border-box;
+              @include mat.typography-level($typography, caption);
+              font-weight: bold;
+              background-color: $label-background-color;
+              color: map.get($color, accent, A700-contrast);
+              padding: 2px 3px;
+              top: -28px;
+              right: 0;
+
+              &::before,
+              &::after {
+                content: '';
+                width: 0;
+                height: 0;
+                position: absolute;
+                top: 0;
+                border-bottom: 12px solid map.get($color, background, card);
+                border-top: 12px solid map.get($color, background, background);
+              }
+
+              &::before {
+                left:-1rem;
+                border-right: 15px solid $label-background-color;
+              }
+
+              &::after {
+                right: -1rem;
+                border-left: 15px solid $label-background-color;
+              }
+            }
+
+            .cart-controls {
+              &,
+              .container {
+                gap: 5px;
+              }
+
+              .container .mat-form-field {
+                min-width: 50px!important;
+                width: 50px;
+              }
+            }
+          }
         }
 
         .filter-controls {
