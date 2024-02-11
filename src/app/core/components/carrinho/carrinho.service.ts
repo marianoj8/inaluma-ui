@@ -176,6 +176,7 @@ export class CarrinhoService {
 
   public get hasCliente(): boolean { return this._getCarrinho.hasCliente }
   public get cliente(): UserDTO { return this._getCarrinho.cliente }
+  public get nomeCompletoCliente(): string { return this.cliente.nome + ' ' + this.cliente.sobrenome }
   public selecionarCliente(usr: UserDTO): void { this._getCarrinho.selecionarCliente(usr) }
 
   public destruir(operacao: string): void {
