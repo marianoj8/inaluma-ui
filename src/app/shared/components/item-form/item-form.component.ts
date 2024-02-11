@@ -1,12 +1,12 @@
 import { Component, OnInit, inject } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, ActivatedRouteSnapshot, Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Item, ItemDTO } from "src/app/core/model/dto/ItemDTO";
 import { ItemsService } from "../../services/items.service";
 import { FilesService } from "../../services/files.service";
 import { Observable, forkJoin, from, fromEvent, map, of, startWith, switchAll, switchMap } from "rxjs";
 import { ImageFile } from "src/app/core/model/dto/ImageFile";
-import { IDialogsConfig, IDialogsResponses, TiposProdutos } from "src/app/core/model";
+import { IDialogsResponses, TiposProdutos } from "src/app/core/model";
 import { MatButtonToggleChange } from "@angular/material/button-toggle";
 import { MatDialog } from "@angular/material/dialog";
 import { ConfirmDialogComponent } from "../dialogs/confirm-dialog/confirm-dialog.component";
@@ -257,6 +257,7 @@ export class ItemFormComponent implements OnInit {
     this._item = new Item(new ItemDTO(), this.isProduto);
     this._file = null;
     this.itemForm.reset(undefined, {emitEvent: false});
+    this.filteredOptions = of(this._filtrar(''));
   }
 
   public cancelar(): void {
@@ -275,7 +276,7 @@ export class ItemFormComponent implements OnInit {
       ).afterClosed().subscribe((resp: IDialogsResponses) => {
         if(resp.response === DIALOG_RESPONSES.yes) history.back();
       });
-    } else history.back();
+    } else this._router.navigate([this._router.url.includes(APP_ROUTES.produtos_add) ? APP_ROUTES.produtos : APP_ROUTES.servicos]);
   }
 
   private _patchData(data: Values, form: FormGroup): void { this.itemForm.patchValue({...data}) }
