@@ -78,6 +78,11 @@
   .mat-form-field-wrapper {
     .mat-form-field-underline { bottom: 0 }
   }
+
+  .mat-form-field-prefix,
+  .mat-form-field-suffix {
+    right: 0.25em;
+  }
 }
 
 @mixin expand-body($component-selector) {
