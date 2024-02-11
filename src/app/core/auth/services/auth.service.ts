@@ -117,4 +117,5 @@ export class AuthService {
   }
 
   private _userLogActionRequested(signedIn: boolean) { this._userLogAction.next(signedIn) }
+  public get isEmployee(): boolean { return this.isAdmin() || this.isFuncionario() }
 }
