@@ -3,7 +3,7 @@ import { Injectable, inject } from "@angular/core";
 import { environment } from "src/environments/environment";
 import { API_PRODUTOS_ROUTES, API_SERVICES_ROUTES, Operation } from "../config";
 import { Item, ItemDTO } from "src/app/core/model/dto/ItemDTO";
-import { Observable, map, switchMap, tap } from "rxjs";
+import { Observable, Subscription, from, map, mergeAll, switchMap, tap } from "rxjs";
 import { ToastrService } from "ngx-toastr";
 import { FilesService } from "./files.service";
 
@@ -20,6 +20,7 @@ export class ItemsService {
   public fetch(isProduto: boolean) {
     return transformarDTOs(this._fetchItem(this._getPath(isProduto, Operation.fetch)), isProduto);
   }
+
   public getItemByID(id: number, isProduto: boolean) {
     return transformarDTO(this._getItemByID(id, this._getPath(isProduto, Operation.get)), isProduto);
   }
@@ -82,10 +83,19 @@ export class ItemsService {
 
     return path;
   }
-  
+
   private mostrarFeedback(msg: string): void { this._toastrService.success(msg, 'Successo'); }
 
-  public getNoImage() { return this._http.get(this._noImagePath, {responseType: 'blob'}).pipe(map(b => new File([b], 'no_name', {type: b.type}))) }
+  public getNoImage(): Observable<File> { return this._http.get(this._noImagePath, {responseType: 'blob'}).pipe(map(b => new File([b], 'no_name', {type: b.type}))) }
+
+  fetch$(isProduto: boolean): Observable<Item[]> {
+    return this.fetch(isProduto).pipe(tap(arr => {
+      from(arr).pipe(
+        map( i => this._filesService.getImage$(i)),
+        mergeAll()
+      ).subscribe();
+    }))
+  }
 }
 
 const transformarDTO = (obs$: Observable<ItemDTO>, isProduto: boolean) => { return obs$.pipe(map(i =>  new Item(i, isProduto))) }
