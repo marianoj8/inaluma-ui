@@ -1,4 +1,6 @@
 import { AbstractEntityDTO } from "./AbstractEntityDTO"
+import { AgendamentoDTO } from "./AgendamentoDTO";
+import { FacturaDTO } from "./FacturaDTO";
 import { Item } from "./ItemDTO";
 
 export class ItemFacturaDTO extends AbstractEntityDTO {
@@ -6,6 +8,6 @@ export class ItemFacturaDTO extends AbstractEntityDTO {
   preco: number;
   produto: Item;
   servico: Item;
-  // factura: Factura;
-  // agendamento: Agendamento;
+  factura: FacturaDTO;
+  agendamento: AgendamentoDTO;
 }
