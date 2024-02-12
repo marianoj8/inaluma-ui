@@ -129,7 +129,7 @@ export class Carrinho {
   public get hasCliente(): boolean { return !!this.cliente }
   public get estado(): IEstadoCarrinho { return {qtdItens: this.itensCarrinho, totalCarrinho: this.total} }
   public get itensCarrinho(): number { return this.itens?.length }
-  private get itens(): ItemCarrinho[] { return this._itens }
+  public get itens(): ItemCarrinho[] { return this._itens }
   public get cliente(): UserDTO { return this._cliente }
   public get utilizador(): UserDTO { return this._user }
   private _setCliente(usr: UserDTO) { this._cliente = usr }
