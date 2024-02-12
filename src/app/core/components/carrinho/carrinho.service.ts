@@ -8,13 +8,11 @@ import { DIALOG_CONTROLS, DIALOG_RESPONSES, LOCAL_STORAGE } from "src/app/shared
 import { ItemsService } from "src/app/shared/services/items.service";
 import { AuthService } from "../../auth/services/auth.service";
 import { ToastrService } from "ngx-toastr";
-import { FilesService } from "src/app/shared/services/files.service";
 import { UserDTO } from "../../model/dto/UserDTO";
 import { Perfil } from "../../model/Profiles";
 import { ConfirmDialogComponent } from "src/app/shared/components/dialogs/confirm-dialog/confirm-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import { IDialogsResponses } from "../../model";
-import { UsersService } from "../user/services/users.service";
 
 @Injectable()
 export class CarrinhoService {
@@ -22,9 +20,7 @@ export class CarrinhoService {
   private readonly _itemsService = inject(ItemsService);
   private readonly _authService = inject(AuthService);
   private readonly _toastrService = inject(ToastrService);
-  private readonly _filesService = inject(FilesService);
   private readonly _diagService = inject(MatDialog);
-  private readonly _usersService = inject(UsersService);
 
   /* MEMBERS */
   private readonly _carrinho: Carrinho;
@@ -53,6 +49,8 @@ export class CarrinhoService {
     this._getCarrinho.reset(removeUser);
     this._emitEstadoActualizado();
   }
+
+  public get getItens(): ItemCarrinho[] { return this._getCarrinho.itens }
 
   private _emitEstadoActualizado(): void { this._estadoActualizadoSource.next(this.estadoCarrinho); }
 
