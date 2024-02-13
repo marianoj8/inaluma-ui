@@ -126,10 +126,7 @@ export class ItemFormComponent implements OnInit {
     );
   }
 
-  private _filtrar(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return TiposProdutos.tipos.filter(option => option.toLowerCase().includes(filterValue));
-  }
+  private _filtrar(value: string): string[] { return TiposProdutos.filtrar(value); }
 
   public onFileSelected(event): void {
     const potentialFile = event.target.files[0] as File;

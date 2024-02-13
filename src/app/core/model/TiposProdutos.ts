@@ -30,4 +30,10 @@ export class TiposProdutos {
     'Gel de sobrancelha',
     'Escova sobrancelha'
   ]
+
+  public static filtrar(val: string): string[] {
+    const s = val.trim().toLowerCase();
+
+    return TiposProdutos.tipos.filter(tipo => tipo.toLowerCase().includes(s));
+  }
 }
