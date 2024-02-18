@@ -27,3 +27,8 @@ export const enum MAIN_SIDEBAR {
   self = 'barra-lateral',
   subMenuTrigger = 'trigger'
 }
+
+export enum FACTURA_ITEM_VIEW_MODE {
+  detailsView = 'details-view',
+  tableView = 'table-view'
+}

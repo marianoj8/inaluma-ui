@@ -1,0 +1,38 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '/src/scss/utility/utilities' as utils;
+
+@mixin _layout($theme) {
+  .linha {
+    @include utils.make-flex();
+  }
+
+  .coluna {
+    @include utils.make-flex($direction: 'column');
+  }
+
+  &.container {
+    @include utils.make-square(100%);
+  }
+
+  .details-view {
+    .linha {
+      flex: 1 0;
+    }
+
+    .img-container {
+      @include utils.make-square(20rem);
+    }
+
+    .second-row {
+      justify-content: space-evenly;
+      align-items: center;
+    }
+  }
+}
+
+@mixin theme($theme) {
+  .factura-item-component {
+    @include _layout($theme);
+  }
+}

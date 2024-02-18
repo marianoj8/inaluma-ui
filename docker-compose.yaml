@@ -6,9 +6,9 @@ services:
     #image: mysql:8.1.0
     # Use the line below to run mysql version on arm64/v8 platform (Apple Silicon M1 Chip)
     image: mysql:8.1.0-oracle
-    container_name: inaluma-db
+    container_name: inaluma-db-anew
     healthcheck:
-      test: "mysql --database='inaluma_db' --password='password' --execute='SELECT now();' --skip-column-names -B"
+      test: "mysql --database='inaluma_db_anew' --password='password' --execute='SELECT now();' --skip-column-names -B"
       interval: 30s
       timeout: 10s
       retries: 5
@@ -18,30 +18,30 @@ services:
     environment:
       - MYSQL_ROOT_HOST=%
       - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_DATABASE=inaluma_db
+      - MYSQL_DATABASE=inaluma_db_anew
       - MYSQL_USER=inaluma
       - MYSQL_PASSWORD=password
     volumes:
-      - inaluma_db:/var/lib/mysql
+      - inaluma_db_anew:/var/lib/mysql
     networks:
-      - backendNetwork
+      - backendNetworkAnew
 
   spring:
-    image: marianojs8/inaluma-api:arm64-v8-1.0-beta
-    container_name: inaluma-api
+    image: 3p1l/inaluma-api-anew:arm64-v8-1.0-beta
+    container_name: inaluma-api-anew
     ports:
       - "8080:8080"
     depends_on:
       db:
         condition: service_healthy
     volumes:
-      - inaluma_api:/inaluma_api.jar
+      - inaluma_api_anew:/inaluma_api.jar
     networks:
-      - backendNetwork
+      - backendNetworkAnew
 
 volumes:
-  inaluma_db:
-  inaluma_api:
+  inaluma_db_anew:
+  inaluma_api_anew:
 
 networks:
-  backendNetwork:
+  backendNetworkAnew:

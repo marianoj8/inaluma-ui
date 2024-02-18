@@ -4,7 +4,6 @@ import { LayoutComponent } from './core/components/layout/layout.component';
 import { LandingPageComponent } from './shared/visitor/landing-page/landing-page.component';
 import { ItemFormComponent } from './shared/components/item-form/item-form.component';
 import { ItemListComponent } from './shared/components/item-list/item-list.component';
-import { LogoutGuard } from './core/auth/guards/log-out.guard';
 import { LogInComponent } from './core/auth/components/log-in/log-in.component';
 import { SignUpComponent } from './core/auth/components/sign-up/sign-up.component';
 import { UserComponent } from './core/components/user/user.component';
@@ -14,6 +13,8 @@ import { AgendamentoListComponent } from './core/components/documentos/agendamen
 import { SectionActivationGuard as SectionActivationGuard } from './core/services/section-activation.guard';
 import { AuthGuard } from './core/auth/guards/auth.guard';
 import { EmployeeGuard } from './core/services/employee.guard';
+import { DOCUMENTO_OPEARATION_TYPE, DOCUMENTO_TYPE } from './shared/config';
+import { FacturaComponent } from './core/components/documentos/factura/factura.component';
 
 const _routes: Routes = [
   {
@@ -103,11 +104,68 @@ const _routes: Routes = [
       {
         path: 'agendamentos',
         canActivate: [SectionActivationGuard],
-        component: AgendamentoListComponent
+        children: [
+          {path: '', component: AgendamentoListComponent},
+          {
+            path: 'confirmar',
+            data: {
+              operation: DOCUMENTO_OPEARATION_TYPE.confirmar,
+              documento: DOCUMENTO_TYPE.agendamento
+            },
+            component: FacturaComponent
+          },
+          {
+            path: 'visualizar',
+            data: {
+              operation: DOCUMENTO_OPEARATION_TYPE.visualizar,
+              documento: DOCUMENTO_TYPE.agendamento
+            },
+            component: FacturaComponent
+          },
+          {
+            path: 'editar',
+            data: {
+              operation: DOCUMENTO_OPEARATION_TYPE.visualizar,
+              documento: DOCUMENTO_TYPE.agendamento
+            },
+            component: FacturaComponent
+          },
+        ]
+      },
+      {
+        path: 'compras',
+        canActivate: [SectionActivationGuard],
+        children: [
+          {path: '', component: AgendamentoListComponent},
+          {
+            path: 'confirmar',
+            data: {
+              operation: DOCUMENTO_OPEARATION_TYPE.confirmar,
+              documento: DOCUMENTO_TYPE.compra
+            },
+            component: FacturaComponent
+          },
+          {
+            path: 'visualizar',
+            data: {
+              operation: DOCUMENTO_OPEARATION_TYPE.visualizar,
+              documento: DOCUMENTO_TYPE.compra
+            },
+            component: FacturaComponent
+          },
+          {
+            path: 'editar',
+            data: {
+              operation: DOCUMENTO_OPEARATION_TYPE.visualizar,
+              documento: DOCUMENTO_TYPE.compra
+            },
+            component: FacturaComponent
+          },
+        ]
       }
     ]
   },
-  { path: '**', redirectTo: '', pathMatch: 'prefix' }
+  { path: '**', redirectTo: '' }
 ];
 
 @NgModule({

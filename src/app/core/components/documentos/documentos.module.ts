@@ -4,10 +4,15 @@ import { AgendamentoListComponent } from "./agendamento/agendamento-list.compone
 import { DocumentoItemComponent } from "./documento-item/documento-item.component";
 import { AgendamentosService } from "./services/agendamento.service";
 import { ItemsFacturaService } from "./services/items-factura.service";
+import { FacturaService } from "./services/factura.service";
+import { FacturaItemcomponent } from "./factura/factura-item/factura-item.component";
+import { FacturaComponent } from "./factura/factura.component";
 
 const declarations = [
   AgendamentoListComponent,
-  DocumentoItemComponent
+  DocumentoItemComponent,
+  FacturaComponent,
+  FacturaItemcomponent
 ];
 
 @NgModule({
@@ -17,7 +22,8 @@ const declarations = [
   ],
   providers: [
     AgendamentosService,
-    ItemsFacturaService
+    ItemsFacturaService,
+    FacturaService
   ]
 })
 export class DocumentosModule {}

@@ -80,4 +80,15 @@ export enum METODO_PAGAMENTO {
   cartaoCredito = 'Cartão de Crédito'
 }
 
+export const enum DOCUMENTO_OPEARATION_TYPE {
+  confirmar,
+  visualizar,
+  editar
+}
+
+export const enum DOCUMENTO_TYPE {
+  agendamento,
+  compra
+}
+
 export { SCRTOP_COLOR, SCRTOP_POSITION, DOCUMENT_TYPES, ITEM_TYPES, DOCUMENT_SECTIONS };

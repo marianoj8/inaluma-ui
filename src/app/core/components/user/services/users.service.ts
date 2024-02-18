@@ -1,5 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
+import { Observable } from "rxjs";
+import { User } from "src/app/core/model/User";
 import { UserDTO } from "src/app/core/model/dto/UserDTO";
 import { API_USERS_ROUTES, Operation } from "src/app/shared/config";
 import { environment } from "src/environments/environment";
@@ -39,4 +41,11 @@ export class UsersService {
 
     return path;
   }
+  public fetch$(isCliente: boolean): Observable<User[]> { return this.fetch(isCliente).pipe(wrapDto())}
 }
+
+const wrapDto = () => <T extends UserDTO>(src$: Observable<T[]>) => new Observable<User[]>(subscriber => {
+  const subs = src$.subscribe(dtos => dtos.map(dto => new User(dto)));
+
+  return () => { subs.unsubscribe() }
+});

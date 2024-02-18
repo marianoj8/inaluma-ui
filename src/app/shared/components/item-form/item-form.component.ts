@@ -120,10 +120,12 @@ export class ItemFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.filteredOptions = this.itemForm.get('tipo')?.valueChanges.pipe(
-      startWith(''),
-      map(val => this._filtrar(val || ''))
-    );
+    if(this.isProduto){
+      this.filteredOptions = this.itemForm.get('tipo').valueChanges.pipe(
+        startWith(''),
+        map(val => this._filtrar(val || ''))
+      );
+    }
   }
 
   private _filtrar(value: string): string[] { return TiposProdutos.filtrar(value); }
@@ -253,7 +255,9 @@ export class ItemFormComponent implements OnInit {
     this.imagePath = this._chooseImageIcon;
     this._item = new Item(new ItemDTO(), this.isProduto);
     this._file = null;
+    console.log(this.itemForm.controls)
     this.itemForm.reset(undefined, {emitEvent: false});
+    console.log(this.itemForm.controls)
     this.filteredOptions = of(this._filtrar(''));
   }
 

@@ -1,0 +1,89 @@
+<article class="factura-component linha">
+  <div class="coluna">
+    <header class="linha page-header">
+      <button mat-flat-button color="warn" (click)="handleBtnVoltarClick()"><mat-icon>arrow_back</mat-icon> {{textBotaoVoltar}}</button>
+      <div class="coluna right-content">
+        <div class="linha">
+          <div class="coluna"><button mat-icon-button color="accent"><mat-icon>print</mat-icon></button></div>
+          <div class="coluna"><button mat-icon-button color="accent"><mat-icon>print</mat-icon></button></div>
+        </div>
+      </div>
+    </header>
+    <div class="linha content-container">
+      <div class="coluna">
+        <section class="linha content-body">
+          <div class="coluna content-wrapper">
+            <!-- Detalhes -->
+            <div class="linha section">
+              <div class="coluna section-wrapper">
+                <div class="linha section-header"><span class="coluna">Detalhes</span><span class="coluna">{{statusAgendamento}}</span></div>
+                <div class="linha section-content">
+                  <div class="coluna content">
+                    <p class="linha"><span>Cliente</span><span>{{nomeCliente}}</span></p>
+                    <!-- Número -->
+                    <div class="linha">
+                      <div class="coluna"><p class="linha"><span>{{rotuloNumeroDocumento}} número</span><span>{{numeroDocumento}}</span></p></div>
+                      <div class="coluna"><p class="linha"><span>{{statusFactura}}</span></p></div>
+                    </div>
+                    <!-- Datas -->
+                    <div class="linha">
+                      <div class="coluna"><p class="linha"><span>Data de criação</span><span>{{numeroDocumento}}</span></p></div>
+                      <div class="coluna"><p class="linha"><span>Data Agendada</span><span>{{statusFactura}}</span></p></div>
+                    </div>
+                    <!-- Profissional -->
+                    <div class="linha">
+                      <div class="coluna"><p class="linha"><span>Profissional</span><span>{{numeroDocumento}}</span></p></div>
+                      <div class="coluna"><p class="linha">
+                        <button mat-icon-button color="accent" [matMenuTriggerFor]="funcionarios" [matMenuTriggerData]="{users: funcionarios$ | async}" (click)="fetchFuncionarios()">
+                          <mat-icon>
+                            <ng-container *ngIf="hasFucnionario else editFuncionario">person_edit</ng-container>
+                            <ng-template #editFuncionario>person_search</ng-template>
+                          </mat-icon>
+                        </button></p>
+                      </div>
+                      <mat-menu #funcionarios="matMenu">
+                        <ng-template matMenuContent let-users="users">
+                          <ng-container *ngIf="users.length else semFuncionarios">
+                            <button mat-flat-button *ngFor="let usr of users" (click)="selecionarFuncionario(usr)">{{usr.nomeCompleto}}</button>
+                          </ng-container>
+                          <ng-template #semFuncionarios><p>Cadastre funcionários!</p></ng-template>
+                        </ng-template>
+                      </mat-menu>
+                    </div>
+                    <!-- Total -->
+                    <div class="linha">
+                      <div class="coluna"><p class="linha"><span>Total a pagar</span><span>{{numeroDocumento}}</span></p></div>
+                      <div class="coluna"><p class="linha"><span>Total pago</span><span>{{statusFactura}}</span></p></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Serviços -->
+            <div class="linha section">
+              <div class="coluna section-wrapper">
+                <div class="linha section-header"><span class="coluna">Serviços</span></div>
+                <div class="linha section-content"></div>
+              </div>
+            </div>
+            <!-- Produtos -->
+            <div class="linha section">
+              <div class="coluna section-wrapper">
+                <div class="linha section-header"></div>
+                <div class="linha section-content"></div>
+              </div>
+            </div>
+            <!-- Pagamentos -->
+            <div class="linha section">
+              <div class="coluna section-wrapper">
+                <div class="linha section-header"></div>
+                <div class="linha section-content"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <footer class="linha content-footer"><button mat-raised-button color="primary" (click)="concluir()">Concluir</button></footer>
+      </div>
+    </div>
+  </div>
+</article>

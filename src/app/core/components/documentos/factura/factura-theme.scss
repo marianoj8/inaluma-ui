@@ -1,0 +1,70 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '/src/scss/utility/utilities' as utils;
+
+@mixin _layout($theme) {
+  $color: mat.get-color-config($theme);
+  $typography: mat.get-typography-config($theme);
+  $border-color: map.get($color, background, tooltip);
+
+  &.linha,
+  .linha {
+    @include utils.make-flex($justContent: 'stretch');
+  }
+
+  &.coluna,
+  .coluna {
+    @include utils.make-flex($direction: 'column');
+  }
+
+  &.linha > .coluna,
+  .content-container > .coluna {
+    flex: 1 0;
+  }
+
+  &.linha > .coluna {
+    gap: 15px;
+
+  }
+
+  .page-header {
+    box-sizing: border-box;
+    padding: 10px;
+    justify-content: space-between;
+  }
+
+  .content-container,
+  .content-container > .coluna {
+    box-sizing: border-box;
+  }
+
+  .content-container {
+    padding: 0 40px;
+
+    & > .coluna {
+      border: 1px solid $border-color;
+      border-bottom: none;
+      border-radius: 15px 15px 0 0;
+    }
+
+    .coluna .content-body {
+      flex: 1 0;
+      box-sizing: border-box;
+      padding: 20px;
+      padding-bottom: 0;
+    }
+
+    .coluna .content-footer {
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+    }
+  }
+}
+
+@mixin theme($theme) {
+  .factura-component {
+    @include utils.expand-body(factura-component);
+    @include _layout($theme);
+  }
+}

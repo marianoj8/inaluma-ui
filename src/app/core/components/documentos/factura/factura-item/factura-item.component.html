@@ -1,0 +1,25 @@
+<article class="factura-item-component container">
+  <div class="content-container linha">
+    <div class="content coluna">
+      <section class="linha details-view" *ngIf="isCurrentViewMode(FACTURA_ITEM_VIEW_MODE.detailsView) else tableView">
+        <div class="coluna img-container"><img [src]="imgSrc" [alt]="imgAltText" /></div>
+        <div class="coluna">
+          <div class="linha first-row"><div class="coluna"><p>{{nome}}</p></div></div>
+          <div class="linha second-row">
+            <div class="coluna"><p>{{preco}}</p></div>
+            <div class="coluna"><p>{{qtd}}</p></div>
+            <div class="coluna"><p>{{total}}</p></div>
+          </div>
+        </div>
+      </section>
+      <ng-template #tableView>
+        <section class="linha table-view-container">
+          <p class="coluna nome">{{nome}}</p>
+          <p class="coluna quantidade">{{qtd}}</p>
+          <p class="coluna preco">{{preco}}</p>
+          <p class="coluna total">{{total}}</p>
+        </section>
+      </ng-template>
+    </div>
+  </div>
+</article>

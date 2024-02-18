@@ -1,14 +1,15 @@
 import { IEstadoCarrinho } from "./IEstadoCarrinho";
 import { ItemCarrinho } from "./ItemCarrinho";
-import { Item, ItemDTO } from "./dto/ItemDTO";
+import { Item } from "./dto/ItemDTO";
 import { UserDTO } from "./dto/UserDTO";
 import { EstadoCarrinho } from "./EstadoCarrinho";
+import { User } from "./User";
 
 export class Carrinho {
   constructor(
     private readonly _itens: ItemCarrinho[] = [],
-    private _cliente?: UserDTO,
-    private _user?: UserDTO
+    private _cliente?: User,
+    private _user?: User
   ) {}
 
   public reset(removeUser: boolean): void {
@@ -127,18 +128,19 @@ export class Carrinho {
 
   public get temItems(): boolean { return this.itensCarrinho > 0 }
   public get hasCliente(): boolean { return !!this.cliente }
-  public get estado(): IEstadoCarrinho { return {qtdItens: this.itensCarrinho, totalCarrinho: this.total} }
+  public get estado(): IEstadoCarrinho { return {qtdItens: this.itensCarrinho, totalCarrinho: this.total, itens: this.itens, cliente: this.cliente} }
   public get itensCarrinho(): number { return this.itens?.length }
   public get itens(): ItemCarrinho[] { return this._itens }
-  public get cliente(): UserDTO { return this._cliente }
-  public get utilizador(): UserDTO { return this._user }
-  private _setCliente(usr: UserDTO) { this._cliente = usr }
+  public get cliente(): User { return this._cliente }
+  public get utilizador(): User { return this._user }
+  private _setCliente(usr: User) { this._cliente = usr }
   private _indItem(item: ItemCarrinho): number { return this.itens.indexOf(item) }
   private _temItem(item: Item): ItemCarrinho { return this.itens.find(i => (i.item.id === item.id) && (i.item.isProduto === item.isProduto)) }
   public removerItem(item: ItemCarrinho): void { this.itens.splice(this._indItem(item), 1) }
   public getItem(i: ItemCarrinho): ItemCarrinho { return this.itens.find(x => (i.item.id === x.item.id) && (i.item.isProduto === x.item.isProduto)) }
   public reterEstado(): boolean { return EstadoCarrinho.saveToLocalStorage(this.itens, this.cliente); }
   public restaurarEstadoLS(): EstadoCarrinho { return EstadoCarrinho.readFromLocalStorage() }
-  public selecionarCliente(usr: UserDTO): void { this._setCliente(usr) }
+  public selecionarCliente(usr: User): void { this._setCliente(usr) }
   public esvaziar(): void { this.reset(false) }
+  public get temCliente(): boolean { return !!this.cliente }
 }

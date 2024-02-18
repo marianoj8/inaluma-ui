@@ -7,6 +7,8 @@ import { MatDialog } from "@angular/material/dialog";
 import { ToastrService } from "ngx-toastr";
 import { SelectClienteDialogComponent } from "./select-cliente-dialog/select-cliente-dialog.component";
 import { SelectItemsDialogComponent } from "src/app/shared/components/dialogs/select-items/select-items.component";
+import { Router } from "@angular/router";
+import { APP_ROUTES } from "src/app/shared/config";
 
 @Component({
   selector: 'app-carrinho-list',
@@ -19,6 +21,7 @@ export class CarrinhoListComponent {
   private readonly _location = inject(Location);
   private readonly _diagService = inject(MatDialog);
   private readonly _toastrService = inject(ToastrService);
+  private readonly _router = inject(Router);
 
   /* MEMBERS */
   public produtos: ItemCarrinho[];
@@ -61,18 +64,22 @@ export class CarrinhoListComponent {
     })
   }
 
+  public confirmar(): void {
+    this._router.navigate([this._carrinhoService.temServico ? APP_ROUTES.agendamentos_confirmar : APP_ROUTES.compras_confirmar]).then();
+  }
+
   public voltar(): void { this._location.back(); }
   public get temServico(): boolean { return this._carrinhoService.temServico; }
   public get temItens(): boolean { return this._carrinhoService.temItens }
   public get temProdutos(): boolean { return this._carrinhoService.temProdutos }
-  public get tipoOperacao(): string { return this.temServico ? 'Agendamento' : 'Compra' }
+  public get nomeTipoOperacao(): string { return this.temServico ? 'Agendamento' : 'Compra' }
   public get itensNoCarrinho(): number { return this._carrinhoService.estadoCarrinho.qtdItens }
   public get totalAPagar(): number { return this._carrinhoService.estadoCarrinho.totalCarrinho }
   public get hasCliente(): boolean { return this._carrinhoService.hasCliente }
   public get isCliente(): boolean { return this._authService.isCliente() }
-  public get nomeCompleto(): string { return this._carrinhoService.cliente?.nome + " " + this._carrinhoService.cliente?.sobrenome }
-  public cancelar(): void { this._carrinhoService.destruir(this.tipoOperacao) }
+  public get nomeCompleto(): string { return this._carrinhoService.nomeCompletoCliente }
+  public cancelar(): void { this._carrinhoService.destruir(this.nomeTipoOperacao) }
   public esvaziarCarrinho(): void { this._carrinhoService.esvaziar() }
   public get isSignedIn(): boolean { return this._authService.isSignedIn }
-  public get podeConfirmar(): boolean { return false }
+  public get podeConfirmar(): boolean { return this._carrinhoService.temItens && this._carrinhoService.temCliente }
 }

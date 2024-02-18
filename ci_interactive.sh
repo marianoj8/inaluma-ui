@@ -19,7 +19,7 @@ else
     docker-compose down -v
 
     echo 'removing api image'
-    docker rmi -f marianojs8/inaluma-api:arm64-v8-1.0-beta
+    docker rmi -f 3p1l/inaluma-api-anew:arm64-v8-1.0-beta
 
     echo "pulling images and raising containers"
     docker-compose up -d --build --force-recreate

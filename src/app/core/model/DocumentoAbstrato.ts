@@ -18,4 +18,9 @@ export abstract class DocumentoAbstato {
   public get user(): UserDTO { return this._dto.user; }
   public get cliente(): UserDTO { return this._dto.cliente; }
   public get funcionario(): UserDTO { return this._dto.funcionario; }
+  protected documento<T extends DocumentoAbstratoDTO>(): T { return this._dto as T; }
+  public abstract get getDTO(): AgendamentoDTO | FacturaDTO;
+  public abstract get nomeDocumento(): string;
+  public get nomeCompletoCliente(): string { return this.cliente.nome + ' ' + this.cliente.sobrenome }
+  public get nomeClompletoFuncionario(): string { return this.funcionario.nome +  ' ' + this.funcionario.sobrenome }
 }

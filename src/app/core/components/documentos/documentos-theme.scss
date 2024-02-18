@@ -1,7 +1,11 @@
 @use './agendamento/agendamento-list-theme' as agendamento;
 @use './documento-item/documento-item-theme' as documento-item;
+@use './factura/factura-item/factura-item-theme' as factura-item;
+@use './factura/factura-theme' as factura;
 
 @mixin theme($theme) {
   @include agendamento.theme($theme);
   @include documento-item.theme($theme);
+  @include factura-item.theme($theme);
+  @include factura.theme($theme);
 }

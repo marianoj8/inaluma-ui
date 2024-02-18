@@ -13,6 +13,7 @@ import { Perfil } from "../../model/Profiles";
 import { ConfirmDialogComponent } from "src/app/shared/components/dialogs/confirm-dialog/confirm-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
 import { IDialogsResponses } from "../../model";
+import { User } from "../../model/User";
 
 @Injectable()
 export class CarrinhoService {
@@ -173,9 +174,9 @@ export class CarrinhoService {
   }
 
   public get hasCliente(): boolean { return this._getCarrinho.hasCliente }
-  public get cliente(): UserDTO { return this._getCarrinho.cliente }
+  public get cliente(): User { return this._getCarrinho.cliente }
   public get nomeCompletoCliente(): string { return this.cliente.nome + ' ' + this.cliente.sobrenome }
-  public selecionarCliente(usr: UserDTO): void { this._getCarrinho.selecionarCliente(usr) }
+  public selecionarCliente(usr: User): void { this._getCarrinho.selecionarCliente(usr) }
 
   public destruir(operacao: string): void {
     if(!this.temItens) this._toastrService.error('Carrinho vazio!', 'Operaçao Proibida');
@@ -217,6 +218,8 @@ export class CarrinhoService {
         if(res.response === DIALOG_RESPONSES.yes) this._getCarrinho.esvaziar();
       });
   }
+
+  public get temCliente(): boolean { return this._getCarrinho.temCliente }
 }
 
 type TipoRequisicao = {qtd: number, item: Item};

@@ -7,6 +7,7 @@ import { API_AUTH_ROUTES, APP_ROUTES, LOCAL_STORAGE } from "src/app/shared/confi
 import { UserDTO } from "../../model/dto/UserDTO";
 import { Perfil } from "../../model/Profiles";
 import { ToastrService } from "ngx-toastr";
+import { User } from "../../model/User";
 
 @Injectable()
 export class AuthService {
@@ -107,11 +108,10 @@ export class AuthService {
     return Perfil.compare(this.user.perf, perfil);
   }
 
-  public get user(): UserDTO {
-    try {
-      return JSON.parse(localStorage.getItem(LOCAL_STORAGE.user)) as UserDTO;
-    } catch (err) {
-      console.log('%cError parsing user', 'font-size:13px;color:red');
+  public get user(): User {
+    try { return new User(JSON.parse(localStorage.getItem(LOCAL_STORAGE.user))._dto); }
+    catch (err) {
+      console.error('%cError parsing user', 'font-size:13px;color:red');
       return null;
     }
   }

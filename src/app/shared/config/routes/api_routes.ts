@@ -56,3 +56,10 @@ export const enum API_FACTURA_ITEMS_ROUTES {
   getDeleteByID = 'items/',
   getByFacturaID = 'items/fatura/'
 }
+
+export const enum API_FACTURA_ROUTES {
+  fetchPutPost = 'facturas',
+  getDeleteByID = 'facturas/',
+  getByClienteID = 'facturas/cliente/',
+  getByAgendamentoID = 'facturas/agendamento/'
+}

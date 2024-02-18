@@ -11,6 +11,10 @@ export class ItemCarrinho {
   public get qtd(): number { return this._qtd }
   public get total(): number { return this.qtd * this.item.item.preco }
   public somar(qtd: number): boolean { this._qtd += qtd; return true; }
+  public get preco(): number { return this._item.preco }
+  public get nome(): string { return this._item.nome }
+  public get imgSrc(): string { return this._item.imgSrc }
+  public get itemTypeName(): string { return this._item.itemTypeName }
 
   public static fromEstadoCarrinho(estadoCarrinho: EstadoCarrinho): ItemCarrinho[] { return this.forLocalStorage(estadoCarrinho.itens) }
 
